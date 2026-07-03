@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/samples/" />
+  <Folder Name="/src/">
+    <Project Path="src/DotNetLabs.Api/DotNetLabs.Api.csproj" Id="0c5ed3b5-be0a-413b-bb42-d32cbc7c728d" />
+    <Project Path="src/DotNetLabs.Blazor/DotNetLabs.Blazor.csproj" Id="f5d43f99-8e18-4b59-8b54-5de4c3f86971" />
+    <Project Path="src/DotNetLabs.Shared/DotNetLabs.Shared.csproj" Id="e28ce74d-9193-48d9-a012-68f47d4f77be" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DotNetLabs.Api.Tests/DotNetLabs.Api.Tests.csproj" Id="9c1416cd-99ef-42f5-9b09-bd40b9379fbf" />
+    <Project Path="tests/DotNetLabs.Blazor.Tests/DotNetLabs.Blazor.Tests.csproj" Id="0ea43da7-ec39-464c-b90d-31cd80251729" />
+    <Project Path="tests/DotNetLabs.Shared.Tests/DotNetLabs.Shared.Tests.csproj" Id="14ce3a94-8679-4cbf-8823-bca2e4d20ab7" />
+  </Folder>
+</Solution>
