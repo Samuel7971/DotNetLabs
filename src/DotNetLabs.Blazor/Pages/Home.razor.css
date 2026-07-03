@@ -1,0 +1,34 @@
+﻿.hero {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .hero .lead {
+        max-width: 850px;
+        margin: 0 auto 1rem auto;
+        font-size: 1.35rem;
+        color: #495057;
+    }
+
+    .hero p {
+        max-width: 850px;
+        margin: 0 auto 2rem auto;
+        color: #6c757d;
+    }
+
+    .hero .btn {
+        padding: .8rem 2rem;
+        font-size: 1.1rem;
+    }
+
+.section-title {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 600;
+}

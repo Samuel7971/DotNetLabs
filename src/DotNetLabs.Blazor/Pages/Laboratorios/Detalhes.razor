@@ -1,0 +1,55 @@
+﻿@page "/laboratorios/{id}"
+
+@using DotNetLabs.Shared.Laboratorios
+
+<PageTitle>@laboratorio?.Titulo</PageTitle>
+
+@if (laboratorio is null)
+{
+    <h1>Laboratório não encontrado</h1>
+
+    <p>O laboratório informado não existe no catálogo.</p>
+
+    <a href="/laboratorio" class="btn btn-secondary">
+        Voltar para laboratórios    
+    </a>
+}
+else
+{
+    <h1>@laboratorio.Titulo</h1>
+
+    <p class="lead">
+        @laboratorio.Descricao
+    </p>
+
+    <hr/>
+
+    <h2>Jornada do Laboratório</h2>
+
+    <ol>
+        <li>Introdução</li>
+        <li>Teoria</li>
+        <li>Demonstração</li>
+        <li>Código</li>
+        <li>Desafio</li>
+        <li>Resumo</li>
+    </ol>
+
+    <a href="/laboratorios" class="btn btn-secondary">
+        Voltar para laboratório    
+    </a>
+}
+
+<h3>Detalhes</h3>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private MetadadosLaboratorio? laboratorio;
+
+    protected override void OnParametersSet()
+    {
+        laboratorio = CatalogoLaboratorios.ObterPorId(Id);
+    }
+}

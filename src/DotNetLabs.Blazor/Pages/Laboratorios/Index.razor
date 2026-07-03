@@ -1,0 +1,53 @@
+﻿@page "/laboratorios"
+
+@using DotNetLabs.Shared.Laboratorios
+@using DotNetLabs.Shared.Navegacao
+
+<PageTitle>Laboratórios</PageTitle>
+
+<h1>Laboratórios</h1>
+
+<p>
+    Explore os laboratórios disponíveis no DotNetLabs.
+</p>
+
+<div class="row">
+    @foreach (var laboratorio in laboratorios)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>@laboratorio.Titulo</strong></h5>
+
+                    <p class="card-text">
+                        @laboratorio.Descricao
+                    </p>
+
+                    <p>
+                        <strong>Categoria:</strong> @laboratorio.Categoria
+                    </p>
+
+                    <p>
+                        <strong>Dificuldade:</strong> @laboratorio.Dificuldade
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong> @laboratorio.Status
+                    </p>
+
+                    <p>
+                        <strong>Tempo estimado</strong> @laboratorio.TempoEstimado
+                    </p>
+
+                    <a class="btn btn-primary" href="@Rotas.Laboratorio(laboratorio.Id)">
+                        Abrir laboratório    
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private readonly IReadOnlyList<MetadadosLaboratorio> laboratorios = CatalogoLaboratorios.ObterTodos();
+}
