@@ -1,0 +1,52 @@
+﻿@using DotNetLabs.Shared.Laboratorios;
+@using DotNetLabs.Shared.Laboratorios.Extensions;
+@using DotNetLabs.Shared.Laboratorios.Enums;
+@using DotNetLabs.Shared.Navegacao;
+
+<div class="card h-200">
+    <div class="card-body">
+        <h5 class="card-title">
+            <strong>🛑 @Laboratorio.Titulo</strong>
+        </h5>
+
+        <p class="card-text">
+            @Laboratorio.Descricao
+        </p>
+
+        <hr />
+
+        <p>
+            <strong>Categoria:</strong>
+            <i class="@Laboratorio.Categoria.Icone()"></i>
+            @Laboratorio.Categoria.Descricao()
+        </p>
+        <p>
+            <strong>Dificuldade:</strong>
+            <i class="@Laboratorio.Dificuldade.Icone()"></i>
+            @Laboratorio.Dificuldade.Descricao()
+        </p>
+        <p>
+            <strong>Status:</strong>
+            <i class="@Laboratorio.Status.Icone()"></i>
+            @Laboratorio.Status.Descricao()
+        </p>
+        <p>
+            <strong>Tempo estimado:</strong>
+            <i class="bi bi-clock"></i>
+            @Laboratorio.TempoEstimado
+        </p>
+
+        <hr />
+
+        <NavLink class="btn btn-primary mt-auto"
+                 href="@Rotas.Laboratorio(Laboratorio.Id)">
+            Abrir laboratório
+        </NavLink>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public MetadadosLaboratorio Laboratorio { get; set; } = default!;
+}

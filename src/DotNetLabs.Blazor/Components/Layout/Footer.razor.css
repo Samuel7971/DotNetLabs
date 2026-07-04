@@ -1,0 +1,19 @@
+﻿.app-footer {
+    margin-top: 4rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid #e9ecef;
+    color: #6c757d;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-footer strong {
+    color: #212529;
+}
+
+.app-footer small {
+    white-space: nowrap;
+}

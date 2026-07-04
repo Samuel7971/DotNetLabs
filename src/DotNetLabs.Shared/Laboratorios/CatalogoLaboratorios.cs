@@ -8,18 +8,20 @@ namespace DotNetLabs.Shared.Laboratorios
         {
             return
             [
-                new MetadadosLaboratorio(
-                    Id: "cancellation-token",
-                    Titulo: "CancellationToken",
-                    Descricao: "Entenda como cancelar operações assíncronas de forma cooperativa em aplicações .NET",
-                    Categoria: CategoriaLaboratorio.Concorrencia,
-                    Dificuldade: DificuldadeLaboratorio.Intermediario,
-                    Status: StatusLaboratorio.EmAndamento,
-                    TempoEstimado: "30 min")
+                new MetadadosLaboratorio()
+                {
+                    Id = "cancellation-token",
+                    Titulo = "CancellationToken",
+                    Descricao = "Entenda como cancelar operações assíncronas de forma cooperativa em aplicações .NET",
+                    Categoria = CategoriaLaboratorio.Concorrencia,
+                    Dificuldade = DificuldadeLaboratorio.Intermediario,
+                    Status = StatusLaboratorio.EmAndamento,
+                    TempoEstimado = "30 min"
+                }
              ];
         }
 
-        public static MetadadosLaboratorio? ObterPorId(string Id) 
-            => ObterTodos().FirstOrDefault(laboratorio =>  laboratorio.Id == Id);
+        public static MetadadosLaboratorio? ObterPorId(string Id)
+            => ObterTodos().FirstOrDefault(laboratorio => laboratorio.Id == Id);
     }
 }

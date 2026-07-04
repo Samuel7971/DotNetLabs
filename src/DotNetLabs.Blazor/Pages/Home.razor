@@ -1,5 +1,8 @@
 ﻿@page "/"
 
+@using DotNetLabs.Blazor.Components.Common;
+
+
 <PageTitle>Home</PageTitle>
 
 <section class="hero">
@@ -25,36 +28,21 @@
 
     <div class="row mt-3">
         <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">🧪 Laboratórios práticos</h5>
-                    <p class="card-text">
-                        Demonstrações executáveis para aprender conceitos de forma visual e interativa.
-                    </p>
-                </div>
-            </div>
+            <CardInfo Icone="🧪"
+                      Titulo="Laboratórios práticos"
+                      Descricao="Demonstrações executáveis para aprender conceitos de forma visual e interativa." />
         </div>
 
         <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">📚 Documentação</h5>
-                    <p class="card-text">
-                        Explicações claras para entender o problema, a solução e boas práticas.
-                    </p>
-                </div>
-            </div>
+            <CardInfo Icone="📚"
+                      Titulo="Documentação"
+                      Descricao="Explicações claras para entender o problema, a solução e boas práticas." />
         </div>
 
         <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">🤝 Colaboração</h5>
-                    <p class="card-text">
-                        Uma base para o time compartilhar conhecimento, apresentações e estudos.
-                    </p>
-                </div>
-            </div>
+            <CardInfo Icone="🤝"
+                      Titulo="Colaboração"
+                      Descricao="Uma base para o time compartilhar conhecimento, apresentações e estudos." />
         </div>
     </div>
 </section>

@@ -1,0 +1,23 @@
+﻿<div class="card h-200">
+    <div class="card-body">
+        <h5 class="card-title">
+            <span>@Icone</span> @Titulo
+        </h5>
+
+        <p class="card-text">
+            @Descricao
+        </p>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Icone { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Titulo { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Descricao { get; set; } = string.Empty;
+}

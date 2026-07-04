@@ -1,49 +1,29 @@
 ﻿@page "/laboratorios"
 
-@using DotNetLabs.Shared.Laboratorios
-@using DotNetLabs.Shared.Navegacao
+@using DotNetLabs.Blazor.Components.Laboratorios;
+@using DotNetLabs.Shared.Laboratorios;
 
 <PageTitle>Laboratórios</PageTitle>
 
-<h1>Laboratórios</h1>
+<section class="hero">
 
-<p>
-    Explore os laboratórios disponíveis no DotNetLabs.
-</p>
+    <h1>🧪 Laboratórios</h1>
 
-<div class="row">
+    <p class="lead">
+        Explore os laboratórios disponíveis no DotNetLabs.
+    </p>
+
+    <p>
+        Escolha um laboratório e aprenda .NET através de demonstrações práticas.
+    </p>
+
+</section>
+
+<div class="row cards">
     @foreach (var laboratorio in laboratorios)
     {
         <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title"><strong>@laboratorio.Titulo</strong></h5>
-
-                    <p class="card-text">
-                        @laboratorio.Descricao
-                    </p>
-
-                    <p>
-                        <strong>Categoria:</strong> @laboratorio.Categoria
-                    </p>
-
-                    <p>
-                        <strong>Dificuldade:</strong> @laboratorio.Dificuldade
-                    </p>
-
-                    <p>
-                        <strong>Status:</strong> @laboratorio.Status
-                    </p>
-
-                    <p>
-                        <strong>Tempo estimado</strong> @laboratorio.TempoEstimado
-                    </p>
-
-                    <a class="btn btn-primary" href="@Rotas.Laboratorio(laboratorio.Id)">
-                        Abrir laboratório    
-                    </a>
-                </div>
-            </div>
+            <CardLaboratorio Laboratorio="laboratorio" />
         </div>
     }
 </div>

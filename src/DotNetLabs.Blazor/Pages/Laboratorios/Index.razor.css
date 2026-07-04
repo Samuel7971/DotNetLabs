@@ -1,0 +1,18 @@
+﻿.hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+    .hero h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+    }
+
+    .hero p {
+        color: #6c757d;
+        font-size: 1.15rem;
+    }
+
+.cards {
+    margin-top: 2rem;
+}
