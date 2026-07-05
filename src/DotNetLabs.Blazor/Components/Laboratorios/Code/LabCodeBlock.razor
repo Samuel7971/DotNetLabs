@@ -1,0 +1,62 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Code
+@inject IJSRuntime JS
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums;
+
+<div class="@ClasseCodeBlock">
+    <div class="lab-code-header">
+        <span class="lab-code-title">@Titulo</span>
+
+        <div class="lab-code-actions">
+            <span class="lab-code-language">@Language</span>
+
+            <button class="lab-code-copy"
+                    type="button"
+                    title="Copiar código"
+                    @onclick="CopiarCodigoAsync">
+                <i class="@IconeBotao"></i>
+            </button>
+        </div>
+    </div>
+
+    <pre @ref="_preElement"><code>@ChildContent</code></pre>
+</div>
+
+@code {
+    private ElementReference _preElement;
+    private bool _copiado;
+
+    [Parameter]
+    public string Titulo { get; set; } = "Exemplo";
+
+    [Parameter]
+    public string Language { get; set; } = "C#";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string IconeBotao => _copiado
+        ? "bi bi-check-lg"
+        : "bi bi-clipboard";
+
+    private async Task CopiarCodigoAsync()
+    {
+        await JS.InvokeVoidAsync("dotNetLabs.code.copyFromElement", _preElement);
+
+        _copiado = true;
+
+        await Task.Delay(2000);
+
+        _copiado = false;
+    }
+
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; } = ModoLaboratorio.Estudo;
+
+    private string ClasseCodeBlock => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "lab-code-block lab-code-block-apresentacao",
+        ModoLaboratorio.Professor => "lab-code-block lab-code-block-professor",
+        _ => "lab-code-block"
+    };
+}

@@ -1,6 +1,6 @@
 ﻿@page "/laboratorios"
 
-@using DotNetLabs.Blazor.Components.Laboratorios;
+@using DotNetLabs.Blazor.Components.Laboratorios.Cards
 @using DotNetLabs.Shared.Laboratorios;
 
 <PageTitle>Laboratórios</PageTitle>
@@ -23,7 +23,7 @@
     @foreach (var laboratorio in laboratorios)
     {
         <div class="col-md-4 mb-3">
-            <CardLaboratorio Laboratorio="laboratorio" />
+            <LaboratorioCardItem Laboratorio="laboratorio" />
         </div>
     }
 </div>

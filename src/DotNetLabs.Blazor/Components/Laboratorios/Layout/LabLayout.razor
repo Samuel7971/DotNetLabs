@@ -1,0 +1,52 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Layout
+
+<section class="lab-layout">
+
+    <header class="lab-header">
+        <span class="lab-tag">@Categoria</span>
+
+        <h1>@Titulo</h1>
+
+        @if (!string.IsNullOrWhiteSpace(Descricao))
+        {
+            <p>@Descricao</p>
+        }
+
+        <div class="lab-meta">
+            <span>
+                <i class="bi bi-bar-chart"></i>
+                @Nivel
+            </span>
+
+            <span>
+                <i class="bi bi-clock"></i>
+                @TempoEstimado
+            </span>
+        </div>
+    </header>
+
+    <main class="lab-content">
+        @ChildContent
+    </main>
+
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Titulo { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Descricao { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Categoria { get; set; } = "Laboratório";
+
+    [Parameter]
+    public string Nivel { get; set; } = "Iniciante";
+
+    [Parameter]
+    public string TempoEstimado { get; set; } = "15 min";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

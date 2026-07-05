@@ -1,6 +1,14 @@
 ﻿@page "/laboratorios/{id}"
 
-@using DotNetLabs.Shared.Laboratorios
+@using DotNetLabs.Shared.Laboratorios;
+@using DotNetLabs.Blazor.Components.Laboratorios.Layout;
+@using DotNetLabs.Blazor.Components.Laboratorios.Blocos;
+@using DotNetLabs.Blazor.Components.Laboratorios.Alerts;
+@using DotNetLabs.Blazor.Components.Laboratorios.Code;
+@using DotNetLabs.Blazor.Components.Laboratorios.Mode;
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums;
+@using DotNetLabs.Blazor.Components.Laboratorios.Professor;
+@using DotNetLabs.Blazor.Components.Laboratorios.Hints;
 
 <PageTitle>@laboratorio?.Titulo</PageTitle>
 
@@ -11,36 +19,101 @@
     <p>O laboratório informado não existe no catálogo.</p>
 
     <a href="/laboratorio" class="btn btn-secondary">
-        Voltar para laboratórios    
+        Voltar para laboratórios
     </a>
 }
 else
 {
-    <h1>@laboratorio.Titulo</h1>
+    <LabLayout Titulo="@laboratorio.Titulo"
+               Descricao="@laboratorio.Descricao"
+               Categoria=".NET"
+               Nivel="@laboratorio.Dificuldade.ToString()"
+               TempoEstimado="@laboratorio.TempoEstimado">
 
-    <p class="lead">
-        @laboratorio.Descricao
-    </p>
+        <LabModeSelector @bind-ModoAtual="modoAtual" />
 
-    <hr/>
+        <LabModeProvider ModoAtual="modoAtual">
 
-    <h2>Jornada do Laboratório</h2>
+            <LabBloco Titulo="Introdução"
+                      Label="Primeiro passo"
+                      Icone="bi bi-book"
+                      Cor="primary">
 
-    <ol>
-        <li>Introdução</li>
-        <li>Teoria</li>
-        <li>Demonstração</li>
-        <li>Código</li>
-        <li>Desafio</li>
-        <li>Resumo</li>
-    </ol>
+                <p>
+                    Este laboratório faz parte da jornada prática do DotNetLabs.
+                </p>
 
-    <a href="/laboratorios" class="btn btn-secondary">
-        Voltar para laboratório    
-    </a>
+            </LabBloco>
+
+            <LabBloco Titulo="Teoria"
+                      Label="Entendendo o conceito"
+                      Icone="bi bi-lightbulb"
+                      Cor="warning">
+
+                <p>
+                    Aqui entraremos na explicação conceitual do laboratório.
+                </p>
+
+                <LabProfessorNote>
+                    Explique este conceito com um exemplo do dia a dia antes de mostrar o código.
+                </LabProfessorNote>
+
+                <LabHint>
+                    Uma boa forma de explicar é comparar o CancellationToken com um botão de cancelar.
+                </LabHint>
+
+            </LabBloco>
+
+            <LabBloco Titulo="Código"
+                      Label="Mão na massa"
+                      Icone="bi bi-code-slash"
+                      Cor="success">
+
+                <LabAlert Tipo="info">
+                    Em breve este bloco terá exemplos específicos deste laboratório.
+                </LabAlert>
+
+                <LabCodeBlock Titulo="Exemplo inicial"
+                              Language="C#">
+
+                    Console.WriteLine("DotNetLabs");
+
+                </LabCodeBlock>
+
+            </LabBloco>
+
+            <LabBloco Titulo="Desafio"
+                      Label="Sua vez"
+                      Icone="bi bi-trophy"
+                      Cor="danger">
+
+                <p>
+                    Em breve teremos um desafio prático para este laboratório.
+                </p>
+
+            </LabBloco>
+
+            <LabBloco Titulo="Resumo"
+                      Label="Recapitulando"
+                      Icone="bi bi-check-circle"
+                      Cor="info">
+
+                <ul>
+                    <li>✔ Conceito principal.</li>
+                    <li>✔ Exemplo prático.</li>
+                    <li>✔ Desafio para fixação.</li>
+                </ul>
+
+            </LabBloco>
+
+        </LabModeProvider>
+
+        <a href="/laboratorios" class="btn btn-secondary mt-3">
+            Voltar para laboratórios
+        </a>
+
+    </LabLayout>
 }
-
-<h3>Detalhes</h3>
 
 @code {
     [Parameter]
@@ -52,4 +125,6 @@ else
     {
         laboratorio = CatalogoLaboratorios.ObterPorId(Id);
     }
+
+    private ModoLaboratorio modoAtual = ModoLaboratorio.Estudo;
 }

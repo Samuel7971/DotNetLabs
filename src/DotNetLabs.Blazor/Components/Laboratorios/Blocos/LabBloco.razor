@@ -1,0 +1,47 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Blocos
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums;
+
+<section class="@ClasseModo">
+    <div class="lab-bloco-header">
+        <div class="lab-bloco-icone lab-bloco-icone-@Cor">
+            <i class="@Icone"></i>
+        </div>
+
+        <div>
+            <span class="lab-bloco-label">@Label</span>
+            <h2>@Titulo</h2>
+        </div>
+    </div>
+
+    <div class="lab-bloco-conteudo">
+        @ChildContent
+    </div>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Titulo { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Cor { get; set; } = "primary";
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Icone { get; set; } = "bi bi-book";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; } = ModoLaboratorio.Estudo;
+
+    private string ClasseModo => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "lab-bloco lab-bloco-apresentacao",
+        ModoLaboratorio.Professor => "lab-bloco lab-bloco-professor",
+        _ => "lab-bloco"
+    };
+}

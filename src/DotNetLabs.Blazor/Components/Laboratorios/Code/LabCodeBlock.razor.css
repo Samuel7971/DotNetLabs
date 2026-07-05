@@ -1,0 +1,97 @@
+﻿.lab-code-block {
+    margin: 1.25rem 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #1f2937;
+    background: #0f172a;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+}
+
+.lab-code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: #111827;
+    color: #e5e7eb;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.lab-code-language {
+    background: #374151;
+    color: #d1d5db;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.lab-code-block pre {
+    margin: 0;
+    padding: 1.25rem;
+    overflow-x: auto;
+}
+
+.lab-code-block code {
+    color: #e5e7eb;
+    font-family: Consolas, Monaco, 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.lab-code-actions {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.lab-code-title {
+    font-weight: 700;
+    color: white;
+}
+
+.lab-code-copy {
+    border: none;
+    background: #1f2937;
+    color: white;
+    border-radius: 10px;
+    padding: .4rem .6rem;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.lab-code-copy:hover {
+    background: #374151;
+}
+
+.lab-code-block-apresentacao code {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.lab-code-block-apresentacao .lab-code-header {
+    font-size: 1.05rem;
+}
+
+.lab-code-block-professor {
+    border: 2px solid #8b5cf6;
+}
+
+.lab-code-block-professor .lab-code-header {
+    background: #4c1d95;
+}
+
+.lab-code-block-professor::after {
+    content: "Código para explicar em aula";
+    display: inline-flex;
+    margin: 0 1rem 1rem;
+    padding: .3rem .65rem;
+    border-radius: 999px;
+    background: #ede9fe;
+    color: #6d28d9;
+    font-size: .75rem;
+    font-weight: 700;
+}

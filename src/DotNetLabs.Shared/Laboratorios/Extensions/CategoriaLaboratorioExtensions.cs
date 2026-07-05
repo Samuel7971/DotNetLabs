@@ -16,6 +16,7 @@ namespace DotNetLabs.Shared.Laboratorios.Extensions
                 CategoriaLaboratorio.Testes => "Testes",
                 CategoriaLaboratorio.BancoDeDados => "Banco de Dados",
                 CategoriaLaboratorio.Mensageria => "Mensageria",
+                CategoriaLaboratorio.SystemDesign => "System Design",
                 _ => "-"
             };
         }
@@ -32,6 +33,7 @@ namespace DotNetLabs.Shared.Laboratorios.Extensions
                 CategoriaLaboratorio.Testes => "bi bi-check2-square",
                 CategoriaLaboratorio.BancoDeDados => "bi bi-database",
                 CategoriaLaboratorio.Mensageria => "bi bi-envelope-paper",
+                CategoriaLaboratorio.SystemDesign => "bi bi-share",
                 _ => "bi bi-question-circle"
             };
         }

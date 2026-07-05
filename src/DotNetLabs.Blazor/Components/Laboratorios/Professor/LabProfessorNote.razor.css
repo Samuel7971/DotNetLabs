@@ -1,0 +1,27 @@
+﻿.lab-professor-note {
+    display: flex;
+    gap: .85rem;
+    align-items: flex-start;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 14px;
+    background: #faf5ff;
+    border: 1px solid #ddd6fe;
+    color: #3b0764;
+}
+
+.lab-professor-note-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: #ede9fe;
+    color: #7c3aed;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+}
+
+.lab-professor-note-content {
+    margin-top: .35rem;
+    color: #581c87;
+}

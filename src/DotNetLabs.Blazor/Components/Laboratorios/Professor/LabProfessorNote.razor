@@ -1,0 +1,30 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Professor
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+@if (ModoAtual == ModoLaboratorio.Professor)
+{
+    <div class="lab-professor-note">
+        <div class="lab-professor-note-icon">
+            <i class="bi bi-person-video3"></i>
+        </div>
+
+        <div>
+            <strong>@Titulo</strong>
+            <div class="lab-professor-note-content">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; } = ModoLaboratorio.Estudo;
+
+    [Parameter]
+    public string Titulo { get; set; } = "Nota do professor";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}
