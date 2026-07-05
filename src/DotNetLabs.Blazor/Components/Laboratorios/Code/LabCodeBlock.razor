@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <pre @ref="_preElement"><code>@ChildContent</code></pre>
+    <pre @ref="_preElement"><code>@Code</code></pre>
 </div>
 
 @code {
@@ -33,7 +33,7 @@
     public string Language { get; set; } = "C#";
 
     [Parameter, EditorRequired]
-    public RenderFragment? ChildContent { get; set; }
+    public string? Code { get; set; }
 
     private string IconeBotao => _copiado
         ? "bi bi-check-lg"

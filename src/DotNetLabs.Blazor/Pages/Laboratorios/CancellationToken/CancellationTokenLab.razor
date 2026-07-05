@@ -1,0 +1,179 @@
+﻿@page "/laboratorios/cancellation-token"
+
+@using DotNetLabs.Blazor.Components.Laboratorios.Layout
+@using DotNetLabs.Blazor.Components.Laboratorios.Blocos
+@using DotNetLabs.Blazor.Components.Laboratorios.Alerts
+@using DotNetLabs.Blazor.Components.Laboratorios.Code
+@using DotNetLabs.Blazor.Components.Laboratorios.Objective
+@using DotNetLabs.Blazor.Components.Laboratorios.Flow
+
+<LabLayout Titulo="CancellationToken"
+           Descricao="Aprenda como cancelar operações assíncronas de forma cooperativa no .NET."
+           Categoria=".NET"
+           Nivel="Intermediário"
+           TempoEstimado="30 min">
+
+    <LabObjective>
+        <LabObjectiveItem>
+            Entender o problema que o CancellationToken resolve.
+        </LabObjectiveItem>
+    
+        <LabObjectiveItem>
+            Usar CancellationToken em métodos assíncronos.
+        </LabObjectiveItem>
+    
+        <LabObjectiveItem>
+            Propagar o token entre Controller, Service e Repository.
+        </LabObjectiveItem>
+    
+        <LabObjectiveItem>
+            Aplicar boas práticas em APIs ASP.NET Core.
+        </LabObjectiveItem>
+    </LabObjective>
+
+    <LabFlow Titulo="Fluxo de uma requisição"
+             Descricao="Veja como o CancellationToken pode atravessar as camadas da aplicação.">
+
+        <LabFlowItem Texto="Cliente" Icone="bi bi-person" />
+        <LabFlowItem Texto="Controller" Icone="bi bi-hdd-network" />
+        <LabFlowItem Texto="Service" Icone="bi bi-gear" />
+        <LabFlowItem Texto="Repository" Icone="bi bi-database" />
+        <LabFlowItem Texto="SQL Server" Icone="bi bi-server" />
+
+    </LabFlow>
+
+    <LabBloco Titulo="O problema"
+              Label="Primeiro passo"
+              Icone="bi bi-book"
+              Cor="primary">
+        <p>
+            Imagine que uma API começou a processar uma operação demorada.
+            No meio do caminho, o usuário fechou a tela, cancelou a requisição
+            ou o timeout estourou.
+        </p>
+
+        <p>
+            Sem um mecanismo de cancelamento, o servidor pode continuar trabalhando
+            em algo que ninguém mais está esperando.
+        </p>
+
+        <LabAlert Tipo="warning" Titulo="Ponto importante">
+            Cancelar uma operação no .NET não significa matar uma thread à força.
+            O cancelamento é cooperativo: o código precisa verificar o token e respeitar o pedido de cancelamento.
+        </LabAlert>
+    </LabBloco>
+
+    <LabBloco Titulo="O conceito">
+        <p>
+            O <code>CancellationToken</code> é um sinal que avisa para uma operação:
+            "ei, se puder parar com segurança, pare agora".
+        </p>
+
+        <p>
+            Ele normalmente é passado por parâmetro entre Controllers, Services,
+            Repositorios e chamadas externas.
+        </p>
+    </LabBloco>
+
+    <LabBloco Titulo="Exemplo sem CancellationToken">
+        <p>
+            Neste exemplo, o processamento continua até o fim, mesmo que ninguém
+            precise mais do resultado.
+        </p>
+
+        <LabCodeBlock Titulo="Código Sem CancellationToken"
+                      Language="csharp"
+                      Code="@CodigoSemCancellationToken" />
+    </LabBloco>
+
+    <LabBloco Titulo="Exemplo com ConcellationToken">
+        <p>
+            Agora o método recebe um <code>token</code> e verifica se o cancelamento foi solicitado.
+        </p>
+
+        <LabCodeBlock Titulo="Código Com CancellationToken"
+                      Language="scharp"
+                      Code="@CodigoComCancellationToken" />
+    </LabBloco>
+
+    <LabBloco Titulo="Uso em uma API">
+        <p>
+            Em APIs ASP.NET Core, podemos receber o <code>CancellationToken</code>
+            diretamente no endpoint. Quando o cliente cancela a requisição,
+            o token pode ser sinalizado automaticamente.
+        </p>
+
+        <LabCodeBlock Titulo="Uso em APIs"
+                      Language="scharp"
+                      Code="@CodigoApi" />
+    </LabBloco>
+
+    <LabBloco Titulo="Desafio">
+         <p>
+            Refatore o método abaixo para aceitar e propagar um <code>CancellationToken</code>.
+        </p>
+
+         <LabCodeBlock Titulo="Desafio"
+                      Language="scharp"
+                      Code="@CodigoDesafio" />
+
+        <LabAlert Tipo="info" Titulo="Dica">
+            Comece adicionando o parâmetro <code>CancellationToken cancellationToken</code>
+            no método principal e depois propague para os métodos chamados por ele.
+        </LabAlert>
+    </LabBloco>
+</LabLayout>
+
+@code {
+    private const string CodigoSemCancellationToken =
+    @"
+    public async Task ProcessarPedidosAsync()
+    {
+        for (var i = 1; i <= 10; i++)
+        {
+            await Task.Delay(1000);
+    
+            Console.WriteLine($""Pedido {i} processado."");
+        }
+    }";
+
+    private const string CodigoComCancellationToken =
+    @"
+    public async Task ProcessarPedidosAsync(CancellationToken cancellationToken)
+    {
+        for (var i = 1; i <= 10; i++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+    
+            await Task.Delay(1000, cancellationToken);
+    
+            Console.WriteLine($""Pedido {i} processado."");
+        }
+    }";
+
+    private const string CodigoApi =
+    @"
+    [HttpPost(""login"")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest, CancellationToken cancellationToken)
+    {
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+    
+        var response = await _authUseCase.LoginAsync(loginRequest, ip, cancellationToken);
+    
+        return Ok(response);
+    }";
+
+    private const string CodigoDesafio =
+    @"
+    public async Task GerarRelatorioAsync()
+    {
+        var dados = await _repository.ObterDadosAsync();
+    
+        var arquivo = await _excelService.GerarArquivoAsync(dados);
+    
+        await _emailService.EnviarAsync(arquivo);
+    }";
+}

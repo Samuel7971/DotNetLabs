@@ -1,0 +1,20 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Flow
+
+<div class="lab-flow-item">
+    <div class="lab-flow-card">
+        @if (!string.IsNullOrWhiteSpace(Icone))
+        {
+            <i class="@Icone"></i>
+        }
+
+        <span>@Texto</span>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Texto { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? Icone { get; set; }
+}

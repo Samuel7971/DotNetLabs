@@ -1,0 +1,11 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Objective
+
+<li class="lab-objective-item">
+    <i class="bi bi-check2-circle"></i>
+    <span>@ChildContent</span>
+</li>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

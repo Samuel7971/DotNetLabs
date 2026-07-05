@@ -1,0 +1,33 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Objective
+
+<section class="lab-objective">
+    <div class="lab-objective-header">
+        <div class="lab-objective-icone">
+            <i class="bi bi-bullseye"></i>
+        </div>
+
+        <div>
+            <h3>@Titulo</h3>
+
+            @if (!string.IsNullOrWhiteSpace(Descricao))
+            {
+                <p>@Descricao</p>
+            }
+        </div>
+    </div>
+
+    <ul class="lab-objective-lista">
+        @ChildContent
+    </ul>
+</section>
+
+@code {
+    [Parameter]
+    public string Titulo { get; set; } = "Objetivos deste laboratório";
+
+    [Parameter]
+    public string? Descricao { get; set; } = "Ao finalizar este laboratório você será capaz de:";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}
