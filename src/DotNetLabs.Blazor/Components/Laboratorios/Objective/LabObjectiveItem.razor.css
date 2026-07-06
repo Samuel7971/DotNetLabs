@@ -1,0 +1,13 @@
+﻿
+.lab-objective-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.lab-objective-item i {
+    color: #16a34a;
+    font-size: 18px;
+}

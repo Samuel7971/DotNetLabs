@@ -1,6 +1,8 @@
 ﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Flow
 
-<div class="lab-flow-item">
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<div class="lab-flow-item @ClasseModo">
     <div class="lab-flow-card">
         @if (!string.IsNullOrWhiteSpace(Icone))
         {
@@ -12,6 +14,16 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; }
+
+    private string ClasseModo => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "modo-apresentacao",
+        ModoLaboratorio.Professor => "modo-professor",
+        _ => "modo-estudo"
+    };
+
     [Parameter, EditorRequired]
     public string Texto { get; set; } = string.Empty;
 

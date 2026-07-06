@@ -1,0 +1,57 @@
+﻿.lab-flow-item {
+    position: relative;
+    width: min(100%, 420px);
+    display: flex;
+    justify-content: center;
+    padding-bottom: 34px;
+}
+
+    .lab-flow-item:not(:last-child)::after {
+        content: "↓";
+        position: absolute;
+        bottom: 6px;
+        font-size: 22px;
+        font-weight: 900;
+        color: #4f46e5;
+    }
+
+.lab-flow-card {
+    width: 100%;
+    background: #f8fafc;
+    border: 1px solid #dbe3ef;
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.lab-flow-card i {
+    color: #4f46e5;
+    font-size: 18px;
+}
+
+/*Modo*/
+.modo-apresentacao {
+    padding: 2rem;
+    border-radius: 22px;
+    transform: scale(1.01);
+}
+
+    .lab-bloco-apresentacao .lab-bloco-label {
+        display: none;
+    }
+
+    .modo-professor text {
+        font-size: 2rem;
+    }
+
+    .lab-bloco-apresentacao .lab-bloco-conteudo {
+        font-size: 1.15rem;
+        line-height: 1.8;
+    }
+
+

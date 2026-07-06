@@ -1,5 +1,8 @@
 ﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Layout
 
+@using DotNetLabs.Blazor.Components.Laboratorios.Mode
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
 <section class="lab-layout">
 
     <header class="lab-header">
@@ -25,13 +28,19 @@
         </div>
     </header>
 
-    <main class="lab-content">
-        @ChildContent
-    </main>
+    <LabModeSelector @bind-ModoAtual="modoAtual" />
+
+    <LabModeProvider ModoAtual="modoAtual">
+        <main class="lab-content">
+            @ChildContent
+        </main>
+    </LabModeProvider>
 
 </section>
 
 @code {
+    private ModoLaboratorio modoAtual = ModoLaboratorio.Estudo;
+
     [Parameter, EditorRequired]
     public string Titulo { get; set; } = string.Empty;
 

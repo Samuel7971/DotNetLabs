@@ -1,6 +1,8 @@
 ﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Flow
 
-<section class="lab-flow">
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<section class="lab-flow @ClasseModo">
     <div class="lab-flow-header">
         <div class="lab-flow-icone">
             <i class="@Icone"></i>
@@ -22,6 +24,16 @@
 </section>
 
 @code {
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; }
+
+    private string ClasseModo => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "modo-apresentacao",
+        ModoLaboratorio.Professor => "modo-professor",
+        _ => "modo-estudo"
+    };
+
     [Parameter]
     public string Titulo { get; set; } = "Fluxo";
 

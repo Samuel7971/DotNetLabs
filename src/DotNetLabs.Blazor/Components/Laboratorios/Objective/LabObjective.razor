@@ -1,6 +1,8 @@
 ﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Objective
 
-<section class="lab-objective">
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<section class="lab-objective @ClasseObjective">
     <div class="lab-objective-header">
         <div class="lab-objective-icone">
             <i class="bi bi-bullseye"></i>
@@ -22,6 +24,16 @@
 </section>
 
 @code {
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; }
+
+    private string ClasseObjective => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "modo-apresentacao",
+        ModoLaboratorio.Professor => "modo-professor",
+        _ => "modo-estudo"
+    };
+
     [Parameter]
     public string Titulo { get; set; } = "Objetivos deste laboratório";
 
