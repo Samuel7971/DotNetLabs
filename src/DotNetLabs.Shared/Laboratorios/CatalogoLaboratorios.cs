@@ -16,7 +16,16 @@ namespace DotNetLabs.Shared.Laboratorios
                     Categoria = CategoriaLaboratorio.Concorrencia,
                     Dificuldade = DificuldadeLaboratorio.Intermediario,
                     Status = StatusLaboratorio.EmAndamento,
-                    TempoEstimado = "30 min"
+                    TempoEstimado = "30 min",
+                    Contribuidores =
+                    [
+                         new()
+                         {
+                             Nome = "Samuel Rodrigues",
+                             Cargo="Sofware Developer",
+                             TipoContribuicao = TipoContribuicao.Autor
+                         }
+                    ]
                 }
              ];
         }

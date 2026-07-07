@@ -1,0 +1,136 @@
+﻿.lab-card {
+    width: 100%;
+    max-width: 360px;
+    padding: 22px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.lab-card__header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.lab-card__icon {
+    width: 24px;
+    height: 24px;
+    margin-top: 5px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #ec4899, #e11d48);
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.16);
+    flex-shrink: 0;
+}
+
+.lab-card h3 {
+    margin: 0;
+    font-size: clamp(20px, 4vw, 24px);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #0f172a;
+    overflow-wrap: anywhere;
+}
+
+.lab-card p {
+    margin: 8px 0 0;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: #475569;
+}
+
+.lab-card__divider {
+    height: 1px;
+    margin: 18px 0;
+    background: #e5e7eb;
+}
+
+.lab-card__info {
+    display: grid;
+    gap: 12px;
+}
+
+.lab-card__info-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    color: #334155;
+    flex-wrap: wrap;
+}
+
+    .lab-card__info-item i {
+        width: 20px;
+        font-size: 18px;
+        text-align: center;
+        color: #6d28d9;
+    }
+
+    .lab-card__info-item strong {
+        color: #0f172a;
+    }
+
+.lab-card__status {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: #fff7ed;
+    color: #92400e;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.lab-card__contributors-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #faf5ff;
+    color: #6d28d9;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+    .lab-card__contributors-inline i {
+        font-size: 17px;
+    }
+
+.lab-card hr {
+    margin: 16px 0;
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+.lab-card .btn {
+    width: 100%;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-weight: 600;
+}
+
+.lab-card__header > div {
+    min-width: 0;
+}
+
+
+@media (max-width: 480px) {
+    .lab-card__header {
+        align-items: flex-start;
+    }
+
+    .lab-card h3 {
+        font-size: 22px;
+        overflow-wrap: break-word;
+        word-break: normal;
+        hyphens: auto;
+    }
+
+    .lab-card {
+        padding: 20px;
+    }
+}

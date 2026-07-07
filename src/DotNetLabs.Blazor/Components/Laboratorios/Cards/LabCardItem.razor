@@ -1,0 +1,81 @@
+﻿@using DotNetLabs.Shared.Laboratorios;
+@using DotNetLabs.Shared.Laboratorios.Extensions;
+@using DotNetLabs.Shared.Navegacao;
+
+<div class="lab-card">
+    <div class="lab-card__header">
+        <span class="lab-card__icon"></span>
+
+        <div>
+            <h3>@Laboratorio.Titulo</h3>
+            <p>@Laboratorio.Descricao</p>
+        </div>
+    </div>
+
+    <div class="lab-card__divider"></div>
+
+    <div class="lab-card__info">
+        <div class="lab-card__info-item">
+            <i class="@Laboratorio.Categoria.Icone()"></i>
+            <strong>Categoria:</strong>
+            <span>@Laboratorio.Categoria</span>
+        </div>
+
+        <div class="lab-card__info-item">
+            <i class="@Laboratorio.Dificuldade.Icone()"></i>
+            <strong>Dificuldade:</strong>
+            <span>@Laboratorio.Dificuldade</span>
+        </div>
+
+        <div class="lab-card__info-item">
+            <i class="@Laboratorio.Status.Icone()"></i>
+            <strong>Status:</strong>
+            <span class="lab-card__status">@Laboratorio.Status</span>
+        </div>
+
+        <div class="lab-card__info-item">
+            <i class="bi bi-clock"></i>
+            <strong>Tempo estimado:</strong>
+            <span>@Laboratorio.TempoEstimado</span>
+        </div>
+    </div>
+
+    <div class="lab-card__divider"></div>
+
+    @if (Laboratorio.Contribuidores.Any())
+    {
+        <div class="lab-card__contributors">
+            <div class="lab-card__contributors-title">
+                <i class="bi bi-people-fill"></i>
+                <strong>Contribuidores</strong>
+            </div>
+
+            <div class="lab-card__contributors-list">
+                @if (Laboratorio.Contribuidores.Any())
+                {
+                    <div class="lab-card__contributors-inline">
+                        <i class="bi bi-people-fill"></i>
+
+                        <span>
+                            @string.Join(" • ", Laboratorio.Contribuidores.Take(3).Select(c => c.Nome))
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <hr/>
+
+    <NavLink class="btn btn-primary mt-auto"
+             href="@Rotas.Laboratorio(Laboratorio.Id)">
+        <i class="bi bi-book"></i>
+        Abrir laboratório
+    </NavLink>
+</div>
+
+
+@code {
+    [Parameter]
+    public MetadadosLaboratorio Laboratorio { get; set; } = default!;
+}

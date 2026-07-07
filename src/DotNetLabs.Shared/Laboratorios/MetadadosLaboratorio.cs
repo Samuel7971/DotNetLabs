@@ -12,4 +12,5 @@ public sealed class MetadadosLaboratorio
     public StatusLaboratorio Status { get; init; }
     public string TempoEstimado { get; init; } = string.Empty;
     public string Icone { get; init; } = string.Empty;
+    public List<ContribuidorLaboratorio> Contribuidores { get; init; } = [];
 }
