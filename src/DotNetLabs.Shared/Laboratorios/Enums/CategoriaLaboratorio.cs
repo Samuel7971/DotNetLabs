@@ -10,6 +10,7 @@
         Testes = 6,
         BancoDeDados = 7,
         Mensageria = 8,
-        SystemDesign = 9
+        SystemDesign = 9,
+        RecursoLinguagem = 10
     }
 }

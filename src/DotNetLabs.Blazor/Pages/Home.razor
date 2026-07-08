@@ -1,48 +1,162 @@
 ﻿@page "/"
 
-@using DotNetLabs.Blazor.Components.Common;
-
+@using DotNetLabs.Shared.Laboratorios;
 
 <PageTitle>Home</PageTitle>
 
-<section class="hero">
-    <h1>🚀 Bem-vindo ao DotNetLabs</h1>
+<section class="dl-home-hero">
+    <div class="dl-hero-content">
+        <span class="dl-badge">🚀 Plataforma de aprendizado prático</span>
 
-    <p class="lead">
-        Aprenda .NET explorando laboratórios práticos, documentação de qualidade
-        e exemplos executáveis.
-    </p>
+        <h1>
+            Aprenda .NET na prática com laboratórios interativos.
+        </h1>
 
-    <p>
-        O DotNetLabs é uma plataforma colaborativa criada para transformar conceitos
-        técnicos em experiências práticas de aprendizado.
-    </p>
+        <p>
+            O DotNetLabs transforma conceitos técnicos em experiências reais de aprendizado,
+            com exemplos, fluxos, desafios e explicações pensadas para o dia a dia de desenvolvimento.
+        </p>
 
-    <a class="btn btn-primary btn-lg px-5" href="/laboratorios">
-        🧪 Explorar Laboratórios
-    </a>
+        <div class="dl-hero-actions">
+            <a class="dl-button-primary" href="/laboratorios">
+                🧪 Explorar laboratórios
+            </a>
+
+            <a class="dl-button-secondary" href="/sobre">
+                Conhecer o projeto
+            </a>
+        </div>
+    </div>
+
+    <div class="dl-hero-panel dl-card">
+        <div class="dl-hero-panel-header">
+            <span>Laboratório em destaque</span>
+            <strong>Trilha .NET</strong>
+        </div>
+
+        <div class="dl-featured-icon">⏱️</div>
+
+        <h3>CancellationToken</h3>
+
+        <p>
+            Entenda como cancelar operações longas em APIs, serviços e consultas com Dapper.
+        </p>
+
+        <a href="/laboratorios/cancellation-token">
+            Abrir laboratório →
+        </a>
+    </div>
 </section>
 
-<section>
-    <h2 class="section-title">Sua jornada de aprendizado começa aqui</h2>
+<section class="dl-home-stats">
+    <div class="dl-stat-card dl-card">
+        <strong>01</strong>
+        <span>Laboratório publicado</span>
+    </div>
 
-    <div class="row mt-3">
-        <div class="col-md-4 mb-3">
-            <CardInfo Icone="🧪"
-                      Titulo="Laboratórios práticos"
-                      Descricao="Demonstrações executáveis para aprender conceitos de forma visual e interativa." />
+    <div class="dl-stat-card dl-card">
+        <strong>04</strong>
+        <span>Componentes reutilizáveis</span>
+    </div>
+
+    <div class="dl-stat-card dl-card">
+        <strong>03</strong>
+        <span>Modos planejados</span>
+    </div>
+
+    <div class="dl-stat-card dl-card">
+        <strong>100%</strong>
+        <span>Aprendizado prático</span>
+    </div>
+</section>
+
+<section class="dl-home-section">
+    <div class="dl-section-header">
+        <div>
+            <span class="dl-section-kicker">Comece por aqui</span>
+            <h2>Laboratórios em destaque</h2>
         </div>
 
-        <div class="col-md-4 mb-3">
-            <CardInfo Icone="📚"
-                      Titulo="Documentação"
-                      Descricao="Explicações claras para entender o problema, a solução e boas práticas." />
+        <a href="/laboratorios">Ver todos →</a>
+    </div>
+
+    <div class="dl-lab-grid">
+        @foreach (var laboratorio in LaboratoriosDestaque)
+        {
+            <article class="dl-lab-card dl-card">
+                <span class="dl-lab-tag">@laboratorio.CardHome.Badge</span>
+
+                <div class="dl-lab-icon">@laboratorio.CardHome.Icone</div>
+
+                <h3>@laboratorio.Titulo</h3>
+
+                <p>@laboratorio.CardHome.DescricaoHome</p>
+
+                @if (!laboratorio.CardHome.EmBreve)
+                {
+                    <a href="/laboratorios/@laboratorio.Id">Acessar laboratório →</a>
+                }
+                else
+                {
+                    <small>Em breve</small>
+                }
+            </article>
+        }
+    </div>
+</section>
+<section class="dl-home-section">
+    <div class="dl-section-header">
+        <div>
+            <span class="dl-section-kicker">Trilhas</span>
+            <h2>Escolha sua jornada</h2>
+        </div>
+    </div>
+
+    <div class="dl-track-grid">
+        <div class="dl-track-card dl-card">
+            <span>🟣</span>
+            <h3>.NET Labs</h3>
+            <p>C#, APIs, Blazor, Dapper, performance e boas práticas.</p>
         </div>
 
-        <div class="col-md-4 mb-3">
-            <CardInfo Icone="🤝"
-                      Titulo="Colaboração"
-                      Descricao="Uma base para o time compartilhar conhecimento, apresentações e estudos." />
+        <div class="dl-track-card dl-card">
+            <span>🟢</span>
+            <h3>SQL Labs</h3>
+            <p>Consultas, índices, CTEs, procedures e performance.</p>
+        </div>
+
+        <div class="dl-track-card dl-card">
+            <span>🟡</span>
+            <h3>Architecture Labs</h3>
+            <p>DDD, Clean Architecture, padrões e decisões técnicas.</p>
+        </div>
+
+        <div class="dl-track-card dl-card">
+            <span>🔵</span>
+            <h3>ProductLabs</h3>
+            <p>Refinamento, regras de negócio, user stories e descoberta.</p>
         </div>
     </div>
 </section>
+
+<section class="dl-home-cta dl-card">
+    <div>
+        <span class="dl-section-kicker">DotNetLabs</span>
+        <h2>Conhecimento técnico ganhando forma de produto.</h2>
+        <p>
+            Uma base colaborativa para estudar, apresentar conceitos e compartilhar aprendizados com o time.
+        </p>
+    </div>
+
+    <a class="dl-button-primary" href="/laboratorios">
+        Começar agora
+    </a>
+</section>
+
+
+@code {
+    private IReadOnlyList<MetadadosLaboratorio> LaboratoriosDestaque =>
+        CatalogoLaboratorios.ObterTodos()
+            .Take(3)
+            .ToList();
+}

@@ -1,16 +1,25 @@
 ﻿@using DotNetLabs.Blazor.Components.Layout
 @inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
+
+<div class="page dl-app-shell">
+    <aside class="sidebar">
         <NavMenu />
-    </div>
+    </aside>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+    <main class="dl-main">
+        <header class="dl-topbar">
+            <div>
+                <span class="dl-topbar-kicker">DotNetLabs</span>
+                <strong>Aprendizado prático em .NET</strong>
+            </div>
 
-        <article class="content px-4">
+            <div class="dl-topbar-actions">
+                <span class="dl-topbar-pill">🔥 Sprint UI/UX</span>
+                <span class="dl-topbar-pill">🧪 Trilha .NET</span>
+            </div>
+        </header>
+
+        <article class="dl-page-content">
             @Body
 
             <Footer />

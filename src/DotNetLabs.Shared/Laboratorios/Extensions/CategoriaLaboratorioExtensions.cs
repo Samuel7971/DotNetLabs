@@ -17,6 +17,7 @@ namespace DotNetLabs.Shared.Laboratorios.Extensions
                 CategoriaLaboratorio.BancoDeDados => "Banco de Dados",
                 CategoriaLaboratorio.Mensageria => "Mensageria",
                 CategoriaLaboratorio.SystemDesign => "System Design",
+                CategoriaLaboratorio.RecursoLinguagem => "Recurso da linguagem",
                 _ => "-"
             };
         }
