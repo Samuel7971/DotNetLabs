@@ -1,0 +1,114 @@
+﻿.lab-code-tabs {
+    background: var(--dl-surface, #ffffff);
+    border: 1px solid var(--dl-border, #ececf4);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 24px;
+    box-shadow: var(--dl-shadow, 0 10px 30px rgba(15, 23, 42, 0.06));
+}
+
+.lab-code-tabs-header {
+    margin-bottom: 18px;
+}
+
+    .lab-code-tabs-header h3 {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--dl-text, #141827);
+    }
+
+    .lab-code-tabs-header p {
+        margin: 4px 0 0;
+        color: var(--dl-muted, #6b7280);
+        font-size: .92rem;
+    }
+
+.lab-code-tabs-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.lab-code-tab-button {
+    border: 1px solid var(--dl-border, #ececf4);
+    background: #f8fafc;
+    color: var(--dl-muted, #6b7280);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: .88rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+    .lab-code-tab-button:hover {
+        transform: translateY(-1px);
+        border-color: rgba(109, 74, 255, .35);
+        color: var(--dl-primary, #6d4aff);
+    }
+
+    .lab-code-tab-button.active {
+        background: linear-gradient(135deg, #6d4aff, #8b5cf6);
+        color: #ffffff;
+        border-color: transparent;
+        box-shadow: 0 10px 24px rgba(109, 74, 255, .25);
+    }
+
+.lab-code-tabs-content {
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid #1e293b;
+    background: #0f172a;
+}
+
+.lab-code-tabs-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #111827;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+    .lab-code-tabs-meta span {
+        color: #e5e7eb;
+        font-weight: 800;
+        font-size: .9rem;
+    }
+
+    .lab-code-tabs-meta small {
+        color: #94a3b8;
+        font-size: .78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+.lab-code-tabs-content pre {
+    margin: 0;
+    padding: 18px;
+    overflow-x: auto;
+}
+
+.lab-code-tabs-content code {
+    color: #e5e7eb;
+    font-size: .9rem;
+    line-height: 1.7;
+    white-space: pre;
+}
+
+@media (max-width: 640px) {
+    .lab-code-tabs {
+        padding: 16px;
+    }
+
+    .lab-code-tab-button {
+        width: 100%;
+        justify-content: center;
+    }
+}

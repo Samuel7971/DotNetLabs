@@ -1,0 +1,113 @@
+﻿@namespace DotNetLabs.Blazor.Components.Laboratorios.Demo
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+@using DotNetLabs.Blazor.Models
+
+<section class="lab-demo @ClasseModo">
+    <div class="lab-demo-header">
+        <div class="lab-demo-icon">
+            <i class="@Icone"></i>
+        </div>
+
+        <div>
+            <span class="lab-demo-label">@Label</span>
+            <h3>@Titulo</h3>
+
+            @if (!string.IsNullOrWhiteSpace(Descricao))
+            {
+                <p>@Descricao</p>
+            }
+        </div>
+    </div>
+
+    <div class="lab-demo-grid">
+        <div class="lab-demo-status-card">
+            <span class="lab-demo-card-label">Status</span>
+
+            <strong>
+                <span class="lab-demo-status-dot @ClasseStatus"></span>
+                @Status
+            </strong>
+        </div>
+
+        <div class="lab-demo-status-card">
+            <span class="lab-demo-card-label">Tempo</span>
+            <strong>@Tempo</strong>
+        </div>
+    </div>
+
+    @if (ChildContent is not null)
+    {
+        <div class="lab-demo-actions">
+            @ChildContent
+        </div>
+    }
+
+    @if (Logs.Any())
+    {
+        <div class="lab-demo-logs">
+            <div class="lab-demo-logs-header">
+                <span>Logs da execução</span>
+                <small>@Logs.Count registro(s)</small>
+            </div>
+
+            <div class="lab-demo-logs-list">
+                @foreach (var log in Logs)
+                {
+                    <div class="lab-demo-log-item">
+                        <i class="@log.Icone"></i>
+
+                        <div>
+                            <time>@log.Horario.ToString("HH:mm:ss")</time>
+                            <p>@log.Mensagem</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</section>
+
+@code {
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; }
+
+    private string ClasseModo => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "modo-apresentacao",
+        ModoLaboratorio.Professor => "modo-professor",
+        _ => "modo-estudo"
+    };
+
+    private string ClasseStatus => Status.ToLowerInvariant() switch
+    {
+        "executando" => "executando",
+        "cancelado" => "cancelado",
+        "finalizado" => "finalizado",
+        _ => "pronto"
+    };
+
+    [Parameter]
+    public string Label { get; set; } = "Laboratório prático";
+
+    [Parameter]
+    public string Titulo { get; set; } = "Demonstração";
+
+    [Parameter]
+    public string? Descricao { get; set; }
+
+    [Parameter]
+    public string Icone { get; set; } = "bi bi-play-circle";
+
+    [Parameter]
+    public string Status { get; set; } = "Pronto";
+
+    [Parameter]
+    public string Tempo { get; set; } = "00:00:00";
+
+    [Parameter]
+    public List<LabDemoLogItem> Logs { get; set; } = [];
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

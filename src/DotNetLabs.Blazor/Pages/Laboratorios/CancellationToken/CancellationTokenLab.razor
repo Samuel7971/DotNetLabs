@@ -3,9 +3,11 @@
 @using DotNetLabs.Blazor.Components.Laboratorios.Alerts
 @using DotNetLabs.Blazor.Components.Laboratorios.Blocos
 @using DotNetLabs.Blazor.Components.Laboratorios.Code
+@using DotNetLabs.Blazor.Components.Laboratorios.Demo
 @using DotNetLabs.Blazor.Components.Laboratorios.Flow
 @using DotNetLabs.Blazor.Components.Laboratorios.Layout
 @using DotNetLabs.Blazor.Components.Laboratorios.Objective
+@using DotNetLabs.Blazor.Models
 
 <LabLayout Titulo="CancellationToken"
            Descricao="Aprenda como cancelar operações assíncronas de forma cooperativa no .NET."
@@ -32,9 +34,9 @@
     </LabObjective>
 
     <LabSection  Titulo="O problema"
-              Label="Primeiro passo"
-              Icone="bi bi-book"
-              Cor="primary">
+                 Label="Primeiro passo"
+                 Icone="bi bi-book"
+                 Cor="primary">
         <p>
             Imagine que uma API começou a processar uma operação demorada.
             No meio do caminho, o usuário fechou a tela, cancelou a requisição
@@ -104,15 +106,47 @@
         <LabFlow Titulo="Percurso do CancellationToken"
                  Descricao="O mesmo token percorre toda a aplicação.">
         
-            <LabFlowItem Texto="Cliente" Icone="bi bi-person" />
-            <LabFlowItem Texto="Controller" Icone="bi bi-hdd-network" />
-            <LabFlowItem Texto="Service" Icone="bi bi-gear" />
-            <LabFlowItem Texto="Repository" Icone="bi bi-database" />
-            <LabFlowItem Texto="SQL Server" Icone="bi bi-server" />
+            <LabFlowItem Numero="1" Texto="Cliente" Icone="bi bi-person" Concluido="true"/>
+            <LabFlowItem Numero="2" Texto="Controller" Icone="bi bi-hdd-network" />
+            <LabFlowItem Numero="3" Texto="Service" Icone="bi bi-gear" />
+            <LabFlowItem Numero="4" Texto="Repository" Icone="bi bi-database" />
+            <LabFlowItem Numero="5" Texto="SQL Server" Icone="bi bi-server" />
         
         </LabFlow>
 
     </LabBloco>
+
+    <LabSection Titulo="Teste novo Componente"
+                Label="Aplicando teste"
+                Icone="bi bi-layers"
+                Cor="primary">
+        <LabCodeTabs Titulo="Fluxo do CancellationToken"
+                     Descricao="Veja como o token é propagado entre as camadas da aplicação."
+                     Tabs="@CancellationTokenTabs" />
+    </LabSection>
+
+    <LabSection Titulo="Testando Componente Demo"
+                Label="Aplicando teste Demo"
+                Icone="bi bi-layers"
+                Cor="primary">
+        <LabDemo Titulo="Demo do CancellationToken"
+                 Descricao="Execute, acompanhe os logs e visualize o estado da operação."
+                 Status="Executando"
+                 Tempo="00:00:05"
+                 Logs="@LogsDemo">
+        
+            <button class="btn btn-primary">
+                <i class="bi bi-play-fill"></i>
+                Iniciar
+            </button>
+        
+            <button class="btn btn-outline-danger">
+                <i class="bi bi-stop-fill"></i>
+                Cancelar
+            </button>
+        
+        </LabDemo>
+    </LabSection>
 
     <LabBloco Titulo="Controller"
               Label="Primeira camada"
@@ -573,4 +607,100 @@
     
         return await _connection.QueryAsync<PedidoDto>(command);
     }";
+
+    private List<LabCodeTabItem> CancellationTokenTabs =>
+    [
+        new()
+        {
+            Titulo = "Blazor",
+            Icone = "bi bi-window",
+            Language = "csharp",
+            Code = 
+            @"
+            _cts = new CancellationTokenSource();
+    
+            await Http.GetAsync(
+                ""api/cancellation/slow?delay=10000"",
+                _cts.Token);
+            "
+        },
+        new()
+        {
+            Titulo = "Controller",
+            Icone = "bi bi-box-arrow-in-right",
+            Language = "csharp",
+            Code = 
+            @"
+            [HttpGet(""slow"")]
+            public async Task<IActionResult> Slow(
+                [FromQuery] int delay,
+                CancellationToken cancellationToken)
+            {
+                await _service.ProcessarAsync(delay, cancellationToken);
+    
+                return Ok(""Processo finalizado com sucesso."");
+            }
+            "
+        },
+        new()
+        {
+            Titulo = "Service",
+            Icone = "bi bi-diagram-3",
+            Language = "csharp",
+            Code = 
+            @"
+            public async Task ProcessarAsync(
+                int delay,
+                CancellationToken cancellationToken)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+    
+                await _repository.ExecutarAsync(delay, cancellationToken);
+            }
+            "
+        },
+        new()
+        {
+            Titulo = "Repository",
+            Icone = "bi bi-database",
+            Language = "csharp",
+            Code = 
+            @"
+            public async Task<IEnumerable<PedidoDto>> ObterPedidosAsync(
+                CancellationToken cancellationToken)
+            {
+                const string sql = ""SELECT * FROM Pedidos"";
+            
+                var command = new CommandDefinition(
+                    commandText: sql,
+                    cancellationToken: cancellationToken);
+            
+                return await _connection.QueryAsync<PedidoDto>(command);
+            }"
+        }
+    ];
+
+    private List<LabDemoLogItem> LogsDemo =
+    [
+        new()
+        {
+            Mensagem = "Requisição iniciada pelo Blazor.",
+            Icone = "bi bi-play-circle"
+        },
+        new()
+        {
+            Mensagem = "Controller recebeu a chamada HTTP.",
+            Icone = "bi bi-box-arrow-in-right"
+        },
+        new()
+        {
+            Mensagem = "Service iniciou o processamento.",
+            Icone = "bi bi-diagram-3"
+        },
+        new()
+        {
+            Mensagem = "Repository executando operação demorada.",
+            Icone = "bi bi-database"
+        }
+    ];
 }

@@ -1,0 +1,67 @@
+﻿@namespace DotNetLabs.Blazor.Models
+
+<div class="lab-code-tabs">
+    <div class="lab-code-tabs-header">
+        <div>
+            <h3>@Titulo</h3>
+
+            @if (!string.IsNullOrWhiteSpace(Descricao))
+            {
+                <p>@Descricao</p>
+            }
+        </div>
+    </div>
+
+    <div class="lab-code-tabs-nav">
+        @foreach (var tab in Tabs)
+        {
+            var ativa = tab == TabAtiva;
+
+            <button type="button"
+                    class="lab-code-tab-button @(ativa ? "active" : "")"
+                    @onclick="() => SelecionarTab(tab)">
+                @if (!string.IsNullOrWhiteSpace(tab.Icone))
+                {
+                    <i class="@tab.Icone"></i>
+                }
+
+                <span>@tab.Titulo</span>
+            </button>
+        }
+    </div>
+
+    @if (TabAtiva is not null)
+    {
+        <div class="lab-code-tabs-content">
+            <div class="lab-code-tabs-meta">
+                <span>@TabAtiva.Titulo</span>
+                <small>@TabAtiva.Language</small>
+            </div>
+
+            <pre><code>@TabAtiva.Code</code></pre>
+        </div>
+    }
+</div>
+
+@code {
+    private LabCodeTabItem? TabAtiva;
+
+    [Parameter]
+    public string Titulo { get; set; } = "Código por camadas";
+
+    [Parameter]
+    public string? Descricao { get; set; }
+
+    [Parameter, EditorRequired]
+    public List<LabCodeTabItem> Tabs { get; set; } = [];
+
+    protected override void OnParametersSet()
+    {
+        TabAtiva ??= Tabs.FirstOrDefault();
+    }
+
+    private void SelecionarTab(LabCodeTabItem tab)
+    {
+        TabAtiva = tab;
+    }
+}
