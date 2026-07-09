@@ -31,18 +31,7 @@
         </LabObjectiveItem>
     </LabObjective>
 
-    @* <LabFlow Titulo="Fluxo de uma requisição"
-             Descricao="Veja como o CancellationToken pode atravessar as camadas da aplicação.">
-
-        <LabFlowItem Texto="Cliente" Icone="bi bi-person" />
-        <LabFlowItem Texto="Controller" Icone="bi bi-hdd-network" />
-        <LabFlowItem Texto="Service" Icone="bi bi-gear" />
-        <LabFlowItem Texto="Repository" Icone="bi bi-database" />
-        <LabFlowItem Texto="SQL Server" Icone="bi bi-server" />
-
-    </LabFlow> *@
-
-    <LabBloco Titulo="O problema"
+    <LabSection  Titulo="O problema"
               Label="Primeiro passo"
               Icone="bi bi-book"
               Cor="primary">
@@ -61,7 +50,7 @@
             Cancelar uma operação no .NET não significa matar uma thread à força.
             O cancelamento é cooperativo: o código precisa verificar o token e respeitar o pedido de cancelamento.
         </LabAlert>
-    </LabBloco>
+    </LabSection>
 
     <LabBloco Titulo="O conceito">
         <p>
@@ -135,7 +124,7 @@
             quando a requisição pode ser cancelada.
         </p>
         
-        <LabCodeBlock Titulo="Controller"
+        <LabCodeBlock FileName="Controller"
                       Language="csharp"
                       Code="@CodigoController" />
         
@@ -158,7 +147,7 @@
             <code>ThrowIfCancellationRequested()</code>.
         </p>
         
-        <LabCodeBlock Titulo="Service"
+        <LabCodeBlock FileName="Service"
                       Language="csharp"
                       Code="@CodigoService" />
         
@@ -174,7 +163,7 @@
             Agora ele precisa repassá-lo para a biblioteca responsável pela consulta.
         </p>
         
-        <LabCodeBlock Titulo="Repository"
+        <LabCodeBlock FileName="Repository"
                       Language="csharp"
                       Code="@CodigoRepository" />
 
@@ -212,7 +201,7 @@
             <code>CommandDefinition</code>.
         </p>
         
-        <LabCodeBlock Titulo="Utilizando CommandDefinition"
+        <LabCodeBlock FileName="Utilizando CommandDefinition"
                       Language="csharp"
                       Code="@CodigoCommandDefinition" />
         
@@ -241,11 +230,11 @@
               Icone="bi bi-arrow-left-right"
               Cor="danger">
         
-        <LabCodeBlock Titulo="Sem CancellationToken"
+        <LabCodeBlock FileName="Sem CancellationToken"
                       Language="csharp"
                       Code="@CodigoSemCommandDefinition" />
         
-        <LabCodeBlock Titulo="Com CancellationToken"
+        <LabCodeBlock FileName="Com CancellationToken"
                       Language="csharp"
                       Code="@CodigoComCommandDefinition" />
         
@@ -287,7 +276,7 @@
             precise mais do resultado.
         </p>
 
-        <LabCodeBlock Titulo="Código Sem CancellationToken"
+        <LabCodeBlock FileName="Código Sem CancellationToken"
                       Language="csharp"
                       Code="@CodigoSemCancellationToken" />
     </LabBloco>
@@ -301,7 +290,7 @@
              Ele precisa ser propagado para Service, Repository e chamadas externas.
          </p>
          
-         <LabCodeBlock Titulo="Controller → Service → Repository"
+         <LabCodeBlock FileName="Controller → Service → Repository"
                        Language="csharp"
                        Code="@CodigoPropagandoToken" />
          
@@ -316,7 +305,7 @@
             Agora o método recebe um <code>token</code> e verifica se o cancelamento foi solicitado.
         </p>
 
-        <LabCodeBlock Titulo="Código Com CancellationToken"
+        <LabCodeBlock FileName="Código Com CancellationToken"
                       Language="csharp"
                       Code="@CodigoComCancellationToken" />
     </LabBloco>
@@ -328,7 +317,7 @@
             o token pode ser sinalizado automaticamente.
         </p>
 
-        <LabCodeBlock Titulo="Uso em APIs"
+        <LabCodeBlock FileName="Uso em APIs"
                       Language="csharp"
                       Code="@CodigoApi" />
     </LabBloco>
@@ -387,7 +376,7 @@
             Refatore o método abaixo para aceitar e propagar um <code>CancellationToken</code>.
         </p>
 
-         <LabCodeBlock Titulo="Desafio"
+         <LabCodeBlock FileName="Desafio"
                       Language="csharp"
                       Code="@CodigoDesafio" />
 

@@ -1,136 +1,226 @@
 ﻿.lab-card {
     width: 100%;
-    max-width: 360px;
+    min-height: 430px;
     padding: 22px;
-    border-radius: 18px;
+    border-radius: 22px;
     background: #ffffff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
-    box-sizing: border-box;
+    border: 1px solid rgba(124, 58, 237, .14);
+    box-shadow: 0 18px 50px rgba(32, 18, 77, .08);
     display: flex;
     flex-direction: column;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
+
+    .lab-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(124, 58, 237, .28);
+        box-shadow: 0 28px 70px rgba(32, 18, 77, .13);
+    }
 
 .lab-card__header {
     display: flex;
-    gap: 12px;
     align-items: flex-start;
+    gap: 16px;
 }
 
 .lab-card__icon {
-    width: 24px;
-    height: 24px;
-    margin-top: 5px;
-    border-radius: 9px;
-    background: linear-gradient(135deg, #ec4899, #e11d48);
-    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.16);
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: #f1ebff;
+    color: #6d28d9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+}
+
+    .lab-card__icon i {
+        font-size: 1.35rem;
+    }
+
+.lab-card__title-area {
+    min-width: 0;
+}
+
+.lab-card__eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #6d28d9;
+    font-size: .74rem;
+    font-weight: 900;
+    letter-spacing: .06em;
+    text-transform: uppercase;
 }
 
 .lab-card h3 {
     margin: 0;
-    font-size: clamp(20px, 4vw, 24px);
-    font-weight: 800;
-    line-height: 1.15;
-    color: #0f172a;
-    overflow-wrap: anywhere;
+    color: #151122;
+    font-size: 1.55rem;
+    font-weight: 950;
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
-.lab-card p {
-    margin: 8px 0 0;
-    font-size: 14.5px;
-    line-height: 1.45;
-    color: #475569;
+.lab-card__description {
+    margin: 18px 0 0;
+    color: #625b73;
+    font-size: .95rem;
+    line-height: 1.6;
 }
 
 .lab-card__divider {
     height: 1px;
     margin: 18px 0;
-    background: #e5e7eb;
+    background: rgba(124, 58, 237, .12);
 }
 
 .lab-card__info {
     display: grid;
-    gap: 12px;
+    gap: 13px;
 }
 
 .lab-card__info-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 22px auto 1fr;
     align-items: center;
-    gap: 9px;
-    font-size: 14px;
-    color: #334155;
-    flex-wrap: wrap;
+    gap: 8px;
+    color: #4f4862;
+    font-size: .88rem;
 }
 
     .lab-card__info-item i {
-        width: 20px;
-        font-size: 18px;
-        text-align: center;
         color: #6d28d9;
+        font-size: 1rem;
+        text-align: center;
     }
 
     .lab-card__info-item strong {
-        color: #0f172a;
+        color: #332b44;
+        font-weight: 850;
     }
 
-.lab-card__status {
-    padding: 4px 8px;
-    border-radius: 8px;
-    background: #fff7ed;
-    color: #92400e;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.lab-card__contributors-inline {
+.lab-card__contributors {
+    margin-top: auto;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: #fbfaff;
+    border: 1px solid rgba(124, 58, 237, .16);
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 18px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    background: #faf5ff;
-    color: #6d28d9;
-    font-size: 14px;
-    font-weight: 600;
+    gap: 12px;
 }
 
-    .lab-card__contributors-inline i {
-        font-size: 17px;
+.lab-card__contributors-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 13px;
+    background: #f1ebff;
+    color: #6d28d9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.lab-card__contributors strong {
+    display: block;
+    color: #151122;
+    font-size: .84rem;
+    font-weight: 900;
+}
+
+.lab-card__contributors p {
+    margin: 2px 0 0;
+    color: #6d28d9;
+    font-size: .85rem;
+    font-weight: 750;
+}
+
+.lab-card__action {
+    margin-top: 16px;
+    padding: 13px 16px;
+    border-radius: 14px;
+    border: 1px solid #6d28d9;
+    background: #ffffff;
+    color: #6d28d9 !important;
+    text-decoration: none !important;
+    font-size: .92rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+    .lab-card__action span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
     }
 
-.lab-card hr {
-    margin: 16px 0;
-    border: 0;
-    border-top: 1px solid #e5e7eb;
+    .lab-card__action:hover {
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 16px 34px rgba(124, 58, 237, .24);
+    }
+
+        .lab-card__action:hover > i {
+            transform: translateX(4px);
+        }
+
+    .lab-card__action > i {
+        transition: transform .18s ease;
+    }
+
+.lab-card a.lab-card__action,
+.lab-card a.lab-card__action:visited {
+    margin-top: 16px;
+    padding: 13px 16px;
+    border-radius: 14px;
+    border: 1px solid #6d28d9;
+    background: #ffffff;
+    color: #6d28d9 !important;
+    text-decoration: none !important;
+    font-size: .92rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.lab-card .btn {
-    width: 100%;
-    border-radius: 10px;
-    padding: 9px 14px;
-    font-weight: 600;
-}
-
-.lab-card__header > div {
-    min-width: 0;
-}
-
+    .lab-card a.lab-card__action:hover {
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
+        color: #ffffff !important;
+    }
 
 @media (max-width: 480px) {
+    .lab-card {
+        min-height: auto;
+        padding: 20px;
+    }
+
     .lab-card__header {
-        align-items: flex-start;
+        gap: 13px;
+    }
+
+    .lab-card__icon {
+        width: 46px;
+        height: 46px;
     }
 
     .lab-card h3 {
-        font-size: 22px;
-        overflow-wrap: break-word;
-        word-break: normal;
-        hyphens: auto;
+        font-size: 1.35rem;
     }
 
-    .lab-card {
-        padding: 20px;
+    .lab-card__info-item {
+        grid-template-columns: 22px 1fr;
     }
+
+        .lab-card__info-item span {
+            grid-column: 2;
+        }
 }

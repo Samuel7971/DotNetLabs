@@ -2,20 +2,24 @@
 
 @using DotNetLabs.Blazor.Models.Laboratorios.Enums;
 
-<div class="@ClasseModo">
-
-    <div class="lab-alert-icon">
+<div class="@ClasseAlerta">
+    <div class="lab-alert__icon">
         <i class="@Icone"></i>
     </div>
 
-    <div class="lab-alert-content">
-        @ChildContent
-    </div>
+    <div class="lab-alert__content">
+        @if (!string.IsNullOrWhiteSpace(Titulo))
+        {
+            <strong>@Titulo</strong>
+        }
 
+        <div>
+            @ChildContent
+        </div>
+    </div>
 </div>
 
 @code {
-
     [Parameter]
     public string Titulo { get; set; } = "Dica";
 
@@ -28,11 +32,11 @@
     private string Icone =>
         Tipo switch
         {
-            "success" => "bi bi-check-circle-fill",
-            "warning" => "bi bi-exclamation-triangle-fill",
-            "danger" => "bi bi-x-octagon-fill",
-            "info" => "bi bi-info-circle-fill",
-            _ => "bi bi-info-circle-fill"
+            "success" => "bi bi-check-circle",
+            "warning" => "bi bi-exclamation-triangle",
+            "danger" => "bi bi-x-octagon",
+            "info" => "bi bi-info-circle",
+            _ => "bi bi-info-circle"
         };
 
     [CascadingParameter]
@@ -40,10 +44,9 @@
 
     private string ClasseModo => ModoAtual switch
     {
-        ModoLaboratorio.Apresentacao => "lab-alert lab-alert-apresentacao",
-        ModoLaboratorio.Professor => "lab-alert lab-alert-professor",
+        ModoLaboratorio.Apresentacao => "lab-alert lab-alert--presentation",
         _ => "lab-alert"
     };
 
-    private string ClasseAlerta => $"{ClasseModo} lab-alert-{Tipo}";
+    private string ClasseAlerta => $"{ClasseModo} lab-alert--{Tipo}";
 }

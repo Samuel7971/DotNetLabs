@@ -1,10 +1,10 @@
 ﻿.lab-mode-card {
     margin: 1.25rem 0 1.75rem;
     padding: 1rem;
-    border: 1px solid #dbeafe;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #eff6ff, #ffffff);
-    box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid rgba(124, 58, 237, .14);
+    box-shadow: 0 18px 50px rgba(32, 18, 77, .07);
 }
 
 .lab-mode-header {
@@ -12,64 +12,66 @@
     justify-content: space-between;
     gap: 1rem;
     align-items: center;
-    margin-bottom: .85rem;
+    margin-bottom: .9rem;
 }
 
     .lab-mode-header strong {
         display: block;
-        color: #0f172a;
+        color: #151122;
         font-size: 1.05rem;
+        font-weight: 950;
     }
 
 .lab-mode-eyebrow {
     display: block;
-    color: #64748b;
-    font-size: .8rem;
-    font-weight: 600;
+    color: #8a8498;
+    font-size: .75rem;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: .04em;
+    letter-spacing: .07em;
 }
 
 .lab-mode-badge {
-    padding: .35rem .65rem;
+    padding: .42rem .75rem;
     border-radius: 999px;
-    background: #dbeafe;
-    color: #1d4ed8;
-    font-size: .8rem;
-    font-weight: 700;
+    background: #f1ebff;
+    color: #6d28d9;
+    font-size: .78rem;
+    font-weight: 850;
     white-space: nowrap;
 }
 
 .lab-mode-options {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: .65rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .7rem;
 }
 
 .lab-mode-option {
-    border: 1px solid #bfdbfe;
+    border: 1px solid rgba(124, 58, 237, .18);
     background: #ffffff;
-    color: #1e40af;
-    border-radius: 12px;
-    padding: .75rem .9rem;
-    font-weight: 700;
+    color: #6d28d9;
+    border-radius: 15px;
+    padding: .85rem .95rem;
+    font-weight: 900;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: .45rem;
-    transition: .18s ease;
+    gap: .5rem;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 
     .lab-mode-option:hover {
-        background: #eff6ff;
+        background: #fbfaff;
         transform: translateY(-1px);
+        box-shadow: 0 10px 24px rgba(32, 18, 77, .06);
     }
 
     .lab-mode-option.active {
-        background: #2563eb;
-        border-color: #2563eb;
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
+        border-color: #6d28d9;
         color: #ffffff;
-        box-shadow: 0 8px 18px rgba(37, 99, 235, .25);
+        box-shadow: 0 16px 34px rgba(124, 58, 237, .24);
     }
 
 @media (max-width: 768px) {

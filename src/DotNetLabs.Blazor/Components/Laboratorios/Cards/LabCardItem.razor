@@ -2,25 +2,25 @@
 @using DotNetLabs.Shared.Laboratorios.Extensions;
 @using DotNetLabs.Shared.Navegacao;
 
-<div class="lab-card">
-    <div class="lab-card__header">
-        <span class="lab-card__icon"></span>
+<article class="lab-card">
+    <header class="lab-card__header">
+        <span class="lab-card__icon">
+            <i class="@Laboratorio.Categoria.Icone()"></i>
+        </span>
 
-        <div>
+        <div class="lab-card__title-area">
+            <span class="lab-card__eyebrow">@Laboratorio.Categoria.Descricao()</span>
             <h3>@Laboratorio.Titulo</h3>
-            <p>@Laboratorio.Descricao</p>
         </div>
-    </div>
+    </header>
+
+    <p class="lab-card__description">
+        @Laboratorio.Descricao
+    </p>
 
     <div class="lab-card__divider"></div>
 
     <div class="lab-card__info">
-        <div class="lab-card__info-item">
-            <i class="@Laboratorio.Categoria.Icone()"></i>
-            <strong>Categoria:</strong>
-            <span>@Laboratorio.Categoria.Descricao()</span>
-        </div>
-
         <div class="lab-card__info-item">
             <i class="@Laboratorio.Dificuldade.Icone()"></i>
             <strong>Dificuldade:</strong>
@@ -30,7 +30,7 @@
         <div class="lab-card__info-item">
             <i class="@Laboratorio.Status.Icone()"></i>
             <strong>Status:</strong>
-            <span class="lab-card__status">@Laboratorio.Status</span>
+            <span>@Laboratorio.Status</span>
         </div>
 
         <div class="lab-card__info-item">
@@ -40,40 +40,30 @@
         </div>
     </div>
 
-    <div class="lab-card__divider"></div>
-
     @if (Laboratorio.Contribuidores.Any())
     {
         <div class="lab-card__contributors">
-            <div class="lab-card__contributors-title">
-                <i class="bi bi-people-fill"></i>
+            <span class="lab-card__contributors-icon">
+                <i class="bi bi-people"></i>
+            </span>
+
+            <div>
                 <strong>Contribuidores</strong>
-            </div>
-
-            <div class="lab-card__contributors-list">
-                @if (Laboratorio.Contribuidores.Any())
-                {
-                    <div class="lab-card__contributors-inline">
-                        <i class="bi bi-people-fill"></i>
-
-                        <span>
-                            @string.Join(" • ", Laboratorio.Contribuidores.Take(3).Select(c => c.Nome))
-                        </span>
-                    </div>
-                }
+                <p>@string.Join(" • ", Laboratorio.Contribuidores.Take(3).Select(c => c.Nome))</p>
             </div>
         </div>
     }
 
-    <hr/>
-
-    <NavLink class="btn btn-primary mt-auto"
+    <a class="lab-card__action"
              href="@Rotas.Laboratorio(Laboratorio.Id)">
-        <i class="bi bi-book"></i>
-        Abrir laboratório
-    </NavLink>
-</div>
+        <span>
+            <i class="bi bi-book"></i>
+            Abrir laboratório
+        </span>
 
+        <i class="bi bi-arrow-right"></i>
+    </a>
+</article>
 
 @code {
     [Parameter]

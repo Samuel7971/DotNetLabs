@@ -1,71 +1,103 @@
 ﻿.lab-alert {
+    position: relative;
     display: flex;
     gap: 1rem;
-    padding: 1rem;
+    margin: 1.25rem 0;
+    padding: 1rem 1.1rem;
+    border-radius: 18px;
+    background: #fbfaff;
+    border: 1px solid rgba(124, 58, 237, .14);
+    box-shadow: 0 14px 34px rgba(32, 18, 77, .05);
+}
+
+    .lab-alert::before {
+        content: "";
+        position: absolute;
+        inset: .9rem auto .9rem 0;
+        width: 3px;
+        border-radius: 999px;
+        background: #6d28d9;
+    }
+
+.lab-alert__icon {
+    width: 38px;
+    height: 38px;
     border-radius: 14px;
-    margin: 1rem 0;
-    border-left: 5px solid;
+    background: #f1ebff;
+    color: #6d28d9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.05rem;
 }
 
-.lab-alert-icon {
-    font-size: 1.4rem;
-}
-
-.lab-alert-content {
+.lab-alert__content {
     flex: 1;
+    color: #4f4862;
     line-height: 1.7;
 }
 
-/* INFO */
+    .lab-alert__content strong {
+        display: block;
+        margin-bottom: .2rem;
+        color: #151122;
+        font-size: .95rem;
+        font-weight: 950;
+    }
 
-.lab-alert-info {
-    background: #eef6ff;
-    color: #0c4a6e;
-    border-color: #38bdf8;
-}
+    .lab-alert__content :deep(p:last-child),
+    .lab-alert__content :deep(ul:last-child),
+    .lab-alert__content :deep(ol:last-child) {
+        margin-bottom: 0;
+    }
 
-/* SUCCESS */
-
-.lab-alert-success {
-    background: #ecfdf5;
-    color: #166534;
-    border-color: #22c55e;
-}
-
-/* WARNING */
-
-.lab-alert-warning {
-    background: #fffbeb;
-    color: #92400e;
-    border-color: #f59e0b;
-}
-
-/* DANGER */
-
-.lab-alert-danger {
-    background: #fef2f2;
-    color: #991b1b;
-    border-color: #ef4444;
-}
-
-.lab-alert-apresentacao {
-    font-size: 1.05rem;
-    padding: 1rem 1.25rem;
-}
-
-.lab-alert-professor {
-    border-left-width: 6px;
-    background: #faf5ff;
-}
-
-.lab-alert-professor::after {
-    content: "Nota para aula";
-    display: inline-flex;
-    margin-top: .75rem;
-    padding: .25rem .55rem;
-    border-radius: 999px;
-    background: #ede9fe;
+.lab-alert--info::before,
+.lab-alert--info .lab-alert__icon {
     color: #6d28d9;
-    font-size: .75rem;
-    font-weight: 700;
+}
+
+.lab-alert--success::before {
+    background: #10b981;
+}
+
+.lab-alert--success .lab-alert__icon {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.lab-alert--warning::before {
+    background: #f59e0b;
+}
+
+.lab-alert--warning .lab-alert__icon {
+    background: #fff7ed;
+    color: #b45309;
+}
+
+.lab-alert--danger::before {
+    background: #ef4444;
+}
+
+.lab-alert--danger .lab-alert__icon {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.lab-alert--presentation {
+    padding: 1.15rem 1.25rem;
+    font-size: 1.05rem;
+}
+
+@media (max-width: 520px) {
+    .lab-alert {
+        padding: .95rem;
+        gap: .8rem;
+    }
+
+    .lab-alert__icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+    }
 }

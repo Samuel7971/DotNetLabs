@@ -5,28 +5,33 @@
 
 <PageTitle>Laboratórios</PageTitle>
 
-<section class="hero">
+<section class="catalog-hero">
+    <div class="catalog-hero__badge">
+        🧪 Catálogo de laboratórios
+    </div>
 
-    <h1>🧪 Laboratórios</h1>
-
-    <p class="lead">
-        Explore os laboratórios disponíveis no DotNetLabs.
-    </p>
+    <h1>Aprenda .NET construindo na prática.</h1>
 
     <p>
-        Escolha um laboratório e aprenda .NET através de demonstrações práticas.
+        Escolha um laboratório, acompanhe o fluxo, veja o código e entenda o comportamento real por trás dos recursos do .NET.
     </p>
-
 </section>
 
-<div class="row cards">
+<section class="catalog-toolbar">
+    <div>
+        <span class="catalog-toolbar__label">Laboratórios disponíveis</span>
+        <strong>@laboratorios.Count</strong>
+    </div>
+
+    <span class="catalog-toolbar__status">Primeira trilha em construção</span>
+</section>
+
+<section class="catalog-grid">
     @foreach (var laboratorio in laboratorios)
     {
-        <div class="col-md-4 mb-3">
-            <LabCardItem Laboratorio="laboratorio" />
-        </div>
+        <LabCardItem Laboratorio="laboratorio" />
     }
-</div>
+</section>
 
 @code {
     private readonly IReadOnlyList<MetadadosLaboratorio> laboratorios = CatalogoLaboratorios.ObterTodos();

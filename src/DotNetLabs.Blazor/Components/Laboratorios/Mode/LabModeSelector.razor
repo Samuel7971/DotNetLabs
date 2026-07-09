@@ -26,13 +26,6 @@
             <i class="bi bi-easel"></i>
             <span>Apresentação</span>
         </button>
-
-        <button type="button"
-                class="@ObterClasseBotao(ModoLaboratorio.Professor)"
-                @onclick="() => AlterarModoAsync(ModoLaboratorio.Professor)">
-            <i class="bi bi-person-video3"></i>
-            <span>Professor</span>
-        </button>
     </div>
 </div>
 
@@ -49,7 +42,6 @@
             return;
 
         ModoAtual = modo;
-
         await ModoAtualChanged.InvokeAsync(modo);
     }
 
@@ -66,7 +58,6 @@
         {
             ModoLaboratorio.Estudo => "Estudo guiado",
             ModoLaboratorio.Apresentacao => "Modo apresentação",
-            ModoLaboratorio.Professor => "Modo professor",
             _ => "Estudo guiado"
         };
     }
@@ -76,8 +67,7 @@
         return ModoAtual switch
         {
             ModoLaboratorio.Estudo => "Ideal para aprender passo a passo.",
-            ModoLaboratorio.Apresentacao => "Exibe apenas o conteúdo principal.",
-            ModoLaboratorio.Professor => "Ideal para ministrar uma aula.",
+            ModoLaboratorio.Apresentacao => "Conteúdo mais direto para apresentar.",
             _ => "Padrão"
         };
     }

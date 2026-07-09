@@ -1,18 +1,116 @@
-﻿.hero {
+﻿.catalog-hero {
+    max-width: 920px;
+    margin: 0 auto 42px;
     text-align: center;
-    margin-bottom: 3rem;
+    padding: 42px 24px 20px;
 }
 
-    .hero h1 {
-        font-size: 2.8rem;
-        font-weight: 700;
+.catalog-hero__badge {
+    width: fit-content;
+    margin: 0 auto 18px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #f3edff;
+    color: #6f35ff;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.catalog-hero h1 {
+    margin: 0;
+    font-size: clamp(2.2rem, 4vw, 4rem);
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: #12101c;
+}
+
+.catalog-hero p {
+    max-width: 720px;
+    margin: 20px auto 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #6f6a7c;
+}
+
+.catalog-toolbar {
+    max-width: 1120px;
+    margin: 0 auto 24px;
+    padding: 16px 18px;
+    border: 1px solid rgba(124, 58, 237, .12);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .82);
+    box-shadow: 0 18px 50px rgba(32, 18, 77, .06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.catalog-toolbar__label {
+    display: block;
+    color: #8a8498;
+    font-size: .78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.catalog-toolbar strong {
+    display: block;
+    margin-top: 2px;
+    color: #151122;
+    font-size: 1.4rem;
+    font-weight: 950;
+}
+
+.catalog-toolbar__status {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #7c3aed, #ec4899);
+    color: white;
+    font-size: .8rem;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+/*.catalog-grid {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}*/
+
+.catalog-grid {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 26px;
+    align-items: stretch;
+}
+
+@media (max-width: 1100px) {
+    .catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .catalog-hero {
+        padding-top: 28px;
+        margin-bottom: 28px;
     }
 
-    .hero p {
-        color: #6c757d;
-        font-size: 1.15rem;
+    .catalog-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-.cards {
-    margin-top: 2rem;
+    .catalog-grid {
+        grid-template-columns: 1fr;
+    }
 }

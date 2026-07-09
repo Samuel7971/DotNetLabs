@@ -2,44 +2,58 @@
 
 @using DotNetLabs.Blazor.Models.Laboratorios.Enums
 
-<section class="lab-objective @ClasseObjective">
-    <div class="lab-objective-header">
-        <div class="lab-objective-icone">
-            <i class="bi bi-bullseye"></i>
-        </div>
+<section class="@ClasseObjective">
 
-        <div>
+    <header class="lab-objective__header">
+
+        <div class="lab-objective__title">
+
+            <span class="lab-objective__eyebrow">
+                Objetivos
+            </span>
+
             <h3>@Titulo</h3>
 
             @if (!string.IsNullOrWhiteSpace(Descricao))
             {
                 <p>@Descricao</p>
             }
-        </div>
-    </div>
 
-    <ul class="lab-objective-lista">
+        </div>
+
+        <span class="lab-objective__icon">
+            <i class="bi bi-bullseye"></i>
+        </span>
+
+    </header>
+
+    <div class="lab-objective__divider"></div>
+
+    <ul class="lab-objective__list">
         @ChildContent
     </ul>
+
 </section>
 
 @code {
+
     [CascadingParameter]
     public ModoLaboratorio ModoAtual { get; set; }
 
     private string ClasseObjective => ModoAtual switch
     {
-        ModoLaboratorio.Apresentacao => "modo-apresentacao",
-        ModoLaboratorio.Professor => "modo-professor",
-        _ => "modo-estudo"
+        ModoLaboratorio.Apresentacao => "lab-objective lab-objective--presentation",
+        _ => "lab-objective"
     };
 
     [Parameter]
     public string Titulo { get; set; } = "Objetivos deste laboratório";
 
     [Parameter]
-    public string? Descricao { get; set; } = "Ao finalizar este laboratório você será capaz de:";
+    public string? Descricao { get; set; } =
+        "Ao finalizar este laboratório você será capaz de:";
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
+
 }

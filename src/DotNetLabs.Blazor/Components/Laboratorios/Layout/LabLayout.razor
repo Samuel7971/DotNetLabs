@@ -6,25 +6,39 @@
 <section class="lab-layout">
 
     <header class="lab-header">
-        <span class="lab-tag">@Categoria</span>
-
-        <h1>@Titulo</h1>
-
-        @if (!string.IsNullOrWhiteSpace(Descricao))
-        {
-            <p>@Descricao</p>
-        }
-
-        <div class="lab-meta">
-            <span>
-                <i class="bi bi-bar-chart"></i>
-                @Nivel
+        <div class="lab-header__content">
+            <span class="lab-tag">
+                <i class="bi bi-flask"></i>
+                @Categoria
             </span>
 
-            <span>
-                <i class="bi bi-clock"></i>
-                @TempoEstimado
+            <h1>@Titulo</h1>
+
+            @if (!string.IsNullOrWhiteSpace(Descricao))
+            {
+                <p>@Descricao</p>
+            }
+
+            <div class="lab-meta">
+                <span>
+                    <i class="bi bi-stars"></i>
+                    @Nivel
+                </span>
+
+                <span>
+                    <i class="bi bi-clock"></i>
+                    @TempoEstimado
+                </span>
+            </div>
+        </div>
+
+        <div class="lab-header__spotlight">
+            <span class="lab-header__spotlight-icon">
+                <i class="bi bi-terminal"></i>
             </span>
+
+            <strong>Laboratório interativo</strong>
+            <p>Aprenda olhando o fluxo, lendo o código e testando na prática.</p>
         </div>
     </header>
 

@@ -101,6 +101,12 @@ namespace DotNetLabs.Shared.Laboratorios
                              Nome = "Samuel Rodrigues",
                              Cargo="Sofware Developer",
                              TipoContribuicao = TipoContribuicao.Autor
+                         },
+                         new()
+                         {
+                             Nome = "Karina",
+                             Cargo="Sofware Developer",
+                             TipoContribuicao = TipoContribuicao.Coleborador
                          }
                     ]
                 }

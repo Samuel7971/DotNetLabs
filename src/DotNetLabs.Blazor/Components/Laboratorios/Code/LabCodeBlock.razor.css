@@ -1,97 +1,75 @@
 ﻿.lab-code-block {
-    margin: 1.25rem 0;
-    border-radius: 16px;
+    margin: 1.5rem 0;
     overflow: hidden;
-    border: 1px solid #1f2937;
-    background: #0f172a;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+    border-radius: 22px;
+    border: 1px solid rgba(124,58,237,.14);
+    background: #1a1d29;
+    box-shadow: 0 24px 60px rgba(15,23,42,.16);
 }
 
 .lab-code-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
-    background: #111827;
-    color: #e5e7eb;
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
+    padding: 1rem 1.2rem;
+    background: #202433;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.lab-code-info {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+}
+
+.lab-code-file {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: #ffffff;
     font-weight: 700;
 }
 
 .lab-code-language {
-    background: #374151;
-    color: #d1d5db;
-    padding: 0.25rem 0.6rem;
+    padding: .28rem .7rem;
     border-radius: 999px;
-    font-size: 0.75rem;
+    background: #2d3348;
+    color: #b6b9c8;
+    font-size: .75rem;
     text-transform: uppercase;
+    font-weight: 800;
 }
+
+.lab-code-copy {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    border: none;
+    border-radius: 12px;
+    background: #7c3aed;
+    color: white;
+    padding: .55rem .85rem;
+    font-weight: 700;
+    transition: .2s;
+}
+
+    .lab-code-copy:hover {
+        background: #6d28d9;
+    }
 
 .lab-code-block pre {
     margin: 0;
-    padding: 1.25rem;
-    overflow-x: auto;
+    padding: 1.5rem;
+    overflow: auto;
 }
 
 .lab-code-block code {
     color: #e5e7eb;
-    font-family: Consolas, Monaco, 'Courier New', monospace;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    white-space: pre-wrap;
-}
-
-.lab-code-actions {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-}
-
-.lab-code-title {
-    font-weight: 700;
-    color: white;
-}
-
-.lab-code-copy {
-    border: none;
-    background: #1f2937;
-    color: white;
-    border-radius: 10px;
-    padding: .4rem .6rem;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.lab-code-copy:hover {
-    background: #374151;
-}
-
-.lab-code-block-apresentacao code {
-    font-size: 1.1rem;
+    font-size: .95rem;
     line-height: 1.8;
+    font-family: Cascadia Code, Consolas, monospace;
 }
 
-.lab-code-block-apresentacao .lab-code-header {
+.presentation code {
     font-size: 1.05rem;
-}
-
-.lab-code-block-professor {
-    border: 2px solid #8b5cf6;
-}
-
-.lab-code-block-professor .lab-code-header {
-    background: #4c1d95;
-}
-
-.lab-code-block-professor::after {
-    content: "Código para explicar em aula";
-    display: inline-flex;
-    margin: 0 1rem 1rem;
-    padding: .3rem .65rem;
-    border-radius: 999px;
-    background: #ede9fe;
-    color: #6d28d9;
-    font-size: .75rem;
-    font-weight: 700;
 }
