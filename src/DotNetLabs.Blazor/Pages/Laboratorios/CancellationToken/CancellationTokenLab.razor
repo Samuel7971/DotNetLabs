@@ -1,13 +1,16 @@
 ﻿@page "/laboratorios/cancellation-token"
 
-@using DotNetLabs.Blazor.Components.Laboratorios.Alerts
-@using DotNetLabs.Blazor.Components.Laboratorios.Blocos
-@using DotNetLabs.Blazor.Components.Laboratorios.Code
-@using DotNetLabs.Blazor.Components.Laboratorios.Demo
-@using DotNetLabs.Blazor.Components.Laboratorios.Flow
-@using DotNetLabs.Blazor.Components.Laboratorios.Layout
-@using DotNetLabs.Blazor.Components.Laboratorios.Objective
-@using DotNetLabs.Blazor.Models
+@using DotNetLabs.Blazor.Components.Laboratorios.Alerts;
+@using DotNetLabs.Blazor.Components.Laboratorios.Blocos;
+@using DotNetLabs.Blazor.Components.Laboratorios.Code;
+@using DotNetLabs.Blazor.Components.Laboratorios.Demo;
+@using DotNetLabs.Blazor.Components.Laboratorios.Flow;
+@using DotNetLabs.Blazor.Components.Laboratorios.Layout;
+@using DotNetLabs.Blazor.Components.Laboratorios.Objective;
+@using DotNetLabs.Blazor.Models;
+@using DotNetLabs.Blazor.Services.Labs.CancellationTokenLab
+
+@inject CancellationTokenLabRunner CancellationTokenLabRunner
 
 <LabLayout Titulo="CancellationToken"
            Descricao="Aprenda como cancelar operações assíncronas de forma cooperativa no .NET."
@@ -16,350 +19,456 @@
            TempoEstimado="30 min">
 
     <LabObjective>
+
         <LabObjectiveItem>
-            Entender o problema que o CancellationToken resolve.
+            Compreender o problema que o <code>CancellationToken</code> resolve.
         </LabObjectiveItem>
     
         <LabObjectiveItem>
-            Usar CancellationToken em métodos assíncronos.
+            Utilizar o <code>CancellationToken</code> em operações assíncronas.
         </LabObjectiveItem>
     
         <LabObjectiveItem>
-            Propagar o token entre Controller, Service e Repository.
+            Propagar o token entre <strong>Controller</strong>, <strong>Service</strong> e <strong>Repository</strong>.
         </LabObjectiveItem>
     
         <LabObjectiveItem>
-            Aplicar boas práticas em APIs ASP.NET Core.
+            Implementar o cancelamento de uma operação real utilizando Blazor e ASP.NET Core.
         </LabObjectiveItem>
+    
+        <LabObjectiveItem>
+            Aplicar boas práticas para evitar cancelamentos incorretos e vazamento de recursos. 
+        </LabObjectiveItem>
+    
     </LabObjective>
 
-    <LabSection  Titulo="O problema"
-                 Label="Primeiro passo"
-                 Icone="bi bi-book"
-                 Cor="primary">
+    <LabSection Titulo="O problema"
+                Label="Primeiro passo"
+                Icone="bi bi-book"
+                Cor="primary">
+    
         <p>
-            Imagine que uma API começou a processar uma operação demorada.
-            No meio do caminho, o usuário fechou a tela, cancelou a requisição
-            ou o timeout estourou.
+            Imagine que uma API iniciou uma operação demorada.
+            No meio do processamento, o usuário fechou a tela,
+            cancelou a requisição ou o tempo limite foi atingido.
         </p>
-
+    
         <p>
-            Sem um mecanismo de cancelamento, o servidor pode continuar trabalhando
-            em algo que ninguém mais está esperando.
+            Sem um mecanismo de cancelamento, o servidor pode continuar
+            consumindo recursos para concluir uma operação cujo resultado
+            não será mais utilizado.
         </p>
-
+    
         <LabAlert Tipo="warning" Titulo="Ponto importante">
-            Cancelar uma operação no .NET não significa matar uma thread à força.
-            O cancelamento é cooperativo: o código precisa verificar o token e respeitar o pedido de cancelamento.
+            Cancelar uma operação no .NET não significa encerrar uma thread à força.
+            O cancelamento é cooperativo: o código recebe o pedido de cancelamento
+            e precisa interromper o processamento de forma segura.
         </LabAlert>
+    
     </LabSection>
 
-    <LabBloco Titulo="O conceito">
+    <LabSection Titulo="O que é o CancellationToken?"
+                Label="Conceito"
+                Icone="bi bi-lightbulb"
+                Cor="info">
+    
         <p>
-            O <code>CancellationToken</code> é um sinal que avisa para uma operação:
-            "ei, se puder parar com segurança, pare agora".
+            O <code>CancellationToken</code> é um mecanismo do .NET utilizado para
+            solicitar o cancelamento de operações de forma <strong>cooperativa</strong>,
+            permitindo que uma tarefa seja interrompida com segurança quando não faz mais sentido continuar sua execução.
         </p>
+    
+        <p>
+            Diferente de interromper uma thread à força, o <code>CancellationToken</code>
+            apenas sinaliza que existe um pedido de cancelamento. Cabe ao código verificar
+            esse sinal e decidir o momento seguro para encerrar a operação.
+        </p>
+    
+        <p>
+            Na prática, o token costuma ser propagado entre as camadas da aplicação
+            (<strong>Controller → Service → Repository</strong>) e também para bibliotecas
+            como <strong>HttpClient</strong>, <strong>Dapper</strong>, <strong>Entity Framework</strong>
+            e qualquer outra API que ofereça suporte ao cancelamento.
+        </p>
+    
+        <LabAlert Tipo="info" Titulo="Resumo">
+            Pense no <code>CancellationToken</code> como um <strong>pedido de parada</strong>.
+            Ele não interrompe a execução sozinho; ele apenas informa que a operação deve
+            ser encerrada assim que isso puder ser feito com segurança.
+        </LabAlert>
+    
+    </LabSection>
 
+    <LabSection Titulo="Quem participa do cancelamento?"
+                Label="Peças principais"
+                Icone="bi bi-diagram-3"
+                Cor="info">
+    
         <p>
-            Ele normalmente é passado por parâmetro entre Controllers, Services,
-            Repositorios e chamadas externas.
+            O cancelamento no .NET funciona através da colaboração entre três componentes.
+            Cada um possui uma responsabilidade específica durante o processo.
         </p>
-    </LabBloco>
-
-    <LabBloco Titulo="Quem participa do cancelamento"
-              Label="Peças principais"
-              Icone="bi bi-diagram-3"
-              Cor="info">
-        <p>
-            Para entender bem o cancelamento no .NET, precisamos separar três peças:
-        </p>
-        
+    
         <ul>
-            <li><strong>CancellationTokenSource:</strong> é quem solicita o cancelamento.</li>
-            <li><strong>CancellationToken:</strong> é o sinal passado para os métodos.</li>
-            <li><strong>ThrowIfCancellationRequested:</strong> é o ponto onde o código respeita o cancelamento.</li>
+            <li>
+                <strong>CancellationTokenSource</strong><br />
+                É responsável por solicitar o cancelamento da operação.
+                Quando o método <code>Cancel()</code> é chamado, ele informa que a execução deve ser interrompida.
+            </li>
+    
+            <li>
+                <strong>CancellationToken</strong><br />
+                É o objeto que transporta essa informação entre os métodos da aplicação.
+                Ele é propagado entre as camadas para que todos os participantes saibam
+                que existe um pedido de cancelamento.
+            </li>
+    
+            <li>
+                <strong>ThrowIfCancellationRequested()</strong><br />
+                É o ponto onde o código verifica se houve um pedido de cancelamento.
+                Caso exista, uma <code>OperationCanceledException</code> é lançada
+                e a execução é interrompida de forma segura.
+            </li>
         </ul>
-        
-        <LabAlert Tipo="info" Titulo="Resumo mental">
-            O Source pede para cancelar. O Token carrega esse aviso. O método verifica o Token e decide parar com segurança.
+    
+        <LabAlert Tipo="info" Titulo="Uma forma simples de lembrar">
+            Imagine uma corrida de revezamento.
+            O <strong>CancellationTokenSource</strong> levanta a bandeira de parada.
+            O <strong>CancellationToken</strong> transporta essa informação.
+            Cada método verifica o token e interrompe a execução de forma segura.
         </LabAlert>
-    </LabBloco>
-
-    <LabBloco Titulo="Propagando o CancellationToken entre as camadas"
-              Label="Aplicação real"
-              Icone="bi bi-layers"
-              Cor="primary">
-
-        <p>
-            Receber o <code>CancellationToken</code> no Controller é apenas o primeiro passo.
-            Para que o cancelamento funcione de ponta a ponta, o mesmo token deve ser propagado
-            para todas as camadas da aplicação.
-        </p>
-        
-        <LabAlert Tipo="info"
-                  Titulo="Como pensar">
-            Imagine o CancellationToken como um aviso de emergência.
-            Todos os envolvidos no processamento precisam receber esse aviso para que possam
-            interromper o trabalho com segurança.
-        </LabAlert>
-        
-        <LabFlow Titulo="Percurso do CancellationToken"
-                 Descricao="O mesmo token percorre toda a aplicação.">
-        
-            <LabFlowItem Numero="1" Texto="Cliente" Icone="bi bi-person" Concluido="true"/>
-            <LabFlowItem Numero="2" Texto="Controller" Icone="bi bi-hdd-network" />
-            <LabFlowItem Numero="3" Texto="Service" Icone="bi bi-gear" />
-            <LabFlowItem Numero="4" Texto="Repository" Icone="bi bi-database" />
-            <LabFlowItem Numero="5" Texto="SQL Server" Icone="bi bi-server" />
-        
+    
+        <LabFlow Titulo="Fluxo do pedido de cancelamento"
+                 Descricao="Veja como o pedido de cancelamento percorre a aplicação.">
+    
+            <LabFlowItem Texto="CancellationTokenSource"
+                         Icone="bi bi-flag" />
+    
+            <LabFlowItem Texto="CancellationToken"
+                         Icone="bi bi-lightning-charge" />
+    
+            <LabFlowItem Texto="Controller"
+                         Icone="bi bi-box-arrow-in-right" />
+    
+            <LabFlowItem Texto="Service"
+                         Icone="bi bi-diagram-3" />
+    
+            <LabFlowItem Texto="Repository"
+                         Icone="bi bi-database" />
+    
+            <LabFlowItem Texto="Operação interrompida"
+                         Icone="bi bi-stop-circle" />
+    
         </LabFlow>
-
-    </LabBloco>
-
-    <LabSection Titulo="Teste novo Componente"
-                Label="Aplicando teste"
-                Icone="bi bi-layers"
-                Cor="primary">
-        <LabCodeTabs Titulo="Fluxo do CancellationToken"
-                     Descricao="Veja como o token é propagado entre as camadas da aplicação."
-                     Tabs="@CancellationTokenTabs" />
+    
     </LabSection>
 
-    <LabSection Titulo="Testando Componente Demo"
-                Label="Aplicando teste Demo"
+    <LabSection Titulo="Como o CancellationToken percorre a aplicação"
+                Label="Fluxo completo"
                 Icone="bi bi-layers"
                 Cor="primary">
-        <LabDemo Titulo="Demo do CancellationToken"
-                 Descricao="Execute, acompanhe os logs e visualize o estado da operação."
-                 Status="Executando"
-                 Tempo="00:00:05"
-                 Logs="@LogsDemo">
-        
-            <button class="btn btn-primary">
-                <i class="bi bi-play-fill"></i>
-                Iniciar
-            </button>
-        
-            <button class="btn btn-outline-danger">
-                <i class="bi bi-stop-fill"></i>
-                Cancelar
-            </button>
-        
-        </LabDemo>
-    </LabSection>
-
-    <LabBloco Titulo="Controller"
-              Label="Primeira camada"
-              Icone="bi bi-hdd-network"
-              Cor="info">
-        
+    
         <p>
-            O ASP.NET Core injeta automaticamente o <code>CancellationToken</code>
-            quando a requisição pode ser cancelada.
+            Em aplicações reais, o <code>CancellationToken</code> nasce na requisição HTTP
+            e percorre todas as camadas da aplicação até chegar às operações de acesso a dados
+            ou chamadas para serviços externos.
         </p>
-        
-        <LabCodeBlock FileName="Controller"
+    
+        <p>
+            Para que o cancelamento funcione corretamente, o mesmo token deve ser propagado
+            entre todas as camadas, sem criar novos <code>CancellationTokenSource</code>.
+        </p>
+    
+        <LabFlow
+            Titulo="Percurso do CancellationToken"
+            Descricao="O mesmo token acompanha toda a execução da requisição.">
+    
+            <LabFlowItem Texto="Cliente" Icone="bi bi-person" />
+    
+            <LabFlowItem Texto="ASP.NET Core" Icone="bi bi-globe" />
+    
+            <LabFlowItem Texto="Controller" Icone="bi bi-hdd-network" />
+    
+            <LabFlowItem Texto="Service" Icone="bi bi-gear" />
+    
+            <LabFlowItem Texto="Repository" Icone="bi bi-database" />
+    
+            <LabFlowItem Texto="Banco de Dados" Icone="bi bi-server" />
+    
+        </LabFlow>
+    
+        <LabAlert Tipo="warning"
+                  Titulo="Nunca crie outro token">
+    
+            O mesmo <code>CancellationToken</code> deve ser reutilizado durante
+            toda a execução da requisição.
+            Criar um novo <code>CancellationTokenSource</code> quebra a cadeia
+            de cancelamento.
+    
+        </LabAlert>
+    
+    </LabSection>
+
+    <LabSection Titulo="E no WebForms 4.8?"
+                Label="Legado"
+                Icone="bi bi-window-stack"
+                Cor="warning">
+    
+        <p>
+            O <code>CancellationToken</code> não é exclusivo do .NET moderno.
+            Ele existe no .NET Framework e também pode ser usado em aplicações WebForms 4.8.
+        </p>
+    
+        <LabAlert Tipo="warning" Titulo="Diferença importante">
+            No WebForms, o cancelamento não é tão automático e elegante quanto em APIs ASP.NET Core.
+            Normalmente você precisa controlar o <code>CancellationTokenSource</code> manualmente.
+        </LabAlert>
+    
+        <LabCodeBlock Titulo="Exemplo WebForms 4.8"
                       Language="csharp"
-                      Code="@CodigoController" />
-        
+                      Code="@CodigoWebForms48" />
+    
+    </LabSection>
+
+    <LabSection Titulo="Implementação em uma aplicação real"
+                Label="Visão geral"
+                Icone="bi bi-code-square"
+                Cor="primary">
+    
+        <p>
+            Agora que entendemos o conceito, vamos analisar como o
+            <code>CancellationToken</code> é utilizado em uma aplicação real.
+        </p>
+    
+        <p>
+            Observe que o mesmo token percorre todas as camadas da aplicação,
+            desde o <strong>Controller</strong> até o <strong>Repository</strong>,
+            sem que um novo <code>CancellationTokenSource</code> seja criado.
+        </p>
+    
+        <LabCodeTabs Titulo="Código por camadas"
+                     Descricao="Navegue entre as camadas e acompanhe a propagação do token."
+                     Tabs="@CancellationTokenTabs" />
+    
+    </LabSection>
+
+    <LabSection Titulo="O que observar nesse exemplo?"
+                Label="Análise"
+                Icone="bi bi-search"
+                Cor="success">
+    
+        <p>
+            Mais importante do que decorar o código é entender o papel de cada camada.
+        </p>
+    
+        <ul>
+            <li>
+                <strong>Controller</strong> recebe automaticamente o
+                <code>CancellationToken</code> da requisição HTTP.
+            </li>
+    
+            <li>
+                <strong>Service</strong> apenas propaga o mesmo token para a próxima camada,
+                sem criar um novo <code>CancellationTokenSource</code>.
+            </li>
+    
+            <li>
+                <strong>Repository</strong> utiliza o token durante a operação e verifica
+                periodicamente se houve um pedido de cancelamento.
+            </li>
+        </ul>
+    
         <LabAlert Tipo="success"
                   Titulo="Boa prática">
-            O Controller normalmente não utiliza o token diretamente.
-            Sua responsabilidade é apenas propagá-lo para a próxima camada.
+    
+            Cada camada possui apenas uma responsabilidade.
+            Nenhuma delas deve criar um novo
+            <code>CancellationTokenSource</code>.
+    
+        </LabAlert>
+    
+    </LabSection>
+
+    <LabSection Titulo="Uma pergunta para o time"
+                Label="Reflexão"
+                Icone="bi bi-question-circle"
+                Cor="warning">
+    
+        <p>
+            Quando vocês utilizam o <strong>Dapper</strong> hoje,
+            alguém costuma passar um <code>CancellationToken</code>
+            para o banco de dados?
+        </p>
+    
+        <LabAlert Tipo="info"
+                  Titulo="Pense antes de responder">
+    
+            Não existe resposta certa ou errada.
+            O objetivo é refletir sobre como o cancelamento é tratado
+            nas aplicações atuais.
+    
+        </LabAlert>
+    
+        <p>
+            Na maioria dos projetos, o <code>CancellationToken</code> é propagado
+            corretamente até o <strong>Repository</strong>.
+            Entretanto, muitas aplicações deixam de utilizá-lo justamente na chamada ao banco de dados.
+            Com isso, mesmo que o usuário cancele a requisição, a consulta pode continuar sendo executada normalmente pelo banco, 
+            consumindo recursos que já não serão utilizados.
+        </p>
+    
+        <p>
+            Isso significa que, mesmo após o usuário cancelar a requisição,
+            a consulta pode continuar sendo executada normalmente pelo banco,
+            consumindo recursos desnecessariamente.
+        </p>
+    
+        <LabAlert Tipo="warning"
+                  Titulo="Vamos descobrir">
+    
+            Será que o Dapper possui suporte ao
+            <code>CancellationToken</code>?
+    
+            Se sim...
+    
+            Como fazemos isso?
+    
         </LabAlert>
 
-    </LabBloco>
-
-    <LabBloco Titulo="Service/UseCase"
-              Label="Regra de negócio"
-              Icone="bi bi-gear"
-              Cor="primary">
+        <LabAlert Tipo="success"
+                  Titulo="Curiosidade">
         
+            Muita gente utiliza Dapper há anos sem saber que ele possui
+            suporte nativo ao <code>CancellationToken</code>.
+            Vamos descobrir como isso funciona.
+        
+        </LabAlert>
+    
+    </LabSection>
+
+    <LabSection Titulo="Utilizando CancellationToken com Dapper"
+                Label="Integração"
+                Icone="bi bi-database-fill-gear"
+                Cor="warning">
+    
         <p>
-            A camada de serviço continua propagando o mesmo token.
-            Em operações longas, também pode verificar o cancelamento utilizando
-            <code>ThrowIfCancellationRequested()</code>.
+            Sim. O Dapper possui suporte nativo ao
+            <code>CancellationToken</code>.
         </p>
-        
-        <LabCodeBlock FileName="Service"
-                      Language="csharp"
-                      Code="@CodigoService" />
-        
-    </LabBloco>
-
-    <LabBloco Titulo="Repository"
-              Label="Acesso aos dados"
-              Icone="bi bi-database"
-              Cor="secondary">
-        
-        <p>
-            O Repository recebe exatamente o mesmo token iniciado no Controller.
-            Agora ele precisa repassá-lo para a biblioteca responsável pela consulta.
-        </p>
-        
-        <LabCodeBlock FileName="Repository"
-                      Language="csharp"
-                      Code="@CodigoRepository" />
-
-    </LabBloco>
-
-    <LabBloco Titulo="Duvida"
-              Label="Duvida"
-              Icone="bi bi-question-circle"
-              Cor="primary">
-         <p>
-             <strong>Quando vocês utilizam Dapper hoje, alguém aqui já passou um CancellationToken para o banco?</strong>
-         </p>
-
-          <LabCodeBlock Titulo="Repository"
-                      Language="csharp"
-                      Code="@CodigoRepository" />
-        
-    </LabBloco>
-
-    <LabBloco Titulo="CancellationToken no Dapper"
-              Label="Integração"
-              Icone="bi bi-database-fill-gear"
-              Cor="warning">
-        
+    
+        <LabAlert Tipo="warning"
+                  Titulo="Importante">
+    
+            O <code>CancellationToken</code> não é passado diretamente para os métodos
+            <code>QueryAsync()</code> ou <code>ExecuteAsync()</code>.
+            Para isso, utilizamos a classe
+            <code>CommandDefinition</code>.
+    
+        </LabAlert>
+    
         <p>
             Uma dúvida muito comum é:
         </p>
-        
+    
         <blockquote>
             "Como passar o CancellationToken para o Dapper?"
         </blockquote>
-        
+    
         <p>
-            A resposta é através da classe
-            <code>CommandDefinition</code>.
+            Vamos ver como isso fica na prática.
         </p>
-        
-        <LabCodeBlock FileName="Utilizando CommandDefinition"
-                      Language="csharp"
-                      Code="@CodigoCommandDefinition" />
-        
-        <LabAlert Tipo="info"
-                  Titulo="O que é o CommandDefinition?">
-        
-            O <code>CommandDefinition</code> representa todas as informações necessárias
-            para executar um comando no Dapper.
-        
-            Além do <code>CancellationToken</code>, ele também permite definir:
-        
-            <ul>
-                <li>Parâmetros da consulta</li>
-                <li>Timeout</li>
-                <li>Transaction</li>
-                <li>CommandType</li>
-                <li>CommandFlags</li>
-            </ul>
-        
-        </LabAlert>
-
-    </LabBloco>
-
-    <LabBloco Titulo="Sem x Com CommandDefinition"
-              Label="Comparação"
-              Icone="bi bi-arrow-left-right"
-              Cor="danger">
-        
-        <LabCodeBlock FileName="Sem CancellationToken"
+    
+        <LabCodeBlock FileName="Consulta tradicional"
                       Language="csharp"
                       Code="@CodigoSemCommandDefinition" />
-        
-        <LabCodeBlock FileName="Com CancellationToken"
+    
+        <LabCodeBlock FileName="Consulta com CancellationToken"
                       Language="csharp"
-                      Code="@CodigoComCommandDefinition" />
-        
-        <LabAlert Tipo="warning"
-                  Titulo="Importante">
-        
-            Sem utilizar <code>CommandDefinition</code>, o Dapper não recebe
-            o CancellationToken e não consegue participar do cancelamento da operação.
-        
+                      Code="@CodigoCommandDefinition" />
+    
+        <LabAlert Tipo="success"
+                  Titulo="Observe o que mudou">
+    
+            O código da consulta praticamente continua o mesmo.
+            A diferença é que passamos um
+            <code>CommandDefinition</code>
+            contendo o
+            <code>CancellationToken</code>,
+            permitindo que o Dapper propague o cancelamento até a execução do comando no banco de dados.
+    
         </LabAlert>
+    
+        <LabAlert Tipo="info"
+                  Titulo="O que mais o CommandDefinition oferece?">
+    
+            Além de permitir propagar o
+            <code>CancellationToken</code>,
+            o <code>CommandDefinition</code> centraliza todas as informações
+            necessárias para executar um comando no Dapper.
+    
+            Ele também permite configurar:
+    
+            <ul>
+                <li>Parâmetros da consulta</li>
+                <li>Tempo limite da execução (<code>CommandTimeout</code>)</li>
+                <li>Transações (<code>IDbTransaction</code>)</li>
+                <li>Tipo do comando (<code>CommandType</code>)</li>
+                <li>Opções avançadas (<code>CommandFlags</code>)</li>
+            </ul>
+    
+        </LabAlert>
+    
+    </LabSection>
 
-    </LabBloco>
-
-    <LabBloco Titulo="Curiosidade"
+    <LabSection Titulo="Curiosidade"
               Label="Dica"
               Icone="bi bi-lightbulb"
               Cor="success">
         
-        <p>
-            Muitas pessoas acreditam que o Dapper não suporta
-            <code>CancellationToken</code>.
-        </p>
+        <LabAlert Tipo="success"
+                  Titulo="Resumo desta etapa">
         
-        <p>
-            Na verdade, ele suporta há bastante tempo.
-            O detalhe é que isso é feito através do
-            <code>CommandDefinition</code>, e não diretamente no método
-            <code>QueryAsync()</code>.
-        </p>
+            O CancellationToken pode ser utilizado normalmente com o Dapper.
+        
+            Basta utilizar um <code>CommandDefinition</code> para propagar o token
+            até a execução do comando.
+        
+        </LabAlert>
 
-    </LabBloco>
+    </LabSection>
 
+    
 
+    <LabSection Titulo="Boas práticas"
+                Label="Checklist"
+                Icone="bi bi-check2-circle"
+                Cor="success">
+        <ul>
+            <li>Receba o token</li>
+            <li>Propague</li>
+            <li>Passe para HTTP</li>
+            <li>Passe para Dapper</li>
+            <li>Não esconda OperationCanceledException</li>
+        </ul>
+    </LabSection>
+    
+    <LabSection Titulo="Erros comuns"
+                Label="Evite isso"
+                Icone="bi bi-x-circle"
+                Cor="danger">
+        <ul>
+            <li>Receber o token e não usar.</li>
+            <li>Criar um novo <code>CancellationTokenSource</code> sem necessidade.</li>
+            <li>Não passar o token para Repository ou chamadas externas.</li>
+            <li>Capturar <code>Exception</code> e esconder uma operação cancelada.</li>
+            <li>Achar que o token mata uma thread automaticamente.</li>
+        </ul>
+    </LabSection>
 
-
-    <LabBloco Titulo="Exemplo sem CancellationToken">
-        <p>
-            Neste exemplo, o processamento continua até o fim, mesmo que ninguém
-            precise mais do resultado.
-        </p>
-
-        <LabCodeBlock FileName="Código Sem CancellationToken"
-                      Language="csharp"
-                      Code="@CodigoSemCancellationToken" />
-    </LabBloco>
-
-    <LabBloco Titulo="Propagando entre camadas"
-              Label="Aplicação real"
-              Icone="bi bi-layers"
-              Cor="primary">
-         <p>
-             Em uma aplicação real, o token não deve parar no Controller.
-             Ele precisa ser propagado para Service, Repository e chamadas externas.
-         </p>
-         
-         <LabCodeBlock FileName="Controller → Service → Repository"
-                       Language="csharp"
-                       Code="@CodigoPropagandoToken" />
-         
-         <LabAlert Tipo="warning" Titulo="Erro comum">
-             Receber o <code>CancellationToken</code> no Controller e não repassar para as próximas camadas
-             faz o cancelamento perder boa parte do valor.
-         </LabAlert>
-    </LabBloco>
-
-    <LabBloco Titulo="Exemplo com ConcellationToken">
-        <p>
-            Agora o método recebe um <code>token</code> e verifica se o cancelamento foi solicitado.
-        </p>
-
-        <LabCodeBlock FileName="Código Com CancellationToken"
-                      Language="csharp"
-                      Code="@CodigoComCancellationToken" />
-    </LabBloco>
-
-    <LabBloco Titulo="Uso em uma API">
-        <p>
-            Em APIs ASP.NET Core, podemos receber o <code>CancellationToken</code>
-            diretamente no endpoint. Quando o cliente cancela a requisição,
-            o token pode ser sinalizado automaticamente.
-        </p>
-
-        <LabCodeBlock FileName="Uso em APIs"
-                      Language="csharp"
-                      Code="@CodigoApi" />
-    </LabBloco>
-
-    <LabBloco Titulo="Demonstração prática com a API"
-              Label="Mão na massa"
-              Icone="bi bi-play-circle"
-              Cor="success">
+    @*  <LabSection Titulo="Demonstração prática com a API"
+                 Label="Mão na massa"
+                 Icone="bi bi-play-circle"
+                 Cor="success">
         <p>
             Agora a ideia é executar uma chamada real na API do projeto,
             cancelar a requisição e observar o comportamento nos logs.
@@ -377,66 +486,94 @@
             Mostrar que o cancelamento não é teoria. Ele aparece na prática quando uma requisição HTTP
             é interrompida ou quando um timeout acontece.
         </LabAlert>
-    </LabBloco>
+    </LabSection> *@
 
-    <LabBloco Titulo="Boas práticas"
-              Label="Checklist"
-              Icone="bi bi-check2-circle"
-              Cor="success">
-        <ul>
-            <li>Receba o <code>CancellationToken</code> nos métodos assíncronos.</li>
-            <li>Propague o mesmo token para as próximas camadas.</li>
-            <li>Passe o token para métodos como <code>Task.Delay</code>, chamadas HTTP e acesso a dados.</li>
-            <li>Use <code>ThrowIfCancellationRequested()</code> em pontos estratégicos.</li>
-            <li>Não trate cancelamento como erro inesperado.</li>
-        </ul>
-    </LabBloco>
+    <LabSection Titulo="Laboratório Interativo"
+                Label="Mão na massa"
+                Icone="bi bi-play-circle"
+                Cor="primary">
     
-    <LabBloco Titulo="Erros comuns"
-              Label="Evite isso"
-              Icone="bi bi-x-circle"
-              Cor="danger">
-        <ul>
-            <li>Receber o token e não usar.</li>
-            <li>Criar um novo <code>CancellationTokenSource</code> sem necessidade.</li>
-            <li>Não passar o token para Repository ou chamadas externas.</li>
-            <li>Capturar <code>Exception</code> e esconder uma operação cancelada.</li>
-            <li>Achar que o token mata uma thread automaticamente.</li>
-        </ul>
-    </LabBloco>
+        <LabDemo Titulo="Execução real do CancellationToken"
+                 Descricao="Inicie uma chamada para a API e cancele a operação antes dela finalizar."
+                 Status="@_status"
+                 Tempo="@_tempo"
+                 Logs="@_logs">
+        
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+               <label class="fw-bold">Tempo:</label>
+               
+               <input type="number"
+                      class="form-control"
+                      style="width: 100px"
+                      min="1"
+                      max="60"
+                      disabled="@_executando"
+                      @bind="_segundos" />
+               
+               <span>segundos</span>
+            </div>
+        
+            <button class="btn btn-primary"
+                    disabled="@_executando"
+                    @onclick="IniciarAsync">
+                <i class="@IconeBotaoIniciar"></i>
+                @TextoBotaoIniciar
+            </button>
+            
+            <button class="btn btn-outline-danger"
+                    disabled="@(!_executando)"
+                    @onclick="Cancelar">
+                <i class="bi bi-stop-fill"></i>
+                Cancelar
+            </button>
+            
+            <button class="btn btn-outline-secondary"
+                    disabled="@_executando"
+                    @onclick="Limpar">
+                <i class="bi bi-arrow-clockwise"></i>
+                Limpar
+            </button>
+        
+        </LabDemo>
+    </LabSection>
 
-    <LabBloco Titulo="Desafio">
-         <p>
-            Refatore o método abaixo para aceitar e propagar um <code>CancellationToken</code>.
-        </p>
-
-         <LabCodeBlock FileName="Desafio"
-                      Language="csharp"
-                      Code="@CodigoDesafio" />
-
-        <LabAlert Tipo="info" Titulo="Dica">
-            Comece adicionando o parâmetro <code>CancellationToken cancellationToken</code>
-            no método principal e depois propague para os métodos chamados por ele.
-        </LabAlert>
-    </LabBloco>
-
-    <LabBloco Titulo="Resumo final"
-              Label="Fechamento"
-              Icone="bi bi-flag"
-              Cor="primary">
+    <LabSection Titulo="Considerações finais"
+                Label="Encerramento"
+                Icone="bi bi-chat-heart"
+                Cor="success">
+    
         <p>
-            O <code>CancellationToken</code> ajuda a criar aplicações mais responsivas,
-            econômicas e preparadas para lidar com cancelamentos reais.
+            O <code>CancellationToken</code> é um recurso simples, mas extremamente importante
+            para construir aplicações mais eficientes, responsivas e preparadas para cenários reais.
         </p>
     
-        <ul>
-            <li>Cancelamento no .NET é cooperativo.</li>
-            <li>O token precisa ser propagado.</li>
-            <li>O código precisa verificar o token.</li>
-            <li>APIs podem receber o token diretamente no endpoint.</li>
-            <li>Cancelar corretamente evita processamento desnecessário.</li>
-        </ul>
-    </LabBloco>
+        <p>
+            Durante este laboratório vimos desde o conceito até uma implementação completa,
+            propagando o token entre as camadas da aplicação e utilizando-o também com o Dapper.
+        </p>
+    
+        <LabAlert Tipo="success"
+                  Titulo="Leve esta ideia para o dia a dia">
+    
+            Sempre que desenvolver uma operação assíncrona, pergunte-se:
+    
+            <blockquote class="mt-2 mb-0">
+                "E se essa operação precisar ser cancelada?"
+            </blockquote>
+    
+            Essa simples pergunta pode evitar processamento desnecessário e tornar sua aplicação muito mais robusta.
+    
+        </LabAlert>
+    
+        <hr />
+    
+        <p class="mb-0">
+            Muito obrigado pelo tempo e pela participação de todos!
+            Espero que este laboratório tenha despertado novas ideias para aplicarmos no nosso dia a dia.
+        </p>
+    
+    </LabSection>
+  
 
         <a href="/laboratorios" class="btn btn-secondary mt-3">
             Voltar para laboratórios
@@ -444,6 +581,7 @@
 </LabLayout>
 
 @code {
+    #region .: Códigos Apresentação :.
     private const string CodigoSemCancellationToken =
     @"
     public async Task ProcessarPedidosAsync()
@@ -608,6 +746,40 @@
         return await _connection.QueryAsync<PedidoDto>(command);
     }";
 
+    private const string CodigoWebForms48 =
+    @"
+    private static readonly CancellationTokenSource _cts = new();
+    
+    protected async void btnProcessar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            await ProcessarAsync(_cts.Token);
+    
+            lblStatus.Text = ""Processamento finalizado."";
+        }
+        catch (OperationCanceledException)
+        {
+            lblStatus.Text = ""Processamento cancelado."";
+        }
+    }
+    
+    protected void btnCancelar_Click(object sender, EventArgs e)
+    {
+        _cts.Cancel();
+    }
+    
+    private async Task ProcessarAsync(CancellationToken cancellationToken)
+    {
+        for (var i = 1; i <= 10; i++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+    
+            await Task.Delay(1000, cancellationToken);
+        }
+    }";
+    #endregion
+
     private List<LabCodeTabItem> CancellationTokenTabs =>
     [
         new()
@@ -634,7 +806,7 @@
             [HttpGet(""slow"")]
             public async Task<IActionResult> Slow(
                 [FromQuery] int delay,
-                CancellationToken cancellationToken)
+                CancellationToken cancellationToken = default)
             {
                 await _service.ProcessarAsync(delay, cancellationToken);
     
@@ -703,4 +875,124 @@
             Icone = "bi bi-database"
         }
     ];
+
+    private int _segundos = 10;
+
+    private string TextoBotaoIniciar =>
+        _executando ? "Executando..." : "Iniciar";
+    
+    private string IconeBotaoIniciar =>
+        _executando ? "bi bi-hourglass-split" : "bi bi-play-fill";
+
+    #region .: Integração API :.
+    private CancellationTokenSource? _cts;
+    private bool _executando;
+    
+    private string _status = "Pronto";
+    private string _tempo = "00:00:00";
+    
+    private DateTime? _inicioExecucao;
+    
+    private List<LabDemoLogItem> _logs = [];
+    
+    private async Task IniciarAsync()
+    {
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+    
+        _executando = true;
+        _status = "Executando";
+        _tempo = "00:00:00";
+        _inicioExecucao = DateTime.Now;
+        _ = AtualizarCronometroAsync(_cts.Token);
+        _logs.Clear();
+    
+        try
+        {
+            var resultado = await CancellationTokenLabRunner.ExecutarAsync(
+                segundos: _segundos,
+                logs: _logs,
+                cancellationToken: _cts.Token);
+    
+            _status = resultado?.Status ?? "Finalizado";
+        }
+        catch (OperationCanceledException)
+        {
+            _status = "Cancelado";
+    
+            AdicionarLog(
+                "Operação cancelada pelo usuário no Blazor.",
+                "bi bi-x-circle");
+        }
+        catch (Exception ex)
+        {
+            _status = "Erro";
+    
+            AdicionarLog(
+                $"Erro inesperado: {ex.Message}",
+                "bi bi-exclamation-triangle");
+        }
+        finally
+        {
+            _executando = false;
+            AtualizarTempo();
+        }
+    }
+    
+    private void Cancelar()
+    {
+        if (_cts is null || !_executando)
+            return;
+    
+        AdicionarLog("Solicitação de cancelamento enviada.", "bi bi-stop-circle");
+    
+        _cts.Cancel();
+    }
+    
+    private void Limpar()
+    {
+        _status = "Pronto";
+        _tempo = "00:00:00";
+        _logs.Clear();
+        _inicioExecucao = null;
+    }
+    
+    private void AdicionarLog(string mensagem, string icone)
+    {
+        _logs.Add(new LabDemoLogItem
+        {
+            Horario = DateTime.Now,
+            Mensagem = mensagem,
+            Icone = icone
+        });
+    }
+    
+    private void AtualizarTempo()
+    {
+        if (_inicioExecucao is null)
+            return;
+    
+        var tempo = DateTime.Now - _inicioExecucao.Value;
+    
+        _tempo = tempo.ToString(@"hh\:mm\:ss");
+    }
+
+    private async Task AtualizarCronometroAsync(System.Threading.CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested && _executando)
+        {
+            AtualizarTempo();
+            await InvokeAsync(StateHasChanged);
+    
+            try
+            {
+                await Task.Delay(1000, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+        }
+    }
+    #endregion
 }

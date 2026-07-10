@@ -1,8 +1,12 @@
 using DotNetLabs.Blazor;
+using DotNetLabs.Blazor.Services.Labs.CancellationTokenLab;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+builder.Services.AddScoped<CancellationTokenLabRunner>();
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 

@@ -50,7 +50,7 @@
 
 <section class="dl-home-stats">
     <div class="dl-stat-card dl-card">
-        <strong>01</strong>
+        <strong>@laboratorios.Count</strong>
         <span>Laboratório publicado</span>
     </div>
 
@@ -159,4 +159,6 @@
         CatalogoLaboratorios.ObterTodos()
             .Take(3)
             .ToList();
+
+    private readonly IReadOnlyList<MetadadosLaboratorio> laboratorios = CatalogoLaboratorios.ObterTodos();
 }
