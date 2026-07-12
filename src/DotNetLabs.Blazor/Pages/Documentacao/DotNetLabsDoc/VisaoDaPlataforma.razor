@@ -1,0 +1,163 @@
+﻿@page "/documentacao/dotnetlabs/visao-da-plataforma"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.Laboratorios.Blocos
+@using DotNetLabs.Blazor.Components.Laboratorios.Alerts
+@using DotNetLabs.Shared.Laboratorios.Documentacao
+
+<PageTitle>Visão da Plataforma | DotNetLabs</PageTitle>
+
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o DotNetLabs?">
+            <p>
+                O DotNetLabs é uma plataforma colaborativa criada para centralizar,
+                compartilhar e preservar conhecimentos técnicos, funcionais e de negócio.
+            </p>
+
+            <p>
+                Seu objetivo é transformar conceitos e experiências em conteúdos
+                organizados, acessíveis e reutilizáveis por diferentes pessoas e áreas
+                do time.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            O conhecimento produzido pelo time não deve ficar preso apenas na memória
+            das pessoas. Ele precisa estar disponível para consulta, aprendizado e evolução.
+        </LabAlert>
+
+        <LabSection Titulo="Por que a plataforma foi criada?">
+            <p>
+                Conhecimentos importantes frequentemente ficam distribuídos entre
+                conversas, apresentações, códigos, ferramentas, chamados e experiências
+                individuais.
+            </p>
+
+            <p>
+                O DotNetLabs nasceu para reunir essas informações em um único ambiente,
+                reduzindo a dependência de conhecimentos isolados e facilitando o
+                compartilhamento entre as áreas.
+            </p>
+        </LabSection>
+
+        <LabSection Titulo="Nossos objetivos">
+            <ul>
+                <li>Centralizar conhecimentos relevantes para o time.</li>
+                <li>Transformar conceitos técnicos em experiências práticas.</li>
+                <li>Preservar regras de negócio e decisões importantes.</li>
+                <li>Facilitar o onboarding de novos colaboradores.</li>
+                <li>Incentivar apresentações e trocas de conhecimento.</li>
+                <li>Promover colaboração entre desenvolvimento, qualidade e produto.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Quem pode contribuir?">
+            <p>
+                A plataforma não foi pensada apenas para desenvolvedores. Diferentes áreas
+                podem produzir e revisar conteúdos de acordo com suas experiências.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Desenvolvedores:</strong>
+                    .NET, C#, arquitetura, padrões, APIs, banco de dados e boas práticas.
+                </li>
+
+                <li>
+                    <strong>QAs:</strong>
+                    cenários de testes, automação, validações, ferramentas e estratégias
+                    de qualidade.
+                </li>
+
+                <li>
+                    <strong>Product Owners:</strong>
+                    regras de negócio, fluxos funcionais, Scrum e critérios de aceite.
+                </li>
+
+                <li>
+                    <strong>Demais colaboradores:</strong>
+                    processos, ferramentas, aprendizados e experiências relevantes.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Como organizamos o conhecimento?">
+            <div class="doc-knowledge-grid">
+
+                <article class="doc-knowledge-card">
+                    <span>
+                        <i class="bi bi-flask"></i>
+                        Laboratórios
+                    </span>
+
+                    <h3>Aprender praticando</h3>
+
+                    <p>
+                        Conteúdos com teoria, exemplos, código, demonstrações e experiências
+                        práticas.
+                    </p>
+                </article>
+
+                <article class="doc-knowledge-card">
+                    <span>
+                        <i class="bi bi-book"></i>
+                        Documentação
+                    </span>
+
+                    <h3>Consultar e preservar</h3>
+
+                    <p>
+                        Guias, padrões, regras, processos e informações organizadas para
+                        consulta.
+                    </p>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Princípios da plataforma">
+            <ul>
+                <li>Manter o conteúdo simples e acessível.</li>
+                <li>Priorizar experiências práticas sempre que fizer sentido.</li>
+                <li>Padronizar a criação e a apresentação dos conteúdos.</li>
+                <li>Permitir colaboração entre diferentes áreas.</li>
+                <li>Registrar melhorias relevantes como documentação ou laboratório.</li>
+                <li>Evoluir de maneira incremental, sem complexidade desnecessária.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Visão de futuro">
+            <p>
+                O DotNetLabs foi concebido para crescer junto com o time. Além dos
+                laboratórios técnicos sobre .NET e C#, a plataforma poderá reunir
+                conteúdos sobre arquitetura, regras de negócio, qualidade, processos
+                ágeis, ferramentas internas e outros assuntos relevantes.
+            </p>
+
+            <p>
+                A evolução futura também poderá incluir cadastro de conteúdos por
+                formulários, armazenamento em banco de dados, revisão, aprovação,
+                publicação e gerenciamento de colaboradores.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            Mais do que armazenar informações, o DotNetLabs busca fortalecer uma cultura
+            contínua de colaboração, documentação, experimentação e aprendizado.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("DNL-001");
+    }
+}

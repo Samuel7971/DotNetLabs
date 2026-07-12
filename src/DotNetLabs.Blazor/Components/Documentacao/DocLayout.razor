@@ -1,0 +1,135 @@
+﻿@using DotNetLabs.Shared.Laboratorios.Documentacao
+
+@if (Documento is not null)
+{
+    <div class="doc-layout">
+
+        <nav class="doc-breadcrumb"
+             aria-label="Navegação da documentação">
+
+            <a href="/documentacao">
+                Documentação
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <a href="@UrlCategoria">
+                @Documento.Categoria.Descricao()
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <span>@Documento.Codigo</span>
+
+        </nav>
+
+        <header class="doc-header">
+
+            <div class="doc-header-main">
+
+                <span class="doc-code">
+                    <i class="bi bi-file-earmark-text"></i>
+                    @Documento.Codigo
+                </span>
+
+                <span class="doc-category">
+                    @Documento.Categoria.Descricao()
+                </span>
+
+                <h1>@Documento.Titulo</h1>
+
+                @if (!string.IsNullOrWhiteSpace(Documento.Descricao))
+                {
+                    <p class="doc-description">
+                        @Documento.Descricao
+                    </p>
+                }
+
+            </div>
+
+            <div class="doc-metadata">
+
+                <div class="doc-metadata-item">
+                    <i class="bi bi-person"></i>
+
+                    <div>
+                        <span>Autor</span>
+                        <strong>@Documento.Autor</strong>
+                    </div>
+                </div>
+
+                <div class="doc-metadata-item">
+                    <i class="bi bi-clock"></i>
+
+                    <div>
+                        <span>Tempo de leitura</span>
+                        <strong>@Documento.TempoLeitura</strong>
+                    </div>
+                </div>
+
+                <div class="doc-metadata-item">
+                    <i class="bi bi-calendar3"></i>
+
+                    <div>
+                        <span>Atualizado em</span>
+                        <strong>@DataDocumentoTexto</strong>
+                    </div>
+                </div>
+
+                <div class="doc-metadata-item">
+                    <i class="bi bi-tag"></i>
+
+                    <div>
+                        <span>Versão</span>
+                        <strong>@Documento.Versao</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+        <main class="doc-content">
+            @ChildContent
+        </main>
+
+        <footer class="doc-footer">
+
+            <div>
+                <span>Documento</span>
+                <strong>
+                    @Documento.Codigo — @Documento.Titulo
+                </strong>
+            </div>
+
+            <a href="@UrlCategoria">
+                Voltar para @Documento.Categoria.Descricao()
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </footer>
+
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public MetadadosDocumento Documento { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string UrlCategoria =>
+        $"/documentacao/{Documento.Categoria.Slug()}";
+
+    private string DataDocumentoTexto
+    {
+        get
+        {
+            var data = Documento.DataAtualizacao
+                ?? Documento.DataPublicacao;
+
+            return data.ToString("MMMM 'de' yyyy");
+        }
+    }
+}

@@ -1,0 +1,130 @@
+﻿@using DotNetLabs.Shared.Laboratorios.Documentacao
+
+@if (Documento is not null)
+{
+    @if (Documento.Publicado)
+    {
+        <a class="docs-document-card"
+           href="@Documento.Url">
+
+            <div class="docs-document-code">
+                @Documento.Codigo
+            </div>
+
+            <div class="docs-document-content">
+
+                <div class="docs-document-header">
+
+                    <div>
+                        <span class="docs-document-type">
+                            @Documento.Tipo
+                        </span>
+
+                        <h3>@Documento.Titulo</h3>
+                    </div>
+
+                    <span class="docs-document-status docs-document-status--available">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <p>
+                    @Documento.Descricao
+                </p>
+
+                <div class="docs-document-footer">
+
+                    <div class="docs-document-meta">
+
+                        <span>
+                            <i class="bi bi-person"></i>
+                            @Documento.Autor
+                        </span>
+
+                        <span>
+                            <i class="bi bi-clock"></i>
+                            @Documento.TempoLeitura
+                        </span>
+
+                        <span>
+                            <i class="bi bi-calendar3"></i>
+                            @Documento.DataPublicacao.ToString("MM/yyyy")
+                        </span>
+
+                    </div>
+
+                    <strong>
+                        Abrir documento
+                        <i class="bi bi-arrow-right"></i>
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </a>
+    }
+    else
+    {
+        <article class="docs-document-card docs-document-card--disabled">
+
+            <div class="docs-document-code">
+                @Documento.Codigo
+            </div>
+
+            <div class="docs-document-content">
+
+                <div class="docs-document-header">
+
+                    <div>
+                        <span class="docs-document-type">
+                            @Documento.Tipo
+                        </span>
+
+                        <h3>@Documento.Titulo</h3>
+                    </div>
+
+                    <span class="docs-document-status docs-document-status--soon">
+                        Em breve
+                    </span>
+
+                </div>
+
+                <p>
+                    @Documento.Descricao
+                </p>
+
+                <div class="docs-document-footer">
+
+                    <div class="docs-document-meta">
+
+                        <span>
+                            <i class="bi bi-person"></i>
+                            @Documento.Autor
+                        </span>
+
+                        <span>
+                            <i class="bi bi-clock"></i>
+                            @Documento.TempoLeitura
+                        </span>
+
+                    </div>
+
+                    <strong class="docs-document-unavailable">
+                        Ainda não disponível
+                        <i class="bi bi-hourglass-split"></i>
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </article>
+    }
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public MetadadosDocumento Documento { get; set; } = default!;
+}
