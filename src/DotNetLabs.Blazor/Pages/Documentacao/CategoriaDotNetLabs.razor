@@ -1,0 +1,132 @@
+﻿@page "/documentacao/dotnetlabs"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Shared.Documentacao
+@using DotNetLabs.Shared.Enums
+
+<PageTitle>DotNetLabs | Documentação</PageTitle>
+
+<div class="docs-category-page">
+
+    <section class="docs-category-hero">
+
+        <a class="docs-back-link"
+           href="/documentacao">
+            <i class="bi bi-arrow-left"></i>
+            Voltar para documentação
+        </a>
+
+        <div class="docs-category-hero-content">
+
+            <div class="docs-category-icon">
+                <i class="bi bi-bezier2"></i>
+            </div>
+
+            <div>
+                <span class="docs-category-eyebrow">
+                    Documentação da plataforma
+                </span>
+
+                <h1>DotNetLabs</h1>
+
+                <p>
+                    Conheça a visão, os princípios, a arquitetura e os padrões que
+                    orientam a evolução da plataforma.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="docs-category-meta">
+
+            <span>
+                <i class="bi bi-file-earmark-text"></i>
+                @QuantidadeDocumentosTexto
+            </span>
+
+            <span>
+                <i class="bi bi-people"></i>
+                Conteúdo colaborativo
+            </span>
+
+            <span>
+                <i class="bi bi-arrow-repeat"></i>
+                Evolução contínua
+            </span>
+
+        </div>
+
+    </section>
+
+    <section class="docs-list-section">
+
+        <div class="docs-list-heading">
+
+            <div>
+                <span class="docs-list-label">
+                    Documentos disponíveis
+                </span>
+
+                <h2>Documentação oficial</h2>
+
+                <p>
+                    Conteúdos que explicam o propósito, a estrutura e a evolução
+                    do DotNetLabs.
+                </p>
+            </div>
+
+            <span class="docs-list-count">
+                @QuantidadeDocumentosTexto
+            </span>
+
+        </div>
+
+        <div class="docs-list">
+
+            @foreach (var documento in Documentos)
+            {
+                <DocCard Documento="documento" />
+            }
+
+        </div>
+
+    </section>
+
+    <section class="docs-category-note">
+
+        <div class="docs-category-note-icon">
+            <i class="bi bi-info-circle"></i>
+        </div>
+
+        <div>
+            <span>Sobre esta categoria</span>
+
+            <h2>
+                A documentação da plataforma cresce junto com o projeto.
+            </h2>
+
+            <p>
+                Novas decisões arquiteturais, padrões, componentes e processos
+                relevantes deverão ser registrados aqui para manter o conhecimento
+                acessível e atualizado.
+            </p>
+        </div>
+
+    </section>
+
+</div>
+
+@code {
+    private IReadOnlyList<MetadadosDocumento> Documentos { get; set; } = [];
+
+    private string QuantidadeDocumentosTexto =>
+        Documentos.Count == 1
+            ? "1 documento"
+            : $"{Documentos.Count} documentos";
+
+    protected override void OnInitialized()
+    {
+        Documentos = CatalogoDocumentos.ObterPorCategoria(
+            CategoriaDocumento.DotNetLabs);
+    }
+}

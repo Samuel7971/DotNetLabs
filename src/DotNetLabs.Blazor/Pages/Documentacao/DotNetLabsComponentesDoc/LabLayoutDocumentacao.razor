@@ -1,0 +1,294 @@
+﻿@page "/documentacao/componentes/lab-layout"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabLayout | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabLayout?">
+            <p>
+                O <code>LabLayout</code> é o componente responsável pela estrutura
+                principal de um laboratório no DotNetLabs.
+            </p>
+
+            <p>
+                Ele renderiza o cabeçalho, a categoria, o título, a descrição,
+                o nível, o tempo estimado, o seletor de modo e o conteúdo principal
+                do laboratório.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Todo laboratório deve utilizar o LabLayout como componente principal
+            da página.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                Utilize o <code>LabLayout</code> como elemento raiz do conteúdo
+                de qualquer laboratório.
+            </p>
+
+            <ul>
+                <li>Ao criar uma nova página de laboratório.</li>
+                <li>Para manter o cabeçalho padronizado.</li>
+                <li>Para exibir os metadados principais do conteúdo.</li>
+                <li>Para habilitar os modos Estudo e Apresentação.</li>
+                <li>Para fornecer o modo atual aos componentes internos.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Estrutura de um laboratório">
+            <p>
+                O <code>LabLayout</code> envolve todos os componentes que formam
+                o conteúdo do laboratório.
+            </p>
+
+            <div class="layout-structure">
+                <div class="layout-structure__item">
+                    <span>1</span>
+
+                    <div>
+                        <strong>LabLayout</strong>
+                        <p>Define a estrutura principal e os metadados.</p>
+                    </div>
+                </div>
+
+                <div class="layout-structure__item">
+                    <span>2</span>
+
+                    <div>
+                        <strong>LabObjective e LabFlow</strong>
+                        <p>Apresentam os objetivos e o fluxo de aprendizado.</p>
+                    </div>
+                </div>
+
+                <div class="layout-structure__item">
+                    <span>3</span>
+
+                    <div>
+                        <strong>LabSection</strong>
+                        <p>Organiza os assuntos e etapas do laboratório.</p>
+                    </div>
+                </div>
+
+                <div class="layout-structure__item">
+                    <span>4</span>
+
+                    <div>
+                        <strong>Componentes auxiliares</strong>
+                        <p>Alertas, códigos, demonstrações e outros recursos.</p>
+                    </div>
+                </div>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo de uso">
+            <LabCodeBlock FileName="Estrutura básica de um laboratório"
+                Language="razor"
+                Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Exemplo completo">
+            <LabCodeBlock FileName="Laboratório com conteúdo"
+                Language="razor"
+                Code="@ExemploCompleto" />
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros principais">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>
+                                Define o título principal exibido no cabeçalho
+                                do laboratório.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Descricao</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>string.Empty</code></td>
+                            <td>
+                                Define o texto introdutório exibido abaixo do título.
+                                Quando estiver vazio, a descrição não será renderizada.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Categoria</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"Laboratório"</code></td>
+                            <td>
+                                Define a categoria exibida na identificação superior
+                                do laboratório.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Nivel</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"Iniciante"</code></td>
+                            <td>
+                                Define o nível de dificuldade apresentado nos metadados.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>TempoEstimado</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"15 min"</code></td>
+                            <td>
+                                Define o tempo estimado para concluir ou apresentar
+                                o laboratório.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ChildContent</code></td>
+                            <td><code>RenderFragment</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>
+                                Recebe todo o conteúdo que será renderizado dentro
+                                do laboratório.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Funcionamento dos modos">
+            <p>
+                O <code>LabLayout</code> mantém internamente o modo atual do laboratório.
+                O valor inicial é o modo <strong>Estudo</strong>.
+            </p>
+
+            <p>
+                O <code>LabModeSelector</code> permite alterar o modo, enquanto o
+                <code>LabModeProvider</code> disponibiliza o valor para os componentes
+                internos por meio de um parâmetro em cascata.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="warning">
+            O modo atual não precisa ser informado manualmente ao utilizar o LabLayout.
+            Esse comportamento é controlado internamente pelo próprio componente.
+        </LabAlert>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>Utilize apenas um LabLayout por página de laboratório.</li>
+                <li>Informe um título claro e objetivo.</li>
+                <li>Utilize descrições curtas para contextualizar o conteúdo.</li>
+                <li>Mantenha os valores de nível padronizados.</li>
+                <li>Informe um tempo estimado realista.</li>
+                <li>Organize o conteúdo interno utilizando LabSection.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Componentes relacionados">
+            <ul>
+                <li><code>LabModeSelector</code></li>
+                <li><code>LabModeProvider</code></li>
+                <li><code>LabSection</code></li>
+                <li><code>LabObjective</code></li>
+                <li><code>LabFlow</code></li>
+                <li><code>LabAlert</code></li>
+                <li><code>LabCodeBlock</code></li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabLayout fornece a base visual e estrutural para que todos os
+            laboratórios mantenham o mesmo padrão dentro do DotNetLabs.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private const string ExemploBasico =
+        @"
+        <LabLayout
+            Titulo=""CancellationToken""
+            Descricao=""Aprenda como cancelar operações assíncronas.""
+            Categoria="".NET""
+            Nivel=""Intermediário""
+            TempoEstimado=""30 min"">
+
+            <p>Conteúdo do laboratório.</p>
+
+        </LabLayout>
+        ";
+
+    private const string ExemploCompleto =
+        @"
+        <LabLayout
+            Titulo=""CancellationToken""
+            Descricao=""Aprenda como cancelar operações assíncronas de ponta a ponta.""
+            Categoria="".NET""
+            Nivel=""Intermediário""
+            TempoEstimado=""30 min"">
+
+            <LabObjective>
+                ...
+            </LabObjective>
+
+            <LabFlow>
+                ...
+            </LabFlow>
+
+            <LabSection Titulo=""O que é CancellationToken?"">
+                <p>
+                    CancellationToken permite sinalizar que uma operação
+                    assíncrona deve ser interrompida.
+                </p>
+            </LabSection>
+
+            <LabAlert Tipo=""info"">
+                O cancelamento em .NET é cooperativo.
+            </LabAlert>
+
+            <LabCodeBlock
+                Titulo=""Exemplo""
+                Language=""csharp""
+                Code=""@CodigoExemplo"" />
+
+        </LabLayout>
+        ";
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-002");
+    }
+}

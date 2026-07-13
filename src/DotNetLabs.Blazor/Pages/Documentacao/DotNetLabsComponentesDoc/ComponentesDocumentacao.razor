@@ -1,0 +1,132 @@
+﻿@page "/documentacao/componentes"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Shared.Documentacao
+@using DotNetLabs.Shared.Enums
+
+<PageTitle>Componentes | Documentação</PageTitle>
+
+<div class="docs-category-page">
+
+    <section class="docs-category-hero">
+
+        <a class="docs-back-link"
+           href="/documentacao">
+            <i class="bi bi-arrow-left"></i>
+            Voltar para documentação
+        </a>
+
+        <div class="docs-category-hero-content">
+
+            <div class="docs-category-icon">
+                <i class="bi bi-boxes"></i>
+            </div>
+
+            <div>
+                <span class="docs-category-eyebrow">
+                    Guia técnico
+                </span>
+
+                <h1>Componentes</h1>
+
+                <p>
+                    Aprenda como utilizar os componentes reutilizáveis
+                    usados na construção dos laboratórios do DotNetLabs.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="docs-category-meta">
+
+            <span>
+                <i class="bi bi-file-earmark-text"></i>
+                @QuantidadeDocumentosTexto
+            </span>
+
+            <span>
+                <i class="bi bi-puzzle"></i>
+                Componentes reutilizáveis
+            </span>
+
+            <span>
+                <i class="bi bi-code-slash"></i>
+                Exemplos práticos
+            </span>
+
+        </div>
+
+    </section>
+
+    <section class="docs-list-section">
+
+        <div class="docs-list-heading">
+
+            <div>
+                <span class="docs-list-label">
+                    Componentes disponíveis
+                </span>
+
+                <h2>Guia de Componentes</h2>
+
+                <p>
+                    Consulte exemplos simples e objetivos para entender
+                    quando e como utilizar cada componente.
+                </p>
+            </div>
+
+            <span class="docs-list-count">
+                @QuantidadeDocumentosTexto
+            </span>
+
+        </div>
+
+        <div class="docs-list">
+
+            @foreach (var documento in Documentos)
+            {
+                <DocCard Documento="documento" />
+            }
+
+        </div>
+
+    </section>
+
+    <section class="docs-category-note">
+
+        <div class="docs-category-note-icon">
+            <i class="bi bi-info-circle"></i>
+        </div>
+
+        <div>
+            <span>Sobre esta categoria</span>
+
+            <h2>
+                Um guia simples para facilitar a criação dos laboratórios.
+            </h2>
+
+            <p>
+                Cada documento apresenta o objetivo do componente,
+                quando utilizá-lo, um exemplo de código e as propriedades
+                mais importantes.
+            </p>
+        </div>
+
+    </section>
+
+</div>
+
+@code {
+    private IReadOnlyList<MetadadosDocumento> Documentos { get; set; } = [];
+
+    private string QuantidadeDocumentosTexto =>
+        Documentos.Count == 1
+            ? "1 documento"
+            : $"{Documentos.Count} documentos";
+
+    protected override void OnInitialized()
+    {
+        Documentos = CatalogoDocumentos.ObterPorCategoria(
+            CategoriaDocumento.Componentes);
+    }
+}

@@ -1,0 +1,59 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Objective
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<section class="@ClasseObjective">
+
+    <header class="lab-objective__header">
+
+        <div class="lab-objective__title">
+
+            <span class="lab-objective__eyebrow">
+                Objetivos
+            </span>
+
+            <h3>@Titulo</h3>
+
+            @if (!string.IsNullOrWhiteSpace(Descricao))
+            {
+                <p>@Descricao</p>
+            }
+
+        </div>
+
+        <span class="lab-objective__icon">
+            <i class="bi bi-bullseye"></i>
+        </span>
+
+    </header>
+
+    <div class="lab-objective__divider"></div>
+
+    <ul class="lab-objective__list">
+        @ChildContent
+    </ul>
+
+</section>
+
+@code {
+
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; }
+
+    private string ClasseObjective => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "lab-objective lab-objective--presentation",
+        _ => "lab-objective"
+    };
+
+    [Parameter]
+    public string Titulo { get; set; } = "Objetivos deste laboratório";
+
+    [Parameter]
+    public string? Descricao { get; set; } =
+        "Ao finalizar este laboratório você será capaz de:";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+}

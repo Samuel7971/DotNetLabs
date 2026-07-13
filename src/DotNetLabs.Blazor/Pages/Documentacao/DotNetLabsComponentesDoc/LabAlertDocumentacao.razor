@@ -1,0 +1,276 @@
+﻿@page "/documentacao/componentes/lab-alert"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabAlert | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabAlert?">
+            <p>
+                O <code>LabAlert</code> é utilizado para destacar informações,
+                dicas, avisos, erros e mensagens importantes dentro de um
+                laboratório ou documento.
+            </p>
+
+            <p>
+                Ele possui estilos padronizados para diferentes tipos de mensagem,
+                mantendo a identidade visual da plataforma.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Utilize o <strong>LabAlert</strong> sempre que precisar chamar a atenção
+            do leitor para uma informação importante.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                O componente é indicado para destacar informações relevantes durante
+                a leitura do conteúdo.
+            </p>
+
+            <ul>
+                <li>Dicas para o leitor.</li>
+                <li>Boas práticas.</li>
+                <li>Alertas importantes.</li>
+                <li>Mensagens de sucesso.</li>
+                <li>Avisos de erro.</li>
+                <li>Observações relevantes.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Tipos de alerta">
+            <div class="alert-preview-list">
+
+                <div>
+                    <span class="alert-preview-label">Info</span>
+
+                    <LabAlert Tipo="info">
+                        Informações importantes para o usuário.
+                    </LabAlert>
+                </div>
+
+                <div>
+                    <span class="alert-preview-label">Success</span>
+
+                    <LabAlert Tipo="success">
+                        Operação realizada com sucesso.
+                    </LabAlert>
+                </div>
+
+                <div>
+                    <span class="alert-preview-label">Warning</span>
+
+                    <LabAlert Tipo="warning">
+                        Atenção para esta recomendação.
+                    </LabAlert>
+                </div>
+
+                <div>
+                    <span class="alert-preview-label">Danger</span>
+
+                    <LabAlert Tipo="danger">
+                        Situação de erro ou comportamento incorreto.
+                    </LabAlert>
+                </div>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo básico">
+            <LabCodeBlock
+                FileName="Utilizando LabAlert"
+                Language="razor"
+                Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Exemplo completo">
+            <LabCodeBlock
+                FileName="LabAlert com título personalizado"
+                Language="razor"
+                Code="@ExemploCompleto" />
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros principais">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"Dica"</code></td>
+                            <td>
+                                Define o título exibido acima do conteúdo do alerta.
+                                Quando estiver vazio, o título não será renderizado.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Tipo</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"info"</code></td>
+                            <td>
+                                Define o estilo visual do alerta. Os valores suportados
+                                são <code>info</code>, <code>success</code>,
+                                <code>warning</code> e <code>danger</code>.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ChildContent</code></td>
+                            <td><code>RenderFragment</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>
+                                Recebe o conteúdo que será renderizado dentro do alerta.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ModoAtual</code></td>
+                            <td><code>ModoLaboratorio</code></td>
+                            <td>Automático</td>
+                            <td><code>Estudo</code></td>
+                            <td>
+                                Recebido automaticamente pelo
+                                <code>LabModeProvider</code>. Não deve ser informado
+                                manualmente ao utilizar o componente.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Como o ícone é definido?">
+            <p>
+                O ícone é selecionado automaticamente de acordo com o valor informado
+                no parâmetro <code>Tipo</code>.
+            </p>
+
+            <div class="alert-icon-grid">
+
+                <article>
+                    <code>info</code>
+                    <span><i class="bi bi-info-circle"></i></span>
+                    <p><code>bi bi-info-circle</code></p>
+                </article>
+
+                <article>
+                    <code>success</code>
+                    <span><i class="bi bi-check-circle"></i></span>
+                    <p><code>bi bi-check-circle</code></p>
+                </article>
+
+                <article>
+                    <code>warning</code>
+                    <span><i class="bi bi-exclamation-triangle"></i></span>
+                    <p><code>bi bi-exclamation-triangle</code></p>
+                </article>
+
+                <article>
+                    <code>danger</code>
+                    <span><i class="bi bi-x-octagon"></i></span>
+                    <p><code>bi bi-x-octagon</code></p>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Observação">
+            O componente não possui um parâmetro para definir o ícone manualmente.
+            O ícone é controlado internamente pelo valor de <code>Tipo</code>.
+        </LabAlert>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>
+                    Utilize <code>info</code> para conceitos, dicas e informações gerais.
+                </li>
+
+                <li>
+                    Utilize <code>success</code> para resultados positivos e conclusões.
+                </li>
+
+                <li>
+                    Utilize <code>warning</code> para recomendações e pontos de atenção.
+                </li>
+
+                <li>
+                    Utilize <code>danger</code> para erros, riscos ou comportamentos
+                    incorretos.
+                </li>
+
+                <li>
+                    Evite utilizar muitos alertas consecutivos na mesma página.
+                </li>
+
+                <li>
+                    Prefira textos curtos e objetivos dentro do alerta.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Componentes relacionados">
+            <ul>
+                <li><code>LabLayout</code></li>
+                <li><code>LabSection</code></li>
+                <li><code>LabCodeBlock</code></li>
+                <li><code>LabModeProvider</code></li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabAlert ajuda a destacar informações importantes sem quebrar
+            a consistência visual dos laboratórios e documentos.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private const string ExemploBasico =
+        @"
+        <LabAlert Tipo=""warning"">
+            Sempre propague o CancellationToken entre as camadas.
+        </LabAlert>
+        ";
+
+    private const string ExemploCompleto =
+        @"
+        <LabAlert
+            Titulo=""Boa prática""
+            Tipo=""success"">
+
+            Utilize componentes reutilizáveis para manter
+            a padronização da plataforma.
+
+        </LabAlert>
+        ";
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-003");
+    }
+}

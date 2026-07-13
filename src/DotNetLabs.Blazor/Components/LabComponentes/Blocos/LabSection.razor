@@ -1,0 +1,52 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Blocos
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<section class="@ClasseModo">
+    <header class="lab-section__header">
+        <div class="lab-section__title-area">
+            @if (!string.IsNullOrWhiteSpace(Label))
+            {
+                <span class="lab-section__eyebrow">@Label</span>
+            }
+
+            <h2>@Titulo</h2>
+        </div>
+
+        <span class="lab-section__icon lab-section__icon--@Cor">
+            <i class="@Icone"></i>
+        </span>
+    </header>
+
+    <div class="lab-section__divider"></div>
+
+    <div class="lab-section__content">
+        @ChildContent
+    </div>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Titulo { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Cor { get; set; } = "primary";
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Icone { get; set; } = "bi bi-book";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; } = ModoLaboratorio.Estudo;
+
+    private string ClasseModo => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "lab-section lab-section--presentation",
+        _ => "lab-section"
+    };
+}

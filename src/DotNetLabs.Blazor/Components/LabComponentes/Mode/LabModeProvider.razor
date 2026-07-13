@@ -1,0 +1,15 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Mode
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums;
+
+<CascadingValue Value="ModoAtual">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public ModoLaboratorio ModoAtual { get; set; } = ModoLaboratorio.Estudo;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

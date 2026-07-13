@@ -1,0 +1,113 @@
+﻿.alert-preview-list {
+    display: grid;
+    gap: 18px;
+    margin-top: 22px;
+}
+
+    .alert-preview-list > div {
+        padding: 18px;
+        border: 1px solid var(--dl-border, #ececf4);
+        border-radius: 18px;
+        background: rgba(109, 74, 255, 0.025);
+    }
+
+.alert-preview-label {
+    display: inline-block;
+    margin-bottom: 6px;
+    color: var(--dl-primary, #6d4aff);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.component-table-wrapper {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.component-table {
+    width: 100%;
+    border: 1px solid var(--dl-border, #ececf4);
+    border-collapse: collapse;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--dl-surface, #ffffff);
+}
+
+    .component-table th,
+    .component-table td {
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--dl-border, #ececf4);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .component-table th {
+        color: var(--dl-text, #141827);
+        background: rgba(109, 74, 255, 0.06);
+        font-size: 0.82rem;
+        font-weight: 800;
+    }
+
+    .component-table td {
+        color: var(--dl-muted, #6b7280);
+        line-height: 1.6;
+    }
+
+    .component-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .component-table code {
+        color: var(--dl-primary, #6d4aff);
+        font-weight: 700;
+    }
+
+.alert-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+}
+
+    .alert-icon-grid article {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px 16px;
+        padding: 18px;
+        border: 1px solid var(--dl-border, #ececf4);
+        border-radius: 16px;
+        background: var(--dl-surface, #ffffff);
+    }
+
+        .alert-icon-grid article > code {
+            color: var(--dl-primary, #6d4aff);
+            font-weight: 800;
+        }
+
+        .alert-icon-grid article > span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: rgba(109, 74, 255, 0.1);
+            color: var(--dl-primary, #6d4aff);
+            font-size: 1rem;
+        }
+
+        .alert-icon-grid article p {
+            grid-column: 1 / -1;
+            margin: 0;
+            color: var(--dl-muted, #6b7280);
+            font-size: 0.82rem;
+        }
+
+@media (max-width: 700px) {
+    .alert-icon-grid {
+        grid-template-columns: 1fr;
+    }
+}

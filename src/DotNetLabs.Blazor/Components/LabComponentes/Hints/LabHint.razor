@@ -1,0 +1,38 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Hints
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+@if (ModoAtual != ModoLaboratorio.Apresentacao)
+{
+    <div class="@ClasseHint">
+        <i class="@Icone"></i>
+
+        <div>
+            <strong>@TituloCalculado</strong>
+
+            <div class="lab-hint-content">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; } = ModoLaboratorio.Estudo;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string TituloCalculado => ModoAtual == ModoLaboratorio.Professor
+        ? "Dica para explicar"
+        : "Dica";
+
+    private string Icone => ModoAtual == ModoLaboratorio.Professor
+        ? "bi bi-person-video3"
+        : "bi bi-lightbulb";
+
+    private string ClasseHint => ModoAtual == ModoLaboratorio.Professor
+        ? "lab-hint lab-hint-professor"
+        : "lab-hint";
+}

@@ -1,0 +1,75 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Layout
+
+@using DotNetLabs.Blazor.Components.LabComponentes.Mode
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<section class="lab-layout">
+
+    <header class="lab-header">
+        <div class="lab-header__content">
+            <span class="lab-tag">
+                <i class="bi bi-flask"></i>
+                @Categoria
+            </span>
+
+            <h1>@Titulo</h1>
+
+            @if (!string.IsNullOrWhiteSpace(Descricao))
+            {
+                <p>@Descricao</p>
+            }
+
+            <div class="lab-meta">
+                <span>
+                    <i class="bi bi-stars"></i>
+                    @Nivel
+                </span>
+
+                <span>
+                    <i class="bi bi-clock"></i>
+                    @TempoEstimado
+                </span>
+            </div>
+        </div>
+
+        <div class="lab-header__spotlight">
+            <span class="lab-header__spotlight-icon">
+                <i class="bi bi-terminal"></i>
+            </span>
+
+            <strong>Laboratório interativo</strong>
+            <p>Aprenda olhando o fluxo, lendo o código e testando na prática.</p>
+        </div>
+    </header>
+
+    <LabModeSelector @bind-ModoAtual="modoAtual" />
+
+    <LabModeProvider ModoAtual="modoAtual">
+        <main class="lab-content">
+            @ChildContent
+        </main>
+    </LabModeProvider>
+
+</section>
+
+@code {
+    private ModoLaboratorio modoAtual = ModoLaboratorio.Estudo;
+
+    [Parameter, EditorRequired]
+    public string Titulo { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Descricao { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Categoria { get; set; } = "Laboratório";
+
+    [Parameter]
+    public string Nivel { get; set; } = "Iniciante";
+
+    [Parameter]
+    public string TempoEstimado { get; set; } = "15 min";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

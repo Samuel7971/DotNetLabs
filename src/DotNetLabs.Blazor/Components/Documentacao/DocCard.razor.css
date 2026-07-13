@@ -1,6 +1,6 @@
 ﻿.docs-document-card {
     display: grid;
-    grid-template-columns: 118px minmax(0, 1fr);
+    grid-template-columns: 132px minmax(0, 1fr);
     min-height: 230px;
     overflow: hidden;
     border: 1px solid var(--dl-border, #ececf4);

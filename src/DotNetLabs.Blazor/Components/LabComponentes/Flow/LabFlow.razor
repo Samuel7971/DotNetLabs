@@ -1,0 +1,48 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Flow
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<section class="lab-flow @ClasseModo">
+    <div class="lab-flow-header">
+        <div class="lab-flow-icone">
+            <i class="@Icone"></i>
+        </div>
+
+        <div>
+            <h3>@Titulo</h3>
+
+            @if (!string.IsNullOrWhiteSpace(Descricao))
+            {
+                <p>@Descricao</p>
+            }
+        </div>
+    </div>
+
+    <div class="lab-flow-lista">
+        @ChildContent
+    </div>
+</section>
+
+@code {
+    [CascadingParameter]
+    public ModoLaboratorio ModoAtual { get; set; }
+
+    private string ClasseModo => ModoAtual switch
+    {
+        ModoLaboratorio.Apresentacao => "modo-apresentacao",
+        ModoLaboratorio.Professor => "modo-professor",
+        _ => "modo-estudo"
+    };
+
+    [Parameter]
+    public string Titulo { get; set; } = "Fluxo";
+
+    [Parameter]
+    public string? Descricao { get; set; }
+
+    [Parameter]
+    public string Icone { get; set; } = "bi bi-diagram-3";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

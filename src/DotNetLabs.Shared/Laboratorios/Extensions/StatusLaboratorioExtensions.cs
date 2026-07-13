@@ -1,4 +1,4 @@
-﻿using DotNetLabs.Shared.Laboratorios.Enums;
+﻿using DotNetLabs.Shared.Enums;
 
 namespace DotNetLabs.Shared.Laboratorios.Extensions;
 

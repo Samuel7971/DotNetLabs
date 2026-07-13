@@ -1,0 +1,170 @@
+﻿@page "/documentacao/componentes/lab-section"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabSection | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabSection?">
+            <p>
+                O <code>LabSection</code> é um componente reutilizável criado para
+                organizar o conteúdo de laboratórios e documentos em seções bem definidas.
+            </p>
+
+            <p>
+                Ele ajuda a manter títulos, espaçamento e estrutura visual consistentes
+                em diferentes páginas da plataforma.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Use o LabSection sempre que precisar separar um assunto, etapa ou explicação
+            dentro de um laboratório ou documento.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                O componente é indicado para agrupar conteúdos relacionados dentro de
+                uma mesma seção.
+            </p>
+
+            <ul>
+                <li>Explicações conceituais.</li>
+                <li>Boas práticas.</li>
+                <li>Exemplos de código.</li>
+                <li>Etapas de uma demonstração.</li>
+                <li>Observações e considerações finais.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo básico">
+            <LabCodeBlock
+                FileName="Uso do LabSection"
+                Language="razor"
+                Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Resultado esperado">
+            <div class="component-preview">
+                <LabSection Titulo="O que é CancellationToken?">
+                    <p>
+                        CancellationToken permite sinalizar que uma operação
+                        assíncrona deve ser interrompida.
+                    </p>
+                </LabSection>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros principais">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>Define o título principal exibido no cabeçalho da seção.</td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Cor</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"primary"</code></td>
+                            <td>Define a cor aplicada ao ícone da seção.</td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Label</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>string.Empty</code></td>
+                            <td>Exibe um texto acima do título (Eyebrow), utilizado para categorizar ou destacar a seção.</td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Icone</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"bi bi-book"</code></td>
+                            <td>Define o ícone exibido no lado direito do cabeçalho utilizando Bootstrap Icons.</td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ChildContent</code></td>
+                            <td><code>RenderFragment</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>Conteúdo que será renderizado dentro da seção.</td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ModoAtual</code></td>
+                            <td><code>ModoLaboratorio</code></td>
+                            <td>Automático</td>
+                            <td><code>Estudo</code></td>
+                            <td>
+                                Recebido automaticamente através do <code>LabModeProvider</code>.
+                                Não é necessário informar esse parâmetro manualmente.
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>Utilize títulos curtos e objetivos.</li>
+                <li>Evite colocar assuntos diferentes dentro da mesma seção.</li>
+                <li>Prefira várias seções pequenas em vez de uma seção extensa demais.</li>
+                <li>Mantenha uma sequência lógica entre as seções do conteúdo.</li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabSection deve simplificar a organização do conteúdo, e não adicionar
+            complexidade à página.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private const string ExemploBasico =
+        @"
+        <LabSection Titulo=""O que é CancellationToken?"">
+            <p>
+                CancellationToken permite sinalizar que uma operação
+                assíncrona deve ser interrompida.
+            </p>
+        </LabSection>
+        ";
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-001");
+    }
+}

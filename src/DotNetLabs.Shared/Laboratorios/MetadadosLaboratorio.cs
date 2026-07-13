@@ -1,5 +1,5 @@
-﻿using DotNetLabs.Shared.Laboratorios.Cards;
-using DotNetLabs.Shared.Laboratorios.Enums;
+﻿using DotNetLabs.Shared.Enums;
+using DotNetLabs.Shared.Laboratorios.Cards;
 
 namespace DotNetLabs.Shared.Laboratorios;
 

@@ -1,0 +1,74 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Mode
+
+@using DotNetLabs.Blazor.Models.Laboratorios.Enums
+
+<div class="lab-mode-card">
+    <div class="lab-mode-header">
+        <div>
+            <span class="lab-mode-eyebrow">Modo do laboratório</span>
+            <strong>@ObterTituloModo()</strong>
+        </div>
+
+        <span class="lab-mode-badge">@ObterDescricaoModo()</span>
+    </div>
+
+    <div class="lab-mode-options" role="group" aria-label="Modo do laboratório">
+        <button type="button"
+                class="@ObterClasseBotao(ModoLaboratorio.Estudo)"
+                @onclick="() => AlterarModoAsync(ModoLaboratorio.Estudo)">
+            <i class="bi bi-book"></i>
+            <span>Estudo</span>
+        </button>
+
+        <button type="button"
+                class="@ObterClasseBotao(ModoLaboratorio.Apresentacao)"
+                @onclick="() => AlterarModoAsync(ModoLaboratorio.Apresentacao)">
+            <i class="bi bi-easel"></i>
+            <span>Apresentação</span>
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ModoLaboratorio ModoAtual { get; set; } = ModoLaboratorio.Estudo;
+
+    [Parameter]
+    public EventCallback<ModoLaboratorio> ModoAtualChanged { get; set; }
+
+    private async Task AlterarModoAsync(ModoLaboratorio modo)
+    {
+        if (ModoAtual == modo)
+            return;
+
+        ModoAtual = modo;
+        await ModoAtualChanged.InvokeAsync(modo);
+    }
+
+    private string ObterClasseBotao(ModoLaboratorio modo)
+    {
+        return ModoAtual == modo
+            ? "lab-mode-option active"
+            : "lab-mode-option";
+    }
+
+    private string ObterTituloModo()
+    {
+        return ModoAtual switch
+        {
+            ModoLaboratorio.Estudo => "Estudo guiado",
+            ModoLaboratorio.Apresentacao => "Modo apresentação",
+            _ => "Estudo guiado"
+        };
+    }
+
+    private string ObterDescricaoModo()
+    {
+        return ModoAtual switch
+        {
+            ModoLaboratorio.Estudo => "Ideal para aprender passo a passo.",
+            ModoLaboratorio.Apresentacao => "Conteúdo mais direto para apresentar.",
+            _ => "Padrão"
+        };
+    }
+}
