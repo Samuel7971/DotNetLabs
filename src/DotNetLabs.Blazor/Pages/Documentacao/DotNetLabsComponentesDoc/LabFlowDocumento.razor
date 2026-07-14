@@ -1,0 +1,917 @@
+﻿@page "/documentacao/componentes/lab-flow"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Flow
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabFlow | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabFlow?">
+            <p>
+                O <code>LabFlow</code> é utilizado para representar visualmente
+                uma sequência de etapas, ações ou processos dentro de um laboratório.
+            </p>
+
+            <p>
+                Ele funciona como o contêiner principal do fluxo, enquanto cada
+                etapa é representada por um componente
+                <code>LabFlowItem</code>.
+            </p>
+
+            <p>
+                O componente pode utilizar números, ícones personalizados,
+                destaques visuais e indicadores de conclusão.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Utilize o <strong>LabFlow</strong> quando a ordem das etapas for
+            importante para a compreensão do conteúdo.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                O componente é indicado quando o laboratório precisa apresentar
+                uma sequência lógica ou visual.
+            </p>
+
+            <ul>
+                <li>Apresentar as etapas de um laboratório.</li>
+                <li>Demonstrar o fluxo de uma requisição HTTP.</li>
+                <li>Representar um pipeline de processamento.</li>
+                <li>Explicar a comunicação entre camadas.</li>
+                <li>Mostrar etapas de autenticação ou autorização.</li>
+                <li>Organizar a ordem de uma demonstração.</li>
+                <li>Representar um processo de integração.</li>
+                <li>Apresentar um roadmap de execução.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Preview do componente">
+            <div class="flow-preview">
+
+                <span class="flow-preview-label">
+                    Exemplo interativo
+                </span>
+
+                <LabFlow
+                    Titulo="Fluxo do laboratório"
+                    Descricao="Etapas utilizadas durante a apresentação">
+
+                    <LabFlowItem
+                        Numero="1"
+                        Texto="Introdução" />
+
+                    <LabFlowItem
+                        Numero="2"
+                        Texto="Conceitos principais" />
+
+                    <LabFlowItem
+                        Numero="3"
+                        Texto="Demonstração prática"
+                        Destacado="true" />
+
+                    <LabFlowItem
+                        Numero="4"
+                        Texto="Conclusão"
+                        Concluido="true" />
+
+                </LabFlow>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo básico">
+            <LabCodeBlock
+                FileName="Utilizando LabFlow"
+                Language="razor"
+                Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Exemplo completo">
+            <LabCodeBlock
+                FileName="FluxoRequisicao.razor"
+                Language="razor"
+                Code="@ExemploCompleto" />
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros do LabFlow">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"Fluxo"</code></td>
+                            <td>
+                                Define o título apresentado no cabeçalho
+                                do componente.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Descricao</code></td>
+                            <td><code>string?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Define um texto complementar exibido abaixo
+                                do título. Quando estiver vazio, a descrição
+                                não será renderizada.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Icone</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td>
+                                <code>"bi bi-diagram-3"</code>
+                            </td>
+                            <td>
+                                Define a classe do ícone exibido no cabeçalho
+                                do fluxo.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ChildContent</code></td>
+                            <td><code>RenderFragment?</code></td>
+                            <td>✅ Sim</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Recebe o conteúdo interno do fluxo, normalmente
+                                composto por elementos
+                                <code>LabFlowItem</code>.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros do LabFlowItem">
+            <div class="component-table-wrapper">
+                <table class="component-table flow-item-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Texto</code></td>
+                            <td><code>string</code></td>
+                            <td>✅ Sim</td>
+                            <td><code>string.Empty</code></td>
+                            <td>
+                                Define o texto apresentado dentro da etapa.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Icone</code></td>
+                            <td><code>string?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Define um ícone personalizado para representar
+                                visualmente a etapa.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Numero</code></td>
+                            <td><code>int?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Define o número apresentado dentro do indicador
+                                visual da etapa.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Destacado</code></td>
+                            <td><code>bool</code></td>
+                            <td>❌ Não</td>
+                            <td><code>false</code></td>
+                            <td>
+                                Aplica uma classe visual de destaque ao item.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Concluido</code></td>
+                            <td><code>bool</code></td>
+                            <td>❌ Não</td>
+                            <td><code>false</code></td>
+                            <td>
+                                Marca a etapa como concluída e substitui seu
+                                indicador visual por um ícone de confirmação.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Estrutura do componente">
+            <p>
+                O <code>LabFlow</code> funciona como o contêiner responsável
+                pelo cabeçalho e pela lista de etapas.
+            </p>
+
+            <div class="flow-structure">
+
+                <div class="flow-structure-parent">
+                    <span class="flow-structure-icon">
+                        <i class="bi bi-diagram-3"></i>
+                    </span>
+
+                    <strong>LabFlow</strong>
+
+                    <small>
+                        Contêiner principal
+                    </small>
+                </div>
+
+                <div class="flow-structure-connector">
+                    <i class="bi bi-arrow-down"></i>
+                </div>
+
+                <div class="flow-structure-items">
+
+                    <article>
+                        <span>1</span>
+
+                        <div>
+                            <strong>LabFlowItem</strong>
+                            <small>Primeira etapa</small>
+                        </div>
+                    </article>
+
+                    <article>
+                        <span>2</span>
+
+                        <div>
+                            <strong>LabFlowItem</strong>
+                            <small>Segunda etapa</small>
+                        </div>
+                    </article>
+
+                    <article>
+                        <span>3</span>
+
+                        <div>
+                            <strong>LabFlowItem</strong>
+                            <small>Terceira etapa</small>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Como os itens são renderizados?">
+            <p>
+                O parâmetro <code>ChildContent</code> recebe todos os elementos
+                adicionados entre a abertura e o fechamento do
+                <code>LabFlow</code>.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabFlow.razor"
+                Language="razor"
+                Code="@ExemploChildContent" />
+
+            <p>
+                Dessa forma, o componente principal não precisa conhecer
+                previamente a quantidade de etapas que será apresentada.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Composição de componentes">
+            O <code>LabFlow</code> controla a estrutura do fluxo, enquanto cada
+            <code>LabFlowItem</code> controla a apresentação de uma etapa.
+        </LabAlert>
+
+        <LabSection Titulo="Utilizando numeração">
+            <p>
+                O parâmetro <code>Numero</code> pode ser utilizado quando a ordem
+                das etapas precisa ficar explícita.
+            </p>
+
+            <div class="flow-example-grid">
+
+                <article>
+                    <span class="flow-example-number">1</span>
+
+                    <strong>Introdução</strong>
+
+                    <p>
+                        Apresenta o contexto inicial.
+                    </p>
+                </article>
+
+                <article>
+                    <span class="flow-example-number">2</span>
+
+                    <strong>Demonstração</strong>
+
+                    <p>
+                        Executa o exemplo prático.
+                    </p>
+                </article>
+
+                <article>
+                    <span class="flow-example-number">3</span>
+
+                    <strong>Conclusão</strong>
+
+                    <p>
+                        Finaliza o conteúdo.
+                    </p>
+                </article>
+
+            </div>
+
+            <LabCodeBlock
+                FileName="FluxoNumerado.razor"
+                Language="razor"
+                Code="@ExemploNumeracao" />
+        </LabSection>
+
+        <LabSection Titulo="Utilizando ícones personalizados">
+            <p>
+                O parâmetro <code>Icone</code> permite substituir a numeração
+                por um ícone que represente melhor a responsabilidade da etapa.
+            </p>
+
+            <div class="flow-icon-grid">
+
+                <article>
+                    <span class="flow-icon-preview">
+                        <i class="bi bi-window"></i>
+                    </span>
+
+                    <strong>Interface</strong>
+
+                    <code>bi bi-window</code>
+                </article>
+
+                <article>
+                    <span class="flow-icon-preview">
+                        <i class="bi bi-globe"></i>
+                    </span>
+
+                    <strong>API</strong>
+
+                    <code>bi bi-globe</code>
+                </article>
+
+                <article>
+                    <span class="flow-icon-preview">
+                        <i class="bi bi-gear"></i>
+                    </span>
+
+                    <strong>Service</strong>
+
+                    <code>bi bi-gear</code>
+                </article>
+
+                <article>
+                    <span class="flow-icon-preview">
+                        <i class="bi bi-database"></i>
+                    </span>
+
+                    <strong>Banco de dados</strong>
+
+                    <code>bi bi-database</code>
+                </article>
+
+            </div>
+
+            <LabCodeBlock
+                FileName="FluxoComIcones.razor"
+                Language="razor"
+                Code="@ExemploIcones" />
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Ícone opcional">
+            Quando o parâmetro <code>Icone</code> estiver vazio, o componente
+            tentará apresentar o valor informado em <code>Numero</code>.
+        </LabAlert>
+
+        <LabSection Titulo="Destacando uma etapa">
+            <p>
+                O parâmetro <code>Destacado</code> pode ser utilizado para
+                chamar atenção para uma etapa importante do fluxo.
+            </p>
+
+            <div class="flow-state-preview">
+
+                <article>
+                    <span class="flow-state-icon">
+                        <i class="bi bi-stars"></i>
+                    </span>
+
+                    <div>
+                        <strong>Etapa destacada</strong>
+
+                        <p>
+                            Indicada para o ponto central da explicação.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+
+            <LabCodeBlock
+                FileName="EtapaDestacada.razor"
+                Language="razor"
+                Code="@ExemploDestacado" />
+        </LabSection>
+
+        <LabSection Titulo="Marcando uma etapa como concluída">
+            <p>
+                Quando <code>Concluido</code> recebe o valor
+                <code>true</code>, o componente apresenta automaticamente
+                um ícone de confirmação.
+            </p>
+
+            <div class="flow-state-preview completed">
+
+                <article>
+                    <span class="flow-state-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </span>
+
+                    <div>
+                        <strong>Etapa concluída</strong>
+
+                        <p>
+                            Indica que a ação ou conteúdo já foi finalizado.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+
+            <LabCodeBlock
+                FileName="EtapaConcluida.razor"
+                Language="razor"
+                Code="@ExemploConcluido" />
+        </LabSection>
+
+        <LabSection Titulo="Como o indicador visual é escolhido?">
+            <p>
+                O <code>LabFlowItem</code> possui uma ordem de prioridade para
+                decidir qual informação será apresentada dentro do indicador.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabFlowItem.razor"
+                Language="razor"
+                Code="@ExemploPrioridadeIndicador" />
+
+            <div class="flow-priority">
+
+                <article>
+                    <span>1</span>
+
+                    <div>
+                        <strong>Concluído</strong>
+
+                        <p>
+                            Exibe o ícone de confirmação.
+                        </p>
+                    </div>
+                </article>
+
+                <i class="bi bi-arrow-down"></i>
+
+                <article>
+                    <span>2</span>
+
+                    <div>
+                        <strong>Ícone</strong>
+
+                        <p>
+                            Exibe o ícone personalizado.
+                        </p>
+                    </div>
+                </article>
+
+                <i class="bi bi-arrow-down"></i>
+
+                <article>
+                    <span>3</span>
+
+                    <div>
+                        <strong>Número</strong>
+
+                        <p>
+                            Exibe o número informado.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Prioridade do indicador">
+            Quando <code>Concluido</code> estiver como <code>true</code>, o ícone
+            de confirmação será exibido mesmo que os parâmetros
+            <code>Icone</code> ou <code>Numero</code> também tenham sido informados.
+        </LabAlert>
+
+        <LabSection Titulo="Como funciona o destaque visual?">
+            <p>
+                A propriedade <code>ClasseCard</code> adiciona dinamicamente
+                classes CSS ao item de acordo com os parâmetros
+                <code>Destacado</code> e <code>Concluido</code>.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabFlowItem.razor"
+                Language="C#"
+                Code="@ExemploClasseCard" />
+        </LabSection>
+
+        <LabSection Titulo="Integração com o modo do laboratório">
+            <p>
+                O <code>LabFlow</code> e o <code>LabFlowItem</code> recebem o
+                modo atual por meio de um
+                <code>CascadingParameter</code>.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabFlow.razor"
+                Language="C#"
+                Code="@ExemploModoLaboratorio" />
+
+            <p>
+                A partir do valor recebido, uma classe CSS específica é
+                adicionada ao componente.
+            </p>
+
+            <div class="flow-mode-grid">
+
+                <article>
+                    <span class="flow-mode-icon">
+                        <i class="bi bi-book"></i>
+                    </span>
+
+                    <strong>Modo estudo</strong>
+
+                    <code>modo-estudo</code>
+                </article>
+
+                <article>
+                    <span class="flow-mode-icon">
+                        <i class="bi bi-easel"></i>
+                    </span>
+
+                    <strong>Modo apresentação</strong>
+
+                    <code>modo-apresentacao</code>
+                </article>
+
+                <article>
+                    <span class="flow-mode-icon">
+                        <i class="bi bi-person-video3"></i>
+                    </span>
+
+                    <strong>Modo professor</strong>
+
+                    <code>modo-professor</code>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Modo automático">
+            Não é necessário informar o modo diretamente no
+            <code>LabFlow</code>. O valor é recebido automaticamente pelo
+            contexto do laboratório.
+        </LabAlert>
+
+        <LabSection Titulo="LabFlow ou LabObjective?">
+            <div class="component-comparison-grid">
+
+                <article>
+                    <span class="comparison-icon">
+                        <i class="bi bi-diagram-3"></i>
+                    </span>
+
+                    <h3>LabFlow</h3>
+
+                    <p>
+                        Utilize para representar uma sequência ordenada de
+                        etapas, ações ou processos.
+                    </p>
+
+                    <ul>
+                        <li>Possui ordem de execução.</li>
+                        <li>Representa etapas.</li>
+                        <li>Pode utilizar números ou ícones.</li>
+                        <li>Pode indicar destaque e conclusão.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <span class="comparison-icon">
+                        <i class="bi bi-bullseye"></i>
+                    </span>
+
+                    <h3>LabObjective</h3>
+
+                    <p>
+                        Utilize para apresentar os objetivos e resultados
+                        esperados do laboratório.
+                    </p>
+
+                    <ul>
+                        <li>Não depende de uma sequência.</li>
+                        <li>Representa metas de aprendizado.</li>
+                        <li>Normalmente aparece no início do laboratório.</li>
+                        <li>Não representa progresso de execução.</li>
+                    </ul>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>
+                    Organize os itens em uma sequência lógica e fácil
+                    de acompanhar.
+                </li>
+
+                <li>
+                    Utilize textos curtos e objetivos dentro das etapas.
+                </li>
+
+                <li>
+                    Prefira números quando a ordem de execução for o ponto
+                    mais importante.
+                </li>
+
+                <li>
+                    Utilize ícones quando eles ajudarem a identificar
+                    rapidamente a responsabilidade da etapa.
+                </li>
+
+                <li>
+                    Utilize <code>Destacado</code> apenas para pontos realmente
+                    importantes do fluxo.
+                </li>
+
+                <li>
+                    Utilize <code>Concluido</code> para representar uma etapa
+                    finalizada.
+                </li>
+
+                <li>
+                    Mantenha os itens relacionados ao mesmo processo ou conceito.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Cuidados importantes">
+            <ul>
+                <li>
+                    O parâmetro <code>Texto</code> deve ser informado em todos
+                    os itens.
+                </li>
+
+                <li>
+                    Quando nenhum ícone ou número for informado, o indicador
+                    visual poderá ficar sem conteúdo.
+                </li>
+
+                <li>
+                    Quando <code>Concluido</code> estiver ativo, ele terá
+                    prioridade sobre o ícone e o número.
+                </li>
+
+                <li>
+                    Evite utilizar textos longos que prejudiquem a leitura
+                    do fluxo.
+                </li>
+
+                <li>
+                    Evite criar um número excessivo de etapas dentro do mesmo
+                    componente.
+                </li>
+
+                <li>
+                    O modo do laboratório depende de um contexto em cascata.
+                    Fora desse contexto, o valor padrão do enum será utilizado.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Componentes relacionados">
+            <ul>
+                <li><code>LabFlowItem</code></li>
+                <li><code>LabObjective</code></li>
+                <li><code>LabSection</code></li>
+                <li><code>LabAlert</code></li>
+                <li><code>LabCodeBlock</code></li>
+                <li><code>LabLayout</code></li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabFlow transforma sequências e processos em uma representação
+            visual clara, facilitando o acompanhamento das etapas durante
+            estudos, demonstrações e apresentações.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private const string ExemploBasico =
+        @"
+        <LabFlow>
+            <LabFlowItem
+                Numero=""1""
+                Texto=""Introdução"" />
+
+            <LabFlowItem
+                Numero=""2""
+                Texto=""Demonstração"" />
+
+            <LabFlowItem
+                Numero=""3""
+                Texto=""Conclusão"" />
+        </LabFlow>
+        ";
+
+    private const string ExemploCompleto =
+        @"
+        <LabFlow
+            Titulo=""Fluxo da requisição""
+            Descricao=""Caminho percorrido até o banco de dados""
+            Icone=""bi bi-diagram-3"">
+
+            <LabFlowItem
+                Icone=""bi bi-window""
+                Texto=""Aplicação Blazor"" />
+
+            <LabFlowItem
+                Icone=""bi bi-globe""
+                Texto=""API ASP.NET Core"" />
+
+            <LabFlowItem
+                Icone = ""bi bi-gear""
+                Texto=""Camada de serviço""
+                Destacado=""true"" />
+
+            <LabFlowItem
+                Icone = ""bi bi-database""
+                Texto=""Banco de dados"" />
+
+            <LabFlowItem
+                Texto=""Resposta concluída""
+                Concluido=""true"" />
+
+        </LabFlow>
+        ";
+
+    private const string ExemploChildContent =
+        @"
+        <div class=""lab-flow-lista"">
+            @ChildContent
+        </div>
+        ";
+
+    private const string ExemploNumeracao =
+        @"
+        <LabFlow Titulo=""Etapas do laboratório"" >
+            <LabFlowItem
+                Numero=""1""
+                Texto=""Introdução"" />
+
+            <LabFlowItem
+                Numero=""2""
+                Texto=""Demonstração"" />
+
+            <LabFlowItem
+                Numero=""3""
+                Texto=""Conclusão"" />
+        </LabFlow>
+        ";
+
+    private const string ExemploIcones =
+        @"
+        <LabFlow Titulo=""Fluxo da aplicação"" >
+            <LabFlowItem
+                Icone=""bi bi-window""
+                Texto=""Interface"" />
+
+            <LabFlowItem
+                Icone=""bi bi-globe""
+                Texto=""API"" />
+
+            <LabFlowItem
+                Icone=""bi bi-gear""
+                Texto=""Service"" />
+
+            <LabFlowItem
+                Icone=""bi bi-database""
+                Texto=""Banco de dados"" />
+        </LabFlow>
+        ";
+
+    private const string ExemploDestacado =
+        @"
+        <LabFlowItem
+            Numero=""3""
+            Texto=""Demonstração prática""
+            Destacado=""true"" />
+        ";
+
+    private const string ExemploConcluido =
+        @"
+        <LabFlowItem
+            Numero=""4""
+            Texto=""Laboratório concluído""
+            Concluido=""true"" />
+        ";
+
+    private const string ExemploPrioridadeIndicador =
+        @"
+        @if (Concluido)
+        {
+            <i class=""bi bi-check-lg""></i>
+        }
+        else if (!string.IsNullOrWhiteSpace(Icone))
+        {
+            <i class=""@Icone""></i>
+        }
+        else if (Numero.HasValue)
+        {
+            <span>@Numero</span>
+        }";
+
+    private const string ExemploClasseCard =
+        @"
+        private string ClasseCard =>
+            $""lab-flow-card "" +
+            $""{(Destacado ? ""destacado"" : """")
+        }
+        "" +
+            $""{(Concluido? ""concluido"" : """")
+        }
+        "";
+        ";
+
+    private const string ExemploModoLaboratorio =
+        @"
+        [CascadingParameter]
+        public ModoLaboratorio ModoAtual { get; set; }
+
+        private string ClasseModo => ModoAtual switch
+        {
+            ModoLaboratorio.Apresentacao => ""modo-apresentacao"",
+            ModoLaboratorio.Professor => ""modo-professor"",
+            _ => ""modo-estudo""
+        };
+        ";
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-007");
+    }
+}

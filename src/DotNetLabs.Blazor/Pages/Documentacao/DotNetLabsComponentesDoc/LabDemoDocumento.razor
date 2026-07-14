@@ -1,0 +1,941 @@
+﻿@page "/documentacao/componentes/lab-demo"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Demo
+@using DotNetLabs.Blazor.Models
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabDemo | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabDemo?">
+            <p>
+                O <code>LabDemo</code> é utilizado para criar áreas interativas
+                dentro dos laboratórios.
+            </p>
+
+            <p>
+                Ele apresenta informações sobre a execução de uma demonstração,
+                como status atual, tempo decorrido, ações disponíveis e logs
+                gerados durante o processamento.
+            </p>
+
+            <p>
+                O componente pode ser utilizado para executar chamadas a APIs,
+                demonstrar processamentos assíncronos, cancelar operações e
+                acompanhar cada etapa por meio de registros visuais.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Utilize o <strong>LabDemo</strong> quando o laboratório possuir uma
+            demonstração prática que precise apresentar ações, status, tempo
+            de execução ou logs.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                O componente é indicado para laboratórios que possuem algum
+                tipo de execução interativa.
+            </p>
+
+            <ul>
+                <li>Executar uma chamada para uma API.</li>
+                <li>Demonstrar uma operação assíncrona.</li>
+                <li>Apresentar o uso de <code>CancellationToken</code>.</li>
+                <li>Exibir o progresso de uma tarefa.</li>
+                <li>Mostrar logs gerados durante uma execução.</li>
+                <li>Comparar diferentes resultados.</li>
+                <li>Executar simulações dentro do laboratório.</li>
+                <li>Apresentar ações como iniciar, cancelar e reiniciar.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Preview do componente">
+            <div class="demo-preview">
+
+                <span class="demo-preview-label">
+                    Exemplo interativo
+                </span>
+
+                <LabDemo
+                    Label="Laboratório prático"
+                    Titulo="Processamento com CancellationToken"
+                    Descricao="Execute uma simulação e acompanhe os logs gerados."
+                    Icone="bi bi-play-circle"
+                    Status="@StatusPreview"
+                    Tempo="@TempoPreview"
+                    Logs="@LogsPreview">
+
+                    <button class="demo-action-button primary"
+                            type="button"
+                            disabled="@ExecucaoEmAndamento"
+                            @onclick="IniciarPreview">
+                        <i class="bi bi-play-fill"></i>
+                        Iniciar
+                    </button>
+
+                    <button class="demo-action-button danger"
+                            type="button"
+                            disabled="@(!ExecucaoEmAndamento)"
+                            @onclick="CancelarPreview">
+                        <i class="bi bi-stop-fill"></i>
+                        Cancelar
+                    </button>
+
+                    <button class="demo-action-button secondary"
+                            type="button"
+                            @onclick="FinalizarPreview">
+                        <i class="bi bi-check-lg"></i>
+                        Finalizar
+                    </button>
+
+                    <button class="demo-action-button ghost"
+                            type="button"
+                            @onclick="LimparPreview">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Reiniciar
+                    </button>
+
+                </LabDemo>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo básico">
+            <LabCodeBlock
+                FileName="Utilizando LabDemo"
+                Language="razor"
+                Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Exemplo completo">
+            <LabCodeBlock
+                FileName="CancellationToken.razor"
+                Language="razor"
+                Code="@ExemploCompleto" />
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros principais">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Label</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td>
+                                <code>"Laboratório prático"</code>
+                            </td>
+                            <td>
+                                Define o pequeno texto apresentado acima
+                                do título da demonstração.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"Demonstração"</code></td>
+                            <td>
+                                Define o título principal apresentado no
+                                cabeçalho do componente.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Descricao</code></td>
+                            <td><code>string?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Define um texto complementar exibido abaixo
+                                do título. Quando estiver vazio, a descrição
+                                não será renderizada.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Icone</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td>
+                                <code>"bi bi-play-circle"</code>
+                            </td>
+                            <td>
+                                Define a classe do ícone apresentado no
+                                cabeçalho da demonstração.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Status</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"Pronto"</code></td>
+                            <td>
+                                Define o status atual da execução e controla
+                                a aparência do indicador visual.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Tempo</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"00:00:00"</code></td>
+                            <td>
+                                Define o tempo apresentado no cartão de
+                                acompanhamento da execução.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Logs</code></td>
+                            <td>
+                                <code>List&lt;LabDemoLogItem&gt;</code>
+                            </td>
+                            <td>❌ Não</td>
+                            <td><code>[]</code></td>
+                            <td>
+                                Recebe a coleção de registros que será
+                                apresentada na área de logs.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ChildContent</code></td>
+                            <td><code>RenderFragment?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Recebe os controles e ações adicionados
+                                dentro do componente.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Estrutura de um log">
+            <p>
+                Cada registro apresentado pelo componente é representado por
+                um objeto <code>LabDemoLogItem</code>.
+            </p>
+
+            <div class="component-table-wrapper">
+                <table class="component-table log-item-table">
+                    <thead>
+                        <tr>
+                            <th>Propriedade</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Mensagem</code></td>
+                            <td><code>string</code></td>
+                            <td>
+                                Define o conteúdo textual apresentado no
+                                registro.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Horario</code></td>
+                            <td><code>DateTime</code></td>
+                            <td>
+                                Define o horário do registro. O componente
+                                apresenta o valor no formato
+                                <code>HH:mm:ss</code>.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Icone</code></td>
+                            <td><code>string</code></td>
+                            <td>
+                                Define a classe do ícone apresentado ao lado
+                                da mensagem.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Criando a coleção de logs">
+            <p>
+                Os logs podem ser armazenados em uma coleção e adicionados
+                conforme a demonstração avança.
+            </p>
+
+            <LabCodeBlock
+                FileName="CancellationToken.razor"
+                Language="C#"
+                Code="@ExemploCriacaoLogs" />
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Atualização automática">
+            Quando um novo item é adicionado à coleção e o componente é
+            renderizado novamente, o registro passa a ser apresentado na
+            área de logs.
+        </LabAlert>
+
+        <LabSection Titulo="Adicionando ações">
+            <p>
+                O parâmetro <code>ChildContent</code> permite adicionar botões
+                ou outros controles dentro da área de ações do componente.
+            </p>
+
+            <LabCodeBlock
+                FileName="CancellationToken.razor"
+                Language="razor"
+                Code="@ExemploAcoes" />
+
+            <p>
+                O <code>LabDemo</code> não define quais ações devem existir.
+                Cada laboratório pode criar os controles necessários para
+                sua própria demonstração.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Conteúdo flexível">
+            Além de botões, o <code>ChildContent</code> pode receber seletores,
+            campos de entrada ou outros componentes Blazor.
+        </LabAlert>
+
+        <LabSection Titulo="Como o status visual é definido?">
+            <p>
+                A propriedade <code>ClasseStatus</code> transforma o texto
+                recebido em <code>Status</code> em uma classe CSS.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabDemo.razor"
+                Language="C#"
+                Code="@ExemploClasseStatus" />
+
+            <div class="status-grid">
+
+                <article>
+                    <span class="status-dot pronto"></span>
+
+                    <div>
+                        <strong>Pronto</strong>
+                        <code>pronto</code>
+                    </div>
+                </article>
+
+                <article>
+                    <span class="status-dot executando"></span>
+
+                    <div>
+                        <strong>Executando</strong>
+                        <code>executando</code>
+                    </div>
+                </article>
+
+                <article>
+                    <span class="status-dot cancelado"></span>
+
+                    <div>
+                        <strong>Cancelado</strong>
+                        <code>cancelado</code>
+                    </div>
+                </article>
+
+                <article>
+                    <span class="status-dot finalizado"></span>
+
+                    <div>
+                        <strong>Finalizado</strong>
+                        <code>finalizado</code>
+                    </div>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Valores reconhecidos">
+            A definição da classe depende dos textos
+            <code>Executando</code>, <code>Cancelado</code> e
+            <code>Finalizado</code>. Qualquer outro valor utilizará a classe
+            padrão <code>pronto</code>.
+        </LabAlert>
+
+        <LabSection Titulo="Como os logs são renderizados?">
+            <p>
+                A área de logs somente é apresentada quando a coleção possui
+                pelo menos um registro.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabDemo.razor"
+                Language="razor"
+                Code="@ExemploRenderizacaoLogs" />
+
+            <p>
+                Cada item apresenta o ícone, o horário e a mensagem informada
+                pelo laboratório.
+            </p>
+        </LabSection>
+
+        <LabSection Titulo="Estado sem registros">
+            <p>
+                Quando a coleção <code>Logs</code> estiver vazia, toda a área
+                de registros será omitida.
+            </p>
+
+            <div class="empty-state-preview">
+
+                <span class="empty-state-icon">
+                    <i class="bi bi-terminal"></i>
+                </span>
+
+                <div>
+                    <strong>Nenhum log registrado</strong>
+
+                    <p>
+                        A área será exibida depois que a execução gerar
+                        seu primeiro registro.
+                    </p>
+                </div>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Controlando o tempo">
+            <p>
+                O <code>LabDemo</code> apenas apresenta o texto recebido pelo
+                parâmetro <code>Tempo</code>.
+            </p>
+
+            <p>
+                O controle do cronômetro deve ser realizado pela página ou
+                componente responsável pela demonstração.
+            </p>
+
+            <LabCodeBlock
+                FileName="CancellationToken.razor"
+                Language="C#"
+                Code="@ExemploTempo" />
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Cronômetro externo">
+            O componente não inicia ou atualiza o tempo automaticamente.
+            A página deve calcular o valor e atualizar o parâmetro
+            <code>Tempo</code>.
+        </LabAlert>
+
+        <LabSection Titulo="Executando uma demonstração">
+            <p>
+                Uma implementação pode alterar o status, limpar registros
+                antigos e adicionar novos logs antes de iniciar a operação.
+            </p>
+
+            <LabCodeBlock
+                FileName="CancellationToken.razor"
+                Language="C#"
+                Code="@ExemploExecucao" />
+        </LabSection>
+
+        <LabSection Titulo="Cancelando uma demonstração">
+            <p>
+                Em demonstrações assíncronas, o botão de cancelamento pode
+                utilizar um <code>CancellationTokenSource</code>.
+            </p>
+
+            <LabCodeBlock
+                FileName="CancellationToken.razor"
+                Language="C#"
+                Code="@ExemploCancelamento" />
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Responsabilidade da página">
+            O <code>LabDemo</code> apresenta o estado da execução, mas a lógica
+            de iniciar, cancelar e finalizar pertence à página do laboratório.
+        </LabAlert>
+
+        <LabSection Titulo="Integração com o modo do laboratório">
+            <p>
+                O componente recebe automaticamente o modo atual por meio
+                de um <code>CascadingParameter</code>.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabDemo.razor"
+                Language="C#"
+                Code="@ExemploModoLaboratorio" />
+
+            <div class="demo-mode-grid">
+
+                <article>
+                    <span class="demo-mode-icon">
+                        <i class="bi bi-book"></i>
+                    </span>
+
+                    <strong>Modo estudo</strong>
+
+                    <code>modo-estudo</code>
+                </article>
+
+                <article>
+                    <span class="demo-mode-icon">
+                        <i class="bi bi-easel"></i>
+                    </span>
+
+                    <strong>Modo apresentação</strong>
+
+                    <code>modo-apresentacao</code>
+                </article>
+
+                <article>
+                    <span class="demo-mode-icon">
+                        <i class="bi bi-person-video3"></i>
+                    </span>
+
+                    <strong>Modo professor</strong>
+
+                    <code>modo-professor</code>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Modo automático">
+            Não é necessário informar o modo diretamente no
+            <code>LabDemo</code>. O valor é recebido pelo contexto do
+            laboratório.
+        </LabAlert>
+
+        <LabSection Titulo="LabDemo ou LabCodeBlock?">
+            <div class="component-comparison-grid">
+
+                <article>
+                    <span class="comparison-icon">
+                        <i class="bi bi-play-circle"></i>
+                    </span>
+
+                    <h3>LabDemo</h3>
+
+                    <p>
+                        Utilize quando o usuário puder interagir com uma
+                        demonstração e acompanhar sua execução.
+                    </p>
+
+                    <ul>
+                        <li>Possui ações interativas.</li>
+                        <li>Apresenta status e tempo.</li>
+                        <li>Pode exibir logs.</li>
+                        <li>Representa uma execução real.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <span class="comparison-icon">
+                        <i class="bi bi-file-earmark-code"></i>
+                    </span>
+
+                    <h3>LabCodeBlock</h3>
+
+                    <p>
+                        Utilize quando o objetivo for apenas apresentar um
+                        trecho de código para leitura.
+                    </p>
+
+                    <ul>
+                        <li>Apresenta código como texto.</li>
+                        <li>Não executa operações.</li>
+                        <li>Não possui status.</li>
+                        <li>Não apresenta logs de execução.</li>
+                    </ul>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>
+                    Utilize títulos e descrições que deixem claro o objetivo
+                    da demonstração.
+                </li>
+
+                <li>
+                    Atualize o status sempre que o estado da operação mudar.
+                </li>
+
+                <li>
+                    Registre apenas eventos relevantes para o aprendizado.
+                </li>
+
+                <li>
+                    Utilize mensagens de log curtas e fáceis de compreender.
+                </li>
+
+                <li>
+                    Escolha ícones que representem corretamente cada registro.
+                </li>
+
+                <li>
+                    Desabilite ações que não possam ser executadas no estado
+                    atual.
+                </li>
+
+                <li>
+                    Limpe estados anteriores antes de iniciar uma nova execução.
+                </li>
+
+                <li>
+                    Trate operações canceladas separadamente de falhas.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Cuidados importantes">
+            <ul>
+                <li>
+                    O componente não executa nenhuma operação automaticamente.
+                </li>
+
+                <li>
+                    O controle do tempo deve ser realizado pela página.
+                </li>
+
+                <li>
+                    A coleção <code>Logs</code> deve ser inicializada antes
+                    de ser enviada ao componente.
+                </li>
+
+                <li>
+                    Os textos de status devem seguir os valores esperados para
+                    receberem as classes visuais corretas.
+                </li>
+
+                <li>
+                    Evite gerar uma quantidade excessiva de logs durante
+                    operações muito longas.
+                </li>
+
+                <li>
+                    Evite bloquear a interface com operações síncronas.
+                </li>
+
+                <li>
+                    Ao utilizar recursos descartáveis, como
+                    <code>CancellationTokenSource</code>, realize o descarte
+                    corretamente.
+                </li>
+
+                <li>
+                    O modo do laboratório depende de um contexto em cascata.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Componentes relacionados">
+            <ul>
+                <li><code>LabDemoLogItem</code></li>
+                <li><code>LabCodeBlock</code></li>
+                <li><code>LabCodeTabs</code></li>
+                <li><code>LabFlow</code></li>
+                <li><code>LabAlert</code></li>
+                <li><code>LabSection</code></li>
+                <li><code>LabLayout</code></li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabDemo transforma exemplos teóricos em experiências interativas,
+            permitindo executar operações, acompanhar estados e visualizar
+            logs diretamente dentro do laboratório.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private string StatusPreview { get; set; } = "Pronto";
+
+    private string TempoPreview { get; set; } = "00:00:00";
+
+    private bool ExecucaoEmAndamento { get; set; }
+
+    private List<LabDemoLogItem> LogsPreview { get; set; } = [];
+
+    private const string ExemploBasico =
+        @"
+        <LabDemo
+            Titulo=""Executar demonstração""
+            Status=""Pronto""
+            Tempo=""00:00:00""
+            Logs=""@Logs"">
+        </LabDemo>
+        ";
+
+    private const string ExemploCompleto =
+        @"
+        <LabDemo
+            Label=""Laboratório prático""
+            Titulo=""Processamento com CancellationToken""
+            Descricao=""Execute a operação e acompanhe os registros.""
+            Icone=""bi bi-play-circle""
+            Status=""@Status""
+            Tempo=""@Tempo""
+            Logs=""@Logs"">
+
+            <button type=""button""
+                    @onclick=""IniciarAsync"">
+                Iniciar
+            </button>
+
+            <button type=""button""
+                    @onclick=""Cancelar"">
+                Cancelar
+            </button>
+
+        </LabDemo>
+
+        @code {
+            private string Status { get; set; } = ""Pronto"";
+
+            private string Tempo { get; set; } = ""00:00:00"";
+
+            private List<LabDemoLogItem> Logs { get; set; } = [];
+        }
+        ";
+
+    private const string ExemploCriacaoLogs =
+        @"
+        private List<LabDemoLogItem> Logs { get; set; } = [];
+
+        private void AdicionarLog(
+            string mensagem,
+            string icone)
+        {
+            Logs.Add(new LabDemoLogItem
+            {
+                Mensagem = mensagem,
+                Horario = DateTime.Now,
+                Icone = icone
+            });
+        }
+        ";
+
+    private const string ExemploAcoes =
+        @"
+        <LabDemo
+            Status=""@Status""
+            Tempo=""@Tempo""
+            Logs=""@Logs"">
+
+            <button type=""button""
+                    @onclick=""IniciarAsync"">
+                Iniciar
+            </button>
+
+            <button type=""button""
+                    @onclick=""Cancelar"">
+                Cancelar
+            </button>
+
+        </LabDemo>
+        ";
+
+    private const string ExemploClasseStatus =
+        @"
+        private string ClasseStatus => Status.ToLowerInvariant() switch
+        {
+            ""executando"" => ""executando"",
+            ""cancelado"" => ""cancelado"",
+            ""finalizado"" => ""finalizado"",
+            _ => ""pronto""
+        };
+        ";
+
+    private const string ExemploRenderizacaoLogs =
+        @"
+        @if (Logs.Any())
+        {
+            <div class=""lab-demo-logs"">
+                <div class=""lab-demo-logs-header"">
+                    <span>Logs da execução</span>
+                    <small>@Logs.Count registro(s)</small>
+                </div>
+
+                <div class=""lab-demo-logs-list"">
+                    @foreach (var log in Logs)
+                    {
+                        <div class=""lab-demo-log-item"">
+                            <i class=""@log.Icone""></i>
+
+                            <div>
+                                <time>
+                                    @log.Horario.ToString(""HH:mm:ss"")
+                                </time>
+
+                                <p>@log.Mensagem</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        ";
+
+    private const string ExemploTempo =
+        @"
+        private DateTime? InicioExecucao { get; set; }
+
+        private string Tempo =>
+            InicioExecucao is null
+                ? ""00:00:00""
+                : (DateTime.Now - InicioExecucao.Value)
+                    .ToString(@""hh\:mm\:ss"");
+        ";
+
+    private const string ExemploExecucao =
+        @"
+        private async Task IniciarAsync()
+        {
+            Status = ""Executando"";
+            Logs.Clear();
+
+            AdicionarLog(
+                ""Execução iniciada."",
+                ""bi bi-play-fill"");
+
+            try
+            {
+                await _service.ProcessarAsync();
+
+                Status = ""Finalizado"";
+
+                AdicionarLog(
+                    ""Execução finalizada com sucesso."",
+                    ""bi bi-check-circle"");
+            }
+            catch (Exception ex)
+            {
+                Status = ""Pronto"";
+
+                AdicionarLog(
+                    ex.Message,
+                    ""bi bi-exclamation-triangle"");
+            }
+        }
+        ";
+
+    private const string ExemploCancelamento =
+        @"
+        private CancellationTokenSource? _cancellationTokenSource;
+
+        private void Cancelar()
+        {
+            _cancellationTokenSource?.Cancel();
+
+            Status = ""Cancelado"";
+
+            AdicionarLog(
+                ""Cancelamento solicitado."",
+                ""bi bi-stop-circle"");
+        }";
+
+    private const string ExemploModoLaboratorio =
+        @"
+        [CascadingParameter]
+        public ModoLaboratorio ModoAtual { get; set; }
+
+        private string ClasseModo => ModoAtual switch
+        {
+            ModoLaboratorio.Apresentacao => ""modo-apresentacao"",
+            ModoLaboratorio.Professor => ""modo-professor"",
+            _ => ""modo-estudo""
+        };
+        ";
+
+    private void IniciarPreview()
+    {
+        ExecucaoEmAndamento = true;
+        StatusPreview = "Executando";
+        TempoPreview = "00:00:01";
+
+        LogsPreview.Add(new LabDemoLogItem
+        {
+            Horario = DateTime.Now,
+            Mensagem = "Execução iniciada pelo usuário.",
+            Icone = "bi bi-play-fill"
+        });
+
+        LogsPreview.Add(new LabDemoLogItem
+        {
+            Horario = DateTime.Now,
+            Mensagem = "Processamento assíncrono em andamento.",
+            Icone = "bi bi-hourglass-split"
+        });
+    }
+
+    private void CancelarPreview()
+    {
+        ExecucaoEmAndamento = false;
+        StatusPreview = "Cancelado";
+        TempoPreview = "00:00:02";
+
+        LogsPreview.Add(new LabDemoLogItem
+        {
+            Horario = DateTime.Now,
+            Mensagem = "Cancelamento solicitado pelo usuário.",
+            Icone = "bi bi-stop-circle"
+        });
+    }
+
+    private void FinalizarPreview()
+    {
+        ExecucaoEmAndamento = false;
+        StatusPreview = "Finalizado";
+        TempoPreview = "00:00:03";
+
+        LogsPreview.Add(new LabDemoLogItem
+        {
+            Horario = DateTime.Now,
+            Mensagem = "Execução finalizada com sucesso.",
+            Icone = "bi bi-check-circle"
+        });
+    }
+
+    private void LimparPreview()
+    {
+        ExecucaoEmAndamento = false;
+        StatusPreview = "Pronto";
+        TempoPreview = "00:00:00";
+        LogsPreview.Clear();
+    }
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-008");
+    }
+}

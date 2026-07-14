@@ -1,0 +1,429 @@
+﻿@page "/documentacao/componentes/lab-code-block"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabCodeBlock | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabCodeBlock?">
+            <p>
+                O <code>LabCodeBlock</code> é utilizado para apresentar exemplos
+                de código dentro dos laboratórios e documentos do DotNetLabs.
+            </p>
+
+            <p>
+                Ele exibe o nome do arquivo, a linguagem utilizada, o conteúdo
+                do código e um botão que permite copiar todo o exemplo apresentado.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Utilize o <strong>LabCodeBlock</strong> para manter os exemplos de
+            código padronizados, organizados e fáceis de copiar.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                O componente é indicado sempre que uma seção precisar apresentar
+                um trecho de código isolado.
+            </p>
+
+            <ul>
+                <li>Exibir uma classe completa.</li>
+                <li>Apresentar um método ou serviço.</li>
+                <li>Demonstrar uma configuração do projeto.</li>
+                <li>Mostrar consultas SQL.</li>
+                <li>Apresentar exemplos Razor ou JavaScript.</li>
+                <li>Disponibilizar código que poderá ser copiado pelo leitor.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Preview do componente">
+            <div class="code-block-preview">
+
+                <span class="code-block-preview-label">
+                    Exemplo renderizado
+                </span>
+
+                <LabCodeBlock FileName="CancellationTokenService.cs"
+                              Language="C#"
+                              Code="@CodigoPreview" />
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo básico">
+            <LabCodeBlock FileName="Utilizando LabCodeBlock"
+                          Language="razor"
+                          Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Exemplo completo">
+            <LabCodeBlock FileName="LabCodeBlock com código C#"
+                          Language="razor"
+                          Code="@ExemploCompleto" />
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros principais">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>FileName</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"Program.cs"</code></td>
+                            <td>
+                                Define o nome do arquivo exibido no cabeçalho
+                                do bloco de código.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Language</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td><code>"C#"</code></td>
+                            <td>
+                                Define a linguagem exibida ao lado do nome
+                                do arquivo.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Code</code></td>
+                            <td><code>string?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Recebe o conteúdo que será apresentado dentro
+                                do bloco de código.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ModoAtual</code></td>
+                            <td><code>ModoLaboratorio</code></td>
+                            <td>Automático</td>
+                            <td><code>Estudo</code></td>
+                            <td>
+                                Recebido automaticamente pelo
+                                <code>LabModeProvider</code>. Não deve ser informado
+                                manualmente ao utilizar o componente.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Como funciona a cópia do código?">
+            <p>
+                O componente utiliza o <code>IJSRuntime</code> para chamar uma
+                função JavaScript responsável por copiar o conteúdo renderizado.
+            </p>
+
+            <LabCodeBlock FileName="LabCodeBlock.razor"
+                          Language="C#"
+                          Code="@ExemploCopia" />
+
+            <p>
+                O elemento <code>pre</code> é armazenado em uma referência e
+                enviado para a função JavaScript
+                <code>dotNetLabs.code.copyFromElement</code>.
+            </p>
+
+            <p>
+                Após a cópia, o botão apresenta temporariamente o texto
+                <strong>Copiado</strong> e o ícone de confirmação.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Dependência JavaScript">
+            Para que o botão de cópia funcione, a função
+            <code>dotNetLabs.code.copyFromElement</code> precisa estar registrada
+            e carregada pela aplicação.
+        </LabAlert>
+
+        <LabSection Titulo="Estados do botão de cópia">
+            <p>
+                O conteúdo do botão é alterado automaticamente de acordo com
+                o valor da propriedade interna <code>_copiado</code>.
+            </p>
+
+            <div class="copy-state-grid">
+
+                <article class="copy-state-card">
+                    <span class="copy-state-title">Estado inicial</span>
+
+                    <div class="copy-state-button">
+                        <i class="bi bi-clipboard"></i>
+                        <span>Copiar</span>
+                    </div>
+
+                    <p>
+                        Exibido antes de o usuário copiar o código.
+                    </p>
+                </article>
+
+                <article class="copy-state-card">
+                    <span class="copy-state-title">Código copiado</span>
+
+                    <div class="copy-state-button copied">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Copiado</span>
+                    </div>
+
+                    <p>
+                        Exibido durante aproximadamente 1,8 segundo após a cópia.
+                    </p>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Comportamento no modo apresentação">
+            <p>
+                O componente recebe automaticamente o modo atual do laboratório
+                por meio do parâmetro em cascata <code>ModoAtual</code>.
+            </p>
+
+            <p>
+                Quando o laboratório está no modo
+                <code>ModoLaboratorio.Apresentacao</code>, a classe CSS
+                <code>presentation</code> é adicionada ao elemento principal.
+            </p>
+
+            <LabCodeBlock FileName="LabCodeBlock.razor"
+                          Language="C#"
+                          Code="@ExemploModoApresentacao" />
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Modo automático">
+            O valor de <code>ModoAtual</code> é fornecido pelo contexto do
+            laboratório e não precisa ser informado ao utilizar o componente.
+        </LabAlert>
+
+        <LabSection Titulo="Linguagens recomendadas">
+            <p>
+                O parâmetro <code>Language</code> é apenas uma identificação
+                visual apresentada no cabeçalho.
+            </p>
+
+            <div class="language-grid">
+
+                <article>
+                    <i class="bi bi-filetype-cs"></i>
+                    <strong>C#</strong>
+                    <code>Language="C#"</code>
+                </article>
+
+                <article>
+                    <i class="bi bi-filetype-html"></i>
+                    <strong>Razor</strong>
+                    <code>Language="razor"</code>
+                </article>
+
+                <article>
+                    <i class="bi bi-database"></i>
+                    <strong>SQL</strong>
+                    <code>Language="sql"</code>
+                </article>
+
+                <article>
+                    <i class="bi bi-filetype-js"></i>
+                    <strong>JavaScript</strong>
+                    <code>Language="javascript"</code>
+                </article>
+
+                <article>
+                    <i class="bi bi-braces"></i>
+                    <strong>JSON</strong>
+                    <code>Language="json"</code>
+                </article>
+
+                <article>
+                    <i class="bi bi-terminal"></i>
+                    <strong>Terminal</strong>
+                    <code>Language="bash"</code>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Observação">
+            O parâmetro <code>Language</code> não aplica syntax highlighting
+            automaticamente. Atualmente, ele apenas informa visualmente qual é
+            a linguagem do exemplo.
+        </LabAlert>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>
+                    Utilize um nome de arquivo que ajude o leitor a identificar
+                    onde o código deve ser implementado.
+                </li>
+
+                <li>
+                    Informe a linguagem de maneira consistente em toda
+                    a documentação.
+                </li>
+
+                <li>
+                    Mantenha o exemplo focado no conceito que está sendo explicado.
+                </li>
+
+                <li>
+                    Evite blocos muito grandes quando apenas uma parte da
+                    implementação for relevante.
+                </li>
+
+                <li>
+                    Remova códigos que não contribuam para o entendimento
+                    do exemplo.
+                </li>
+
+                <li>
+                    Quando houver vários arquivos relacionados, utilize
+                    o componente <code>LabCodeTabs</code>.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Cuidados importantes">
+            <ul>
+                <li>
+                    O parâmetro <code>Code</code> aceita valores nulos e poderá
+                    renderizar um bloco sem conteúdo.
+                </li>
+
+                <li>
+                    A função JavaScript de cópia precisa estar disponível
+                    antes de o botão ser utilizado.
+                </li>
+
+                <li>
+                    O conteúdo enviado para <code>Code</code> será exibido como
+                    texto e não será executado pelo componente.
+                </li>
+
+                <li>
+                    Dentro de formulários, o botão de cópia deve possuir
+                    <code>type="button"</code> para não enviar o formulário.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Componentes relacionados">
+            <ul>
+                <li><code>LabLayout</code></li>
+                <li><code>LabSection</code></li>
+                <li><code>LabAlert</code></li>
+                <li><code>LabCodeTabs</code></li>
+                <li><code>LabModeProvider</code></li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabCodeBlock padroniza a apresentação dos exemplos de código
+            e facilita a utilização prática dos conteúdos do DotNetLabs.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private const string CodigoPreview =
+        @"
+        public async Task ProcessarAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await Task.Delay(
+                TimeSpan.FromSeconds(2),
+                cancellationToken);
+        }
+        ";
+
+    private const string ExemploBasico =
+        @"
+        <LabCodeBlock
+            FileName=""Program.cs""
+            Language=""C#""
+            Code=""@CodigoExemplo"" />
+        ";
+
+    private const string ExemploCompleto =
+        @"
+        <LabCodeBlock
+            FileName=""CancellationTokenService.cs""
+            Language=""C#""
+            Code=""@CodigoCancellationToken"" />
+
+        @code {
+            private const string CodigoCancellationToken =
+                @""public async Task ProcessarAsync(
+                    CancellationToken cancellationToken)
+                {
+                    await Task.Delay(
+                        2000,
+                        cancellationToken);
+                }"";
+        }
+        ";
+
+    private const string ExemploCopia =
+        @"
+        private async Task CopiarCodigoAsync()
+        {
+            await JS.InvokeVoidAsync(
+                ""dotNetLabs.code.copyFromElement"",
+                _preElement);
+
+            _copiado = true;
+
+            StateHasChanged();
+
+            await Task.Delay(1800);
+
+            _copiado = false;
+
+            StateHasChanged();
+        }
+        ";
+
+    private const string ExemploModoApresentacao =
+        @"
+        [CascadingParameter]
+        public ModoLaboratorio ModoAtual { get; set; }
+
+        private string ClasseCodeBlock =>
+            ModoAtual == ModoLaboratorio.Apresentacao
+                ? ""lab-code-block presentation""
+                : ""lab-code-block"";
+        ";
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-004");
+    }
+}

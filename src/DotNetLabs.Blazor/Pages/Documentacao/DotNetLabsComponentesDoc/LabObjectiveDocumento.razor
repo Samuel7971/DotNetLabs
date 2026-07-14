@@ -1,0 +1,549 @@
+﻿@page "/documentacao/componentes/lab-objective"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Objective
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabObjective | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabObjective?">
+            <p>
+                O <code>LabObjective</code> é utilizado para apresentar os
+                objetivos de aprendizagem de um laboratório.
+            </p>
+
+            <p>
+                Ele organiza as competências e os conhecimentos que o leitor
+                deverá adquirir ao concluir o conteúdo.
+            </p>
+
+            <p>
+                Cada objetivo é representado por um componente
+                <code>LabObjectiveItem</code>.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Utilize o <strong>LabObjective</strong> no início do laboratório
+            para deixar claro o que será aprendido durante a atividade.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                O componente é indicado para apresentar os resultados esperados
+                de um laboratório ou conteúdo técnico.
+            </p>
+
+            <ul>
+                <li>Definir os conhecimentos que serão adquiridos.</li>
+                <li>Apresentar habilidades que serão praticadas.</li>
+                <li>Orientar o leitor sobre o propósito do laboratório.</li>
+                <li>Estabelecer expectativas antes da demonstração.</li>
+                <li>Resumir os principais pontos de aprendizagem.</li>
+                <li>Facilitar a preparação de apresentações técnicas.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Preview do componente">
+            <div class="objective-preview">
+
+                <span class="objective-preview-label">
+                    Exemplo renderizado
+                </span>
+
+                <LabObjective Titulo="Objetivos do laboratório"
+                              Descricao="Ao finalizar este laboratório você será capaz de:">
+
+                    <LabObjectiveItem>
+                        Entender o funcionamento do
+                        <code>CancellationToken</code>.
+                    </LabObjectiveItem>
+
+                    <LabObjectiveItem>
+                        Propagar o token entre Controller, Service e Repository.
+                    </LabObjectiveItem>
+
+                    <LabObjectiveItem>
+                        Cancelar operações assíncronas de forma cooperativa.
+                    </LabObjectiveItem>
+
+                    <LabObjectiveItem>
+                        Aplicar boas práticas em aplicações ASP.NET Core.
+                    </LabObjectiveItem>
+
+                </LabObjective>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo básico">
+            <LabCodeBlock FileName="Utilizando LabObjective"
+                          Language="razor"
+                          Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Exemplo completo">
+            <LabCodeBlock FileName="CancellationToken.razor"
+                          Language="razor"
+                          Code="@ExemploCompleto" />
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros do LabObjective">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td>
+                                <code>"Objetivos deste laboratório"</code>
+                            </td>
+                            <td>
+                                Define o título principal exibido no cabeçalho
+                                do componente.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Descricao</code></td>
+                            <td><code>string?</code></td>
+                            <td>❌ Não</td>
+                            <td>
+                                <code>
+                                    "Ao finalizar este laboratório você será capaz de:"
+                                </code>
+                            </td>
+                            <td>
+                                Define o texto complementar exibido abaixo do
+                                título. Quando estiver vazio, a descrição não
+                                será renderizada.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ChildContent</code></td>
+                            <td><code>RenderFragment?</code></td>
+                            <td>✅ Sim</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Recebe os itens que serão apresentados dentro
+                                da lista de objetivos.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>ModoAtual</code></td>
+                            <td><code>ModoLaboratorio</code></td>
+                            <td>Automático</td>
+                            <td><code>Estudo</code></td>
+                            <td>
+                                Recebido automaticamente pelo contexto do
+                                laboratório. Não deve ser informado manualmente.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros do LabObjectiveItem">
+            <p>
+                O <code>LabObjectiveItem</code> representa cada objetivo
+                individual exibido dentro da lista.
+            </p>
+
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>ChildContent</code></td>
+                            <td><code>RenderFragment?</code></td>
+                            <td>✅ Sim</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Recebe o texto ou conteúdo Razor apresentado
+                                dentro do item de objetivo.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Como os itens são organizados?">
+            <p>
+                O conteúdo recebido pelo <code>LabObjective</code> é
+                renderizado dentro de uma lista HTML.
+            </p>
+
+            <LabCodeBlock FileName="LabObjective.razor"
+                          Language="razor"
+                          Code="@ExemploListaObjetivos" />
+
+            <p>
+                Cada <code>LabObjectiveItem</code> gera um elemento
+                <code>li</code>, mantendo a estrutura semântica da lista.
+            </p>
+
+            <LabCodeBlock FileName="LabObjectiveItem.razor"
+                          Language="razor"
+                          Code="@ExemploObjectiveItem" />
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Composição de componentes">
+            O <code>LabObjective</code> define o contêiner da lista, enquanto
+            o <code>LabObjectiveItem</code> representa cada objetivo apresentado.
+        </LabAlert>
+
+        <LabSection Titulo="Título e descrição">
+            <p>
+                O componente possui um título e uma descrição padrão, permitindo
+                que seja utilizado sem a necessidade de configurar esses textos.
+            </p>
+
+            <div class="objective-text-grid">
+
+                <article>
+                    <span class="objective-text-icon">
+                        <i class="bi bi-type-h1"></i>
+                    </span>
+
+                    <h3>Título</h3>
+
+                    <code>Objetivos deste laboratório</code>
+
+                    <p>
+                        Apresenta o propósito principal da seção.
+                    </p>
+                </article>
+
+                <article>
+                    <span class="objective-text-icon">
+                        <i class="bi bi-text-paragraph"></i>
+                    </span>
+
+                    <h3>Descrição</h3>
+
+                    <code>
+                        Ao finalizar este laboratório você será capaz de:
+                    </code>
+
+                    <p>
+                        Introduz a lista de conhecimentos esperados.
+                    </p>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Descrição opcional">
+            Quando o parâmetro <code>Descricao</code> estiver vazio ou contiver
+            apenas espaços, o elemento de descrição não será renderizado.
+        </LabAlert>
+
+        <LabSection Titulo="Conteúdo personalizado">
+            <p>
+                Como o <code>LabObjectiveItem</code> utiliza um
+                <code>RenderFragment</code>, ele pode receber texto simples,
+                elementos HTML e outros conteúdos Razor.
+            </p>
+
+            <LabCodeBlock FileName="ObjetivosPersonalizados.razor"
+                          Language="razor"
+                          Code="@ExemploConteudoPersonalizado" />
+
+            <p>
+                Isso permite destacar classes, métodos, conceitos e termos
+                importantes dentro do próprio objetivo.
+            </p>
+        </LabSection>
+
+        <LabSection Titulo="Comportamento no modo apresentação">
+            <p>
+                O componente recebe automaticamente o modo atual do laboratório
+                por meio do parâmetro em cascata <code>ModoAtual</code>.
+            </p>
+
+            <p>
+                Quando o modo atual é
+                <code>ModoLaboratorio.Apresentacao</code>, a classe
+                <code>lab-objective--presentation</code> é adicionada ao
+                componente.
+            </p>
+
+            <LabCodeBlock FileName="LabObjective.razor"
+                          Language="C#"
+                          Code="@ExemploModoApresentacao" />
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Modo automático">
+            O modo atual é fornecido pelo contexto do laboratório e não deve
+            ser informado diretamente ao utilizar o componente.
+        </LabAlert>
+
+        <LabSection Titulo="Estrutura visual">
+            <div class="objective-structure-grid">
+
+                <article>
+                    <span>
+                        <i class="bi bi-fonts"></i>
+                    </span>
+
+                    <strong>Eyebrow</strong>
+
+                    <p>
+                        Apresenta o texto fixo <strong>Objetivos</strong>
+                        acima do título.
+                    </p>
+                </article>
+
+                <article>
+                    <span>
+                        <i class="bi bi-bullseye"></i>
+                    </span>
+
+                    <strong>Ícone</strong>
+
+                    <p>
+                        Utiliza o ícone <code>bi bi-bullseye</code> para
+                        representar o propósito da seção.
+                    </p>
+                </article>
+
+                <article>
+                    <span>
+                        <i class="bi bi-check2"></i>
+                    </span>
+
+                    <strong>Itens</strong>
+
+                    <p>
+                        Cada objetivo recebe automaticamente um ícone
+                        de confirmação.
+                    </p>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Ícones internos">
+            Os ícones do cabeçalho e dos itens são definidos internamente
+            pelos componentes e não possuem parâmetros para personalização.
+        </LabAlert>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>
+                    Posicione os objetivos no início do laboratório.
+                </li>
+
+                <li>
+                    Escreva objetivos claros, objetivos e verificáveis.
+                </li>
+
+                <li>
+                    Inicie os itens com verbos como
+                    <strong>entender</strong>, <strong>implementar</strong>,
+                    <strong>identificar</strong> ou <strong>aplicar</strong>.
+                </li>
+
+                <li>
+                    Mantenha cada item focado em uma única aprendizagem.
+                </li>
+
+                <li>
+                    Organize os objetivos na mesma ordem em que os conceitos
+                    serão apresentados.
+                </li>
+
+                <li>
+                    Evite utilizar descrições muito extensas dentro dos itens.
+                </li>
+
+                <li>
+                    Garanta que o conteúdo do laboratório realmente cubra
+                    todos os objetivos apresentados.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Cuidados importantes">
+            <ul>
+                <li>
+                    Utilize <code>LabObjectiveItem</code> dentro do
+                    <code>LabObjective</code> para manter a estrutura correta.
+                </li>
+
+                <li>
+                    Evite inserir elementos <code>li</code> manualmente,
+                    pois o item reutilizável já possui essa estrutura.
+                </li>
+
+                <li>
+                    O <code>EditorRequired</code> gera um aviso durante o
+                    desenvolvimento, mas não impede valores nulos em tempo
+                    de execução.
+                </li>
+
+                <li>
+                    Não utilize o componente apenas como uma lista visual
+                    genérica. Ele deve representar objetivos de aprendizagem.
+                </li>
+
+                <li>
+                    Evite um número excessivo de objetivos para não tornar
+                    a introdução do laboratório cansativa.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Componentes relacionados">
+            <ul>
+                <li><code>LabObjectiveItem</code></li>
+                <li><code>LabSection</code></li>
+                <li><code>LabAlert</code></li>
+                <li><code>LabFlow</code></li>
+                <li><code>LabLayout</code></li>
+                <li><code>LabModeProvider</code></li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabObjective apresenta com clareza o propósito do laboratório
+            e ajuda o leitor a entender quais conhecimentos deverá adquirir
+            ao concluir o conteúdo.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private const string ExemploBasico =
+        @"
+        <LabObjective>
+            <LabObjectiveItem>
+                Entender o funcionamento do CancellationToken.
+            </LabObjectiveItem>
+
+            <LabObjectiveItem>
+                Cancelar operações assíncronas.
+            </LabObjectiveItem>
+        </LabObjective>
+        ";
+
+    private const string ExemploCompleto =
+        @"
+        <LabObjective
+            Titulo=""Objetivos do laboratório""
+            Descricao=""Ao finalizar este laboratório você será capaz de:"">
+
+            <LabObjectiveItem>
+                Entender o funcionamento do
+                <code>CancellationToken</code>.
+            </LabObjectiveItem>
+
+            <LabObjectiveItem>
+                Propagar o token entre Controller,
+                Service e Repository.
+            </LabObjectiveItem>
+
+            <LabObjectiveItem>
+                Cancelar operações assíncronas
+                de forma cooperativa.
+            </LabObjectiveItem>
+
+            <LabObjectiveItem>
+                Aplicar boas práticas em aplicações
+                ASP.NET Core.
+            </LabObjectiveItem>
+
+        </LabObjective>
+        ";
+
+    private const string ExemploListaObjetivos =
+        @"
+        <ul class=""lab-objective__list"">
+            @ChildContent
+        </ul>
+        ";
+
+    private const string ExemploObjectiveItem =
+        @"
+        <li class=""lab-objective-item"">
+
+            <span class=""lab-objective-item__icon"">
+                <i class=""bi bi-check2""></i>
+            </span>
+
+            <div class=""lab-objective-item__content"">
+                @ChildContent
+            </div>
+
+        </li>
+        ";
+
+    private const string ExemploConteudoPersonalizado =
+        @"
+        <LabObjectiveItem>
+            Utilizar o método
+            <code>ThrowIfCancellationRequested</code>
+            para interromper o processamento.
+        </LabObjectiveItem>
+
+        <LabObjectiveItem>
+            Propagar o token entre
+            <strong>Controller</strong>,
+            <strong>Service</strong> e
+            <strong>Repository</strong>.
+        </LabObjectiveItem>
+        ";
+
+    private const string ExemploModoApresentacao =
+        @"
+        [CascadingParameter]
+        public ModoLaboratorio ModoAtual { get; set; }
+
+        private string ClasseObjective => ModoAtual switch
+        {
+            ModoLaboratorio.Apresentacao =>
+                ""lab-objective lab-objective--presentation"",
+
+            _ => ""lab-objective""
+        };
+        ";
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-006");
+    }
+}

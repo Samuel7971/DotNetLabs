@@ -57,7 +57,10 @@
 
     protected override void OnParametersSet()
     {
-        TabAtiva ??= Tabs.FirstOrDefault();
+        if (TabAtiva is null || !Tabs.Contains(TabAtiva))
+        {
+            TabAtiva = Tabs.FirstOrDefault();
+        }
     }
 
     private void SelecionarTab(LabCodeTabItem tab)

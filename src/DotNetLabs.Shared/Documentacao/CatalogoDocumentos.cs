@@ -103,8 +103,8 @@ public static class CatalogoDocumentos
             TempoLeitura = "6 min de leitura",
             DataPublicacao = new DateOnly(2026, 7, 11),
             Versao = "1.0",
-            Publicado = false,
-            EmBreve = true,
+            Publicado = true,
+            EmBreve = false,
             Ordem = 4
         },
         
@@ -120,8 +120,8 @@ public static class CatalogoDocumentos
             TempoLeitura = "6 min de leitura",
             DataPublicacao = new DateOnly(2026, 7, 11),
             Versao = "1.0",
-            Publicado = false,
-            EmBreve = true,
+            Publicado = true,
+            EmBreve = false,
             Ordem = 5
         },
         
@@ -137,8 +137,8 @@ public static class CatalogoDocumentos
             TempoLeitura = "4 min de leitura",
             DataPublicacao = new DateOnly(2026, 7, 11),
             Versao = "1.0",
-            Publicado = false,
-            EmBreve = true,
+            Publicado = true,
+            EmBreve = false,
             Ordem = 6
         },
         
@@ -154,8 +154,8 @@ public static class CatalogoDocumentos
             TempoLeitura = "5 min de leitura",
             DataPublicacao = new DateOnly(2026, 7, 11),
             Versao = "1.0",
-            Publicado = false,
-            EmBreve = true,
+            Publicado = true,
+            EmBreve = false,
             Ordem = 7
         },
         
@@ -171,8 +171,8 @@ public static class CatalogoDocumentos
             TempoLeitura = "6 min de leitura",
             DataPublicacao = new DateOnly(2026, 7, 11),
             Versao = "1.0",
-            Publicado = false,
-            EmBreve = true,
+            Publicado = true,
+            EmBreve = false,
             Ordem = 8
         }
     ];

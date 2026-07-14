@@ -1,0 +1,588 @@
+﻿@page "/documentacao/componentes/lab-code-tabs"
+
+@using DotNetLabs.Blazor.Components.Documentacao
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Blazor.Models
+@using DotNetLabs.Shared.Documentacao
+
+<PageTitle>LabCodeTabs | DotNetLabs</PageTitle>
+
+@if (Documento is not null)
+{
+    <DocLayout Documento="Documento">
+
+        <LabSection Titulo="O que é o LabCodeTabs?">
+            <p>
+                O <code>LabCodeTabs</code> é utilizado para organizar múltiplos
+                exemplos de código em abas dentro de uma mesma seção.
+            </p>
+
+            <p>
+                Ele permite apresentar diferentes arquivos, camadas ou
+                implementações relacionadas sem ocupar um espaço excessivo
+                na página.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info">
+            Utilize o <strong>LabCodeTabs</strong> quando vários exemplos de código
+            fizerem parte do mesmo fluxo ou conceito.
+        </LabAlert>
+
+        <LabSection Titulo="Quando utilizar?">
+            <p>
+                O componente é indicado quando o conteúdo precisa apresentar
+                vários códigos relacionados.
+            </p>
+
+            <ul>
+                <li>Separar códigos de Controller, Service e Repository.</li>
+                <li>Apresentar diferentes arquivos de uma funcionalidade.</li>
+                <li>Comparar duas ou mais implementações.</li>
+                <li>Organizar exemplos por linguagem.</li>
+                <li>Mostrar diferentes etapas de uma solução.</li>
+                <li>Reduzir o tamanho visual de uma seção com muitos códigos.</li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Preview do componente">
+            <div class="code-tabs-preview">
+
+                <span class="code-tabs-preview-label">
+                    Exemplo interativo
+                </span>
+
+                <LabCodeTabs
+                    Titulo="CancellationToken por camadas"
+                    Descricao="Navegue entre as camadas da aplicação."
+                    Tabs="@TabsPreview" />
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Exemplo básico">
+            <LabCodeBlock
+                FileName="Utilizando LabCodeTabs"
+                Language="razor"
+                Code="@ExemploBasico" />
+        </LabSection>
+
+        <LabSection Titulo="Exemplo completo">
+            <LabCodeBlock
+                FileName="LabCodeTabsDocumento.razor"
+                Language="razor"
+                Code="@ExemploCompleto" />
+        </LabSection>
+
+        <LabSection Titulo="Parâmetros principais">
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>❌ Não</td>
+                            <td>
+                                <code>"Código por camadas"</code>
+                            </td>
+                            <td>
+                                Define o título exibido acima da navegação
+                                das abas.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Descricao</code></td>
+                            <td><code>string?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Define um texto complementar exibido abaixo
+                                do título. Quando estiver vazio, a descrição
+                                não será renderizada.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Tabs</code></td>
+                            <td>
+                                <code>List&lt;LabCodeTabItem&gt;</code>
+                            </td>
+                            <td>✅ Sim</td>
+                            <td><code>[]</code></td>
+                            <td>
+                                Recebe a coleção de abas que será apresentada
+                                pelo componente.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Estrutura de uma aba">
+            <p>
+                Cada aba do componente é representada por um
+                <code>LabCodeTabItem</code>.
+            </p>
+
+            <div class="component-table-wrapper">
+                <table class="component-table tab-item-table">
+                    <thead>
+                        <tr>
+                            <th>Propriedade</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Valor padrão</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code>Titulo</code></td>
+                            <td><code>string</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>
+                                Define o texto apresentado no botão da aba
+                                e no cabeçalho do conteúdo.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Language</code></td>
+                            <td><code>string</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>
+                                Identifica a linguagem utilizada no código
+                                apresentado pela aba.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Code</code></td>
+                            <td><code>string</code></td>
+                            <td>✅ Sim</td>
+                            <td>-</td>
+                            <td>
+                                Recebe o conteúdo de código que será exibido
+                                quando a aba estiver ativa.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><code>Icone</code></td>
+                            <td><code>string?</code></td>
+                            <td>❌ Não</td>
+                            <td><code>null</code></td>
+                            <td>
+                                Define uma classe de ícone opcional exibida
+                                ao lado do título da aba.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Criando a coleção de abas">
+            <p>
+                As abas devem ser criadas em uma coleção de
+                <code>LabCodeTabItem</code> e enviadas ao componente pelo
+                parâmetro <code>Tabs</code>.
+            </p>
+
+            <LabCodeBlock
+                FileName="CancellationToken.razor"
+                Language="C#"
+                Code="@ExemploColecaoTabs" />
+        </LabSection>
+
+        <LabSection Titulo="Como a aba inicial é definida?">
+            <p>
+                Quando os parâmetros do componente são recebidos, a primeira
+                aba da coleção é selecionada automaticamente.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabCodeTabs.razor"
+                Language="C#"
+                Code="@ExemploSelecaoInicial" />
+
+            <p>
+                O operador <code>??=</code> garante que a primeira aba seja
+                atribuída apenas quando ainda não existir uma aba ativa.
+            </p>
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Seleção automática">
+            Não é necessário informar manualmente qual aba deve iniciar ativa.
+            O componente utiliza o primeiro item da coleção.
+        </LabAlert>
+
+        <LabSection Titulo="Como funciona a troca de abas?">
+            <p>
+                Cada botão chama o método <code>SelecionarTab</code>, enviando
+                o item correspondente à aba escolhida.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabCodeTabs.razor"
+                Language="C#"
+                Code="@ExemploSelecaoTab" />
+
+            <p>
+                Quando <code>TabAtiva</code> é alterada, o Blazor renderiza
+                novamente a área de conteúdo com o código da aba selecionada.
+            </p>
+        </LabSection>
+
+        <LabSection Titulo="Renderização do conteúdo">
+            <p>
+                O conteúdo do código somente é renderizado quando existe
+                uma aba ativa.
+            </p>
+
+            <LabCodeBlock
+                FileName="LabCodeTabs.razor"
+                Language="razor"
+                Code="@ExemploRenderizacao" />
+        </LabSection>
+
+        <LabAlert Tipo="warning" Titulo="Coleção vazia">
+            Quando a coleção <code>Tabs</code> estiver vazia, nenhuma aba será
+            selecionada e a área de código não será renderizada.
+        </LabAlert>
+
+        <LabSection Titulo="Utilizando ícones nas abas">
+            <p>
+                A propriedade <code>Icone</code> permite exibir um ícone antes
+                do título da aba.
+            </p>
+
+            <div class="tab-icon-grid">
+
+                <article>
+                    <span class="tab-icon-preview">
+                        <i class="bi bi-globe"></i>
+                    </span>
+
+                    <strong>Controller</strong>
+
+                    <code>bi bi-globe</code>
+                </article>
+
+                <article>
+                    <span class="tab-icon-preview">
+                        <i class="bi bi-gear"></i>
+                    </span>
+
+                    <strong>Service</strong>
+
+                    <code>bi bi-gear</code>
+                </article>
+
+                <article>
+                    <span class="tab-icon-preview">
+                        <i class="bi bi-database"></i>
+                    </span>
+
+                    <strong>Repository</strong>
+
+                    <code>bi bi-database</code>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabAlert Tipo="info" Titulo="Ícone opcional">
+            Quando a propriedade <code>Icone</code> estiver vazia, o componente
+            exibirá somente o título da aba.
+        </LabAlert>
+
+        <LabSection Titulo="LabCodeTabs ou LabCodeBlock?">
+            <div class="component-comparison-grid">
+
+                <article>
+                    <span class="comparison-icon">
+                        <i class="bi bi-file-earmark-code"></i>
+                    </span>
+
+                    <h3>LabCodeBlock</h3>
+
+                    <p>
+                        Utilize quando existir apenas um exemplo de código
+                        independente.
+                    </p>
+                </article>
+
+                <article>
+                    <span class="comparison-icon">
+                        <i class="bi bi-window-stack"></i>
+                    </span>
+
+                    <h3>LabCodeTabs</h3>
+
+                    <p>
+                        Utilize quando houver vários códigos relacionados
+                        dentro do mesmo contexto.
+                    </p>
+                </article>
+
+            </div>
+        </LabSection>
+
+        <LabSection Titulo="Boas práticas">
+            <ul>
+                <li>
+                    Organize as abas em uma ordem lógica de leitura.
+                </li>
+
+                <li>
+                    Utilize títulos curtos e fáceis de identificar.
+                </li>
+
+                <li>
+                    Informe corretamente a linguagem utilizada em cada aba.
+                </li>
+
+                <li>
+                    Utilize ícones que representem claramente o conteúdo.
+                </li>
+
+                <li>
+                    Mantenha os códigos das abas relacionados ao mesmo assunto.
+                </li>
+
+                <li>
+                    Evite criar um número excessivo de abas no mesmo componente.
+                </li>
+
+                <li>
+                    Quando houver apenas um código, prefira utilizar
+                    <code>LabCodeBlock</code>.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Cuidados importantes">
+            <ul>
+                <li>
+                    O parâmetro <code>Tabs</code> deve receber uma coleção
+                    válida de itens.
+                </li>
+
+                <li>
+                    A primeira aba da coleção será selecionada automaticamente.
+                </li>
+
+                <li>
+                    O conteúdo de <code>Code</code> será apresentado como texto
+                    e não será executado.
+                </li>
+
+                <li>
+                    O parâmetro <code>Language</code> identifica visualmente
+                    a linguagem, mas não aplica syntax highlighting.
+                </li>
+
+                <li>
+                    Evite utilizar títulos muito longos para não comprometer
+                    a navegação em telas menores.
+                </li>
+            </ul>
+        </LabSection>
+
+        <LabSection Titulo="Componentes relacionados">
+            <ul>
+                <li><code>LabCodeBlock</code></li>
+                <li><code>LabSection</code></li>
+                <li><code>LabAlert</code></li>
+                <li><code>LabLayout</code></li>
+            </ul>
+        </LabSection>
+
+        <LabAlert Tipo="success">
+            O LabCodeTabs organiza múltiplos exemplos de código em uma única
+            área, deixando os laboratórios mais claros, compactos e fáceis
+            de navegar.
+        </LabAlert>
+
+    </DocLayout>
+}
+
+@code {
+    private MetadadosDocumento? Documento { get; set; }
+
+    private readonly List<LabCodeTabItem> TabsPreview =
+    [
+        new()
+        {
+            Titulo = "Controller",
+            Language = "C#",
+            Icone = "bi bi-globe",
+            Code =
+            @"
+            [HttpGet]
+            public async Task<IActionResult> ProcessarAsync(CancellationToken cancellationToken)
+            {
+                await _service.ProcessarAsync(cancellationToken);
+
+                return Ok();
+            }"
+        },
+
+        new()
+        {
+            Titulo = "Service",
+            Language = "C#",
+            Icone = "bi bi-gear",
+            Code =
+            @"
+            public async Task ProcessarAsync(CancellationToken cancellationToken)
+            {
+                await _repository.ExecutarAsync(
+                    cancellationToken);
+            }"
+        },
+
+        new()
+        {
+            Titulo = "Repository",
+            Language = "C#",
+            Icone = "bi bi-database",
+            Code =
+            @"
+            public async Task ExecutarAsync(CancellationToken cancellationToken)
+            {
+                await Task.Delay(
+                    2000,
+                    cancellationToken);
+            }"
+        }
+    ];
+
+    private const string ExemploBasico =
+        @"
+        <LabCodeTabs
+            Titulo=""Código por camadas""
+            Tabs=""@Tabs"" />
+        ";
+
+    private const string ExemploCompleto =
+        @"
+        <LabCodeTabs
+            Titulo=""CancellationToken por camadas""
+            Descricao=""Navegue entre os códigos da aplicação.""
+            Tabs=""@TabsCancellationToken"" />
+
+        @code {
+            private readonly List<LabCodeTabItem> TabsCancellationToken =
+            [
+                new()
+                {
+                    Titulo = ""Controller"",
+                    Language = ""C#"",
+                    Icone = ""bi bi-globe"",
+                    Code = ControllerCode
+                },
+
+                new()
+                {
+                    Titulo = ""Service"",
+                    Language = ""C#"",
+                    Icone = ""bi bi-gear"",
+                    Code = ServiceCode
+                },
+
+                new()
+                {
+                    Titulo = ""Repository"",
+                    Language = ""C#"",
+                    Icone = ""bi bi-database"",
+                    Code = RepositoryCode
+                }
+            ];
+        }
+        ";
+
+    private const string ExemploColecaoTabs =
+        @"
+        private readonly List<LabCodeTabItem> Tabs =
+        [
+            new()
+            {
+                Titulo = ""Controller"",
+                Language = ""C#"",
+                Icone = ""bi bi-globe"",
+                Code = ControllerCode
+            },
+
+            new()
+            {
+                Titulo = ""Service"",
+                Language = ""C#"",
+                Icone = ""bi bi-gear"",
+                Code = ServiceCode
+            },
+
+            new()
+            {
+                Titulo = ""Repository"",
+                Language = ""C#"",
+                Icone = ""bi bi-database"",
+                Code = RepositoryCode
+            }
+        ];
+        ";
+
+    private const string ExemploSelecaoInicial =
+        @"
+        protected override void OnParametersSet()
+        {
+            TabAtiva ??= Tabs.FirstOrDefault();
+        }
+        ";
+
+    private const string ExemploSelecaoTab =
+        @"
+        private void SelecionarTab(LabCodeTabItem tab)
+        {
+            TabAtiva = tab;
+        }
+        ";
+
+    private const string ExemploRenderizacao =
+        @"
+        @if (TabAtiva is not null)
+        {
+            <div class=""lab-code-tabs-content"">
+                <div class=""lab-code-tabs-meta"">
+                    <span>@TabAtiva.Titulo</span>
+                    <small>@TabAtiva.Language</small>
+                </div>
+
+                <pre><code>@TabAtiva.Code</code></pre>
+            </div>
+        }
+        ";
+
+    protected override void OnInitialized()
+    {
+        Documento = CatalogoDocumentos.ObterPorCodigo("CMP-005");
+    }
+}

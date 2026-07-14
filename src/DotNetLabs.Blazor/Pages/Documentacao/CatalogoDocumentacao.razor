@@ -1,4 +1,6 @@
 ﻿@page "/documentacao"
+@using DotNetLabs.Shared.Documentacao
+@using DotNetLabs.Shared.Enums
 
 <PageTitle>Documentação | DotNetLabs</PageTitle>
 
@@ -136,7 +138,7 @@
 
                     <span>
                         <i class="bi bi-file-earmark-text"></i>
-                        1 documento
+                        @ObterTextoQuantidade(CategoriaDocumento.DotNetLabs)
                     </span>
 
                     <strong>
@@ -158,7 +160,7 @@
                     </span>
 
                     <span class="docs-category-status">
-                        Em breve
+                        Disponível
                     </span>
 
                 </div>
@@ -180,7 +182,7 @@
 
                     <span>
                         <i class="bi bi-file-earmark-text"></i>
-                        0 documentos
+                        @ObterTextoQuantidade(CategoriaDocumento.Componentes)
                     </span>
 
                     <strong>
@@ -333,3 +335,28 @@
     </section>
 
 </div>
+
+@code{
+    private IReadOnlyList<MetadadosDocumento> Documentos { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        Documentos = CatalogoDocumentos.ObterTodos();
+    }
+
+    private int ObterQuantidadePorTipo(CategoriaDocumento categoria)
+    {
+        return Documentos.Count(documento =>
+            documento.Categoria == categoria &&
+            documento.Publicado);
+    }
+
+    private string ObterTextoQuantidade(CategoriaDocumento categoria)
+    {
+        var quantidade = ObterQuantidadePorTipo(categoria);
+
+        return quantidade == 1
+            ? "1 documento"
+            : $"{quantidade} documentos";
+    }
+}
