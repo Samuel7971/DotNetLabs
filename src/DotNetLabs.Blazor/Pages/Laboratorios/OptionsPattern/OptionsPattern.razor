@@ -1,0 +1,709 @@
+﻿@page "/laboratorios/options-pattern"
+
+@using DotNetLabs.Blazor.Components.LabComponentes.Demo
+@using DotNetLabs.Blazor.Components.LabComponentes.Layout
+@using DotNetLabs.Blazor.Components.LabComponentes.Blocos
+@using DotNetLabs.Blazor.Components.LabComponentes.Alerts
+@using DotNetLabs.Blazor.Components.LabComponentes.Code
+@using DotNetLabs.Blazor.Components.LabComponentes.Objective
+@using DotNetLabs.Blazor.Components.LabComponentes.Flow
+@using DotNetLabs.Blazor.Components.LabComponentes.Table
+@using DotNetLabs.Blazor.Services.Labs.OptionsPatternLab
+@using DotNetLabs.Blazor.Models
+
+@inject OptionsPatternLabRunner OptionsPatternLabRunner
+
+<LabLayout
+    Titulo="Options Pattern"
+    Descricao="Organize, valide e injete configurações de forma fortemente tipada em aplicações .NET."
+    Categoria="Design Patterns"
+    Nivel="Iniciante"
+    TempoEstimado="30 minutos">
+
+    <LabSection Titulo="Introdução">
+
+        <p>
+            Aplicações modernas dependem de diversas configurações:
+            URLs externas, limites de tentativas, tempos de espera,
+            chaves de funcionalidades e parâmetros de processamento.
+        </p>
+
+        <p>
+            Embora seja possível acessar essas informações diretamente pelo
+            <code>IConfiguration</code>, essa abordagem pode espalhar strings
+            mágicas pelo sistema e dificultar a validação das configurações.
+        </p>
+
+        <LabAlert Tipo="info">
+            O Options Pattern permite representar configurações como objetos
+            fortemente tipados, facilitando leitura, manutenção, validação
+            e injeção de dependência.
+        </LabAlert>
+
+    </LabSection>
+
+    <LabObjective
+        Titulo="Objetivos do laboratório"
+        Descricao="Ao final deste laboratório, você será capaz de:">
+
+        <LabObjectiveItem>
+            Entender o problema de acessar configurações diretamente.
+        </LabObjectiveItem>
+
+        <LabObjectiveItem>
+            Criar uma classe fortemente tipada para representar configurações.
+        </LabObjectiveItem>
+
+        <LabObjectiveItem>
+            Registrar configurações utilizando <code>Configure&lt;TOptions&gt;</code>.
+        </LabObjectiveItem>
+
+        <LabObjectiveItem>
+            Consumir configurações utilizando <code>IOptions&lt;T&gt;</code>.
+        </LabObjectiveItem>
+
+        <LabObjectiveItem>
+            Validar configurações durante a inicialização da aplicação.
+        </LabObjectiveItem>
+
+        <LabObjectiveItem>
+            Conhecer as diferenças entre
+            <code>IOptions</code>,
+            <code>IOptionsSnapshot</code> e
+            <code>IOptionsMonitor</code>.
+        </LabObjectiveItem>
+
+    </LabObjective>
+
+    <LabFlow Titulo="Fluxo do laboratório">
+
+        <LabFlowItem
+                     Numero="1"
+                     Texto="O problema"
+                     Descricao="Entender os riscos de acessar configurações diretamente." />
+
+        <LabFlowItem
+                     Numero="2"
+                     Texto="Mapeamento"
+                     Descricao="Representar uma seção do appsettings como uma classe C#." />
+
+        <LabFlowItem
+                     Numero="3"
+                     Texto="Registro"
+                     Descricao="Registrar a configuração no container de dependências." />
+
+        <LabFlowItem
+                     Numero="4"
+                     Texto="Consumo"
+                     Descricao="Injetar e utilizar IOptions em um serviço." />
+
+        <LabFlowItem
+                     Numero="5"
+                     Texto="Validação"
+                     Descricao="Interromper a aplicação quando a configuração for inválida." />
+
+        <LabFlowItem
+                     Numero="6"
+                     Texto="Comparação"
+                     Descricao="Comparar IOptions, IOptionsSnapshot e IOptionsMonitor." />
+
+    </LabFlow>
+
+    <LabSection Titulo="O problema">
+
+        <p>
+            Uma forma comum de obter configurações é acessar diretamente
+            o <code>IConfiguration</code>.
+        </p>
+
+        <LabCodeBlock FileName="Acesso direto à configuração"
+                      Language="csharp"
+                      Code="@CodigoAcessoDireto" />
+
+        <p>
+            Esse código funciona, mas possui alguns problemas:
+        </p>
+
+        <ul>
+            <li>utiliza strings mágicas;</li>
+            <li>espalha os nomes das configurações pelo sistema;</li>
+            <li>não garante que os valores existam;</li>
+            <li>não oferece validação centralizada;</li>
+            <li>dificulta testes unitários.</li>
+        </ul>
+
+        <LabAlert Tipo="warning">
+            O problema não é utilizar IConfiguration. Ele continua sendo
+            importante na infraestrutura da aplicação. O problema é espalhar
+            seu uso diretamente pelas regras e serviços do sistema.
+        </LabAlert>
+
+    </LabSection>
+
+    <LabSection Titulo="Criando uma classe de opções">
+
+        <p>
+            Primeiro, criamos uma classe que representa a seção
+            <code>Processamento</code> do arquivo de configuração.
+        </p>
+
+        <LabCodeBlock FileName="ProcessamentoOptions.cs"
+                      Language="csharp"
+                      Code="@CodigoOptions" />
+
+        <p>
+            Cada propriedade da classe corresponde a uma configuração presente
+            no <code>appsettings.json</code>.
+        </p>
+
+        <LabAlert Tipo="info">
+            A classe de opções deve representar somente dados de configuração.
+            Evite adicionar regras de negócio ou dependências dentro dela.
+        </LabAlert>
+
+    </LabSection>
+
+    <LabSection Titulo="Configurando o appsettings.json">
+
+        <p>
+            Agora criamos a seção que será mapeada para
+            <code>ProcessamentoOptions</code>.
+        </p>
+
+        <LabCodeBlock FileName="appsettings.json"
+                      Language="json"
+                      Code="@CodigoAppSettings" />
+
+    </LabSection>
+
+    <LabSection Titulo="Registrando as configurações">
+
+        <p>
+            O próximo passo é registrar a classe de opções no container
+            de dependências.
+        </p>
+
+        <LabCodeBlock FileName="Program.cs"
+                      Language="csharp"
+                      Code="@CodigoRegistro" />
+
+        <p>
+            O método <code>Configure&lt;TOptions&gt;</code> realiza o bind
+            entre a seção do arquivo de configuração e a classe C#.
+        </p>
+
+        <LabAlert Tipo="success">
+            A partir desse momento, ProcessamentoOptions pode ser acessada
+            por meio das interfaces oferecidas pelo Options Pattern.
+        </LabAlert>
+
+    </LabSection>
+
+    <LabSection Titulo="Consumindo com IOptions">
+
+        <p>
+            Com a configuração registrada, podemos injetar
+            <code>IOptions&lt;ProcessamentoOptions&gt;</code> em um serviço.
+        </p>
+
+        <LabCodeBlock FileName="ProcessamentoConfiguracaoService.cs"
+                      Language="csharp"
+                      Code="@CodigoService" />
+
+        <p>
+            A propriedade <code>Value</code> contém o objeto preenchido
+            com os valores da configuração.
+        </p>
+
+        <LabAlert Tipo="info">
+            IOptions é normalmente utilizado quando a configuração não precisa
+            ser atualizada durante a execução da aplicação.
+        </LabAlert>
+
+    </LabSection>
+
+    <LabSection Titulo="Fluxo completo">
+        <LabFlow Titulo="O fluxo da configuração"
+                 Descricao="O fluxo da configuração dentro da aplicação fica assim:">
+
+            <LabFlowItem Texto="appsettings.json"
+                         Icone="bi bi-flag" />
+
+            <LabFlowItem Texto="ProcessamentoOptions" 
+                         Icone="bi bi-lightning-charge" />
+
+            <LabFlowItem Texto="Configure&lt;ProcessamentoOptions&gt"
+                         Icone="bi bi-lightning-charge" />
+
+            <LabFlowItem Texto="IOptions&lt;ProcessamentoOptions&gt;"
+                         Icone="bi bi-lightning-charge" />
+
+            <LabFlowItem Texto="Service"
+                         Icone="bi bi-diagram-3" />
+
+            <LabFlowItem Texto="Controller"            
+                         Icone="bi bi-box-arrow-in-right" />
+        </LabFlow>
+
+    </LabSection>
+
+    <LabSection Titulo="Comparando as interfaces">
+
+        <p>
+            O .NET oferece três interfaces principais para consumir opções.
+        </p>
+
+        <LabTable>
+            <thead>
+                <tr>
+                    <th>Interface</th>
+                    <th>Comportamento</th>
+                    <th>Uso comum</th>
+                    <th>Observação</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+                <tr>
+                    <td>
+                        <code>IOptions&lt;T&gt;</code>
+                    </td>
+                    <td>
+                        Carrega o valor uma vez e mantém a mesma instância
+                        durante a execução da aplicação.
+                    </td>
+                    <td>
+                        Configurações estáveis que não precisam acompanhar
+                        alterações em tempo de execução.
+                    </td>
+                    <td>
+                        Pode ser utilizado em serviços de qualquer ciclo de vida.
+                    </td>
+                </tr>
+        
+                <tr>
+                    <td>
+                        <code>IOptionsSnapshot&lt;T&gt;</code>
+                    </td>
+                    <td>
+                        Obtém um novo valor a cada escopo, normalmente
+                        a cada requisição HTTP.
+                    </td>
+                    <td>
+                        APIs e aplicações web em que a configuração pode
+                        mudar entre requisições.
+                    </td>
+                    <td>
+                        Possui ciclo de vida <code>scoped</code> e não deve ser
+                        injetado em serviços singleton.
+                    </td>
+                </tr>
+        
+                <tr>
+                    <td>
+                        <code>IOptionsMonitor&lt;T&gt;</code>
+                    </td>
+                    <td>
+                        Permite acessar o valor atual e reagir a alterações
+                        durante a execução.
+                    </td>
+                    <td>
+                        Workers, serviços singleton e configurações dinâmicas.
+                    </td>
+                    <td>
+                        Disponibiliza o callback <code>OnChange</code>.
+                    </td>
+                </tr>
+            </tbody>
+        </LabTable>
+
+        <LabAlert Tipo="warning">
+            IOptionsSnapshot possui ciclo de vida scoped e não deve ser
+            injetado diretamente em serviços singleton.
+        </LabAlert>
+
+    </LabSection>
+
+    <LabSection Titulo="Validando as configurações">
+
+        <p>
+            Uma configuração ausente ou inválida pode causar erros somente
+            quando uma funcionalidade for executada.
+        </p>
+
+        <p>
+            Podemos validar os valores durante a inicialização da aplicação.
+        </p>
+
+        <LabCodeBlock
+            Titulo="Validação no Program.cs"
+            Language="csharp"
+            Code="@CodigoValidacao" />
+
+        <LabAlert Tipo="success">
+            Com ValidateOnStart, a aplicação falha imediatamente quando
+            uma configuração obrigatória é inválida.
+        </LabAlert>
+
+    </LabSection>
+
+    <LabSection Titulo="Boas práticas">
+
+        <ul>
+            <li>crie uma classe de opções para cada responsabilidade;</li>
+            <li>evite classes de configuração gigantes;</li>
+            <li>utilize nomes de seção centralizados;</li>
+            <li>valide configurações obrigatórias;</li>
+            <li>prefira objetos tipados em vez de strings espalhadas;</li>
+            <li>não coloque regras de negócio dentro das classes de opções;</li>
+            <li>não exponha dados sensíveis em endpoints de diagnóstico.</li>
+        </ul>
+
+    </LabSection>
+
+    <LabSection Titulo="Conclusão">
+
+        <p>
+            O Options Pattern transforma configurações externas em objetos
+            fortemente tipados, tornando o código mais seguro, legível
+            e fácil de testar.
+        </p>
+
+        <p>
+            Além de organizar o acesso ao <code>appsettings.json</code>,
+            ele permite validar configurações e escolher estratégias diferentes
+            para atualização dos valores durante a execução.
+        </p>
+
+        <LabAlert Tipo="success">
+            Configuração também faz parte do design da aplicação.
+            Quando ela é modelada corretamente, reduzimos erros e evitamos
+            dependências espalhadas pelo código.
+        </LabAlert>
+
+        <p>
+            Obrigado por acompanhar este laboratório!
+        </p>
+
+    </LabSection>
+
+    <LabSection Titulo="Laboratório Interativo"
+                Label="Mão na massa"
+                Icone="bi bi-play-circle"
+                Cor="primary">
+
+        <LabDemo Titulo="Execução real do Options Pattern"
+                 Descricao="Consulte a API e visualize as configurações carregadas por meio de IOptions."
+                 Status="@_status"
+                 Tempo="@_tempo"
+                 Logs="@_logs">
+
+            <button class="btn btn-primary"
+                    disabled="@_executando"
+                    @onclick="ExecutarAsync">
+
+                <i class="@IconeBotaoExecutar"></i>
+                @TextoBotaoExecutar
+
+            </button>
+
+            <button class="btn btn-outline-secondary"
+                    disabled="@_executando"
+                    @onclick="Limpar">
+
+                <i class="bi bi-arrow-clockwise"></i>
+                Limpar
+
+            </button>
+
+            @if (_resultado is not null)
+            {
+                <div class="options-result mt-4">
+
+                    <div class="options-result__header">
+                        <div>
+                            <span class="options-result__label">
+                                Configuração carregada
+                            </span>
+
+                            <h4>ProcessamentoOptions</h4>
+                        </div>
+
+                        <span class="options-result__status">
+                            <i class="bi bi-check-circle"></i>
+                            @_resultado.Status
+                        </span>
+                    </div>
+
+                    <div class="options-result__grid">
+
+                        <div class="options-result__item">
+                            <span>Tempo limite</span>
+
+                            <strong>
+                                @_resultado.TempoLimiteSegundos segundos
+                            </strong>
+                        </div>
+
+                        <div class="options-result__item">
+                            <span>Máximo de tentativas</span>
+
+                            <strong>
+                                @_resultado.QuantidadeMaximaTentativas
+                            </strong>
+                        </div>
+
+                        <div class="options-result__item">
+                            <span>Logs detalhados</span>
+
+                            <strong>
+                                @TextoLogsDetalhados
+                            </strong>
+                        </div>
+
+                        <div class="options-result__item">
+                            <span>Ambiente</span>
+
+                            <strong>
+                                @_resultado.Ambiente
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(_resultado.Mensagem))
+                    {
+                        <div class="options-result__message">
+                            <i class="bi bi-info-circle"></i>
+                            <span>@_resultado.Mensagem</span>
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </LabDemo>
+
+    </LabSection>
+
+    <a href="/laboratorios" class="btn btn-secondary mt-3">
+        Voltar para laboratórios
+    </a>
+
+</LabLayout>
+
+@code {
+    #region .: Código Apresentação :.
+    private const string CodigoAcessoDireto =
+        @"
+        public sealed class ProcessamentoService
+        {
+            private readonly IConfiguration _configuration;
+
+            public ProcessamentoService(IConfiguration configuration)
+            {
+                _configuration = configuration;
+            }
+
+            public void Processar()
+            {
+                var tempoLimite =
+                    _configuration[""Processamento:TempoLimiteSegundos""];
+
+                var quantidadeTentativas =
+                    _configuration[""Processamento:QuantidadeMaximaTentativas""];
+            }
+        }
+        ";
+
+    private const string CodigoOptions =
+        @"
+        public sealed class ProcessamentoOptions
+        {
+            public const string Secao = ""Processamento"";
+
+            public int TempoLimiteSegundos { get; set; }
+
+            public int QuantidadeMaximaTentativas { get; set; }
+
+            public bool HabilitarLogsDetalhados { get; set; }
+
+            public string AmbienteExecucao { get; set; } = string.Empty;
+        }
+        ";
+
+    private const string CodigoAppSettings =
+        @"
+        {
+          ""Processamento"": {
+            ""TempoLimiteSegundos"": 30,
+            ""QuantidadeMaximaTentativas"": 3,
+            ""HabilitarLogsDetalhados"": true,
+            ""AmbienteExecucao"": ""Desenvolvimento""
+          }
+        }
+        ";
+
+    private const string CodigoRegistro =
+        @"
+        builder.Services.Configure<ProcessamentoOptions>(
+            builder.Configuration.GetSection(
+                ProcessamentoOptions.Secao));
+        ";
+
+    private const string CodigoService =
+        @"
+        public sealed class ProcessamentoConfiguracaoService
+            : IProcessamentoConfiguracaoService
+        {
+            private readonly ProcessamentoOptions _options;
+
+            public ProcessamentoConfiguracaoService(
+                IOptions<ProcessamentoOptions> options)
+            {
+                _options = options.Value;
+            }
+
+            public ProcessamentoOptions ObterConfiguracao()
+            {
+                return _options;
+            }
+        }";
+
+    private const string CodigoValidacao =
+        @"
+        builder.Services
+            .AddOptions<ProcessamentoOptions>()
+            .Bind(
+                builder.Configuration.GetSection(
+                    ProcessamentoOptions.Secao))
+            .Validate(
+                options => options.TempoLimiteSegundos > 0,
+                ""O tempo limite deve ser maior que zero."")
+            .Validate(
+                options => options.QuantidadeMaximaTentativas > 0,
+                ""A quantidade de tentativas deve ser maior que zero."")
+            .Validate(
+                options => !string.IsNullOrWhiteSpace(
+                    options.AmbienteExecucao),
+                ""O ambiente de execução deve ser informado."")
+            .ValidateOnStart();
+        ";
+#endregion
+
+    #region .: Integração API :.
+
+    private bool _executando;
+
+    private string _status = "Pronto";
+    private string _tempo = "00:00:00";
+
+    private DateTime? _inicioExecucao;
+
+    private OptionsPatternLabResponse? _resultado;
+
+    private readonly List<LabDemoLogItem> _logs = [];
+
+    private string TextoBotaoExecutar =>
+        _executando
+            ? "Carregando..."
+            : "Carregar configurações";
+
+    private string IconeBotaoExecutar =>
+        _executando
+            ? "bi bi-arrow-repeat spin"
+            : "bi bi-play-fill";
+
+    private string TextoLogsDetalhados =>
+        _resultado?.HabilitarLogsDetalhados == true
+            ? "Habilitados"
+            : "Desabilitados";
+
+    private async Task ExecutarAsync()
+    {
+        if (_executando)
+            return;
+
+        _executando = true;
+
+        _status = "Executando";
+        _tempo = "00:00:00";
+
+        _inicioExecucao = DateTime.Now;
+
+        _resultado = null;
+        _logs.Clear();
+
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            _resultado = await OptionsPatternLabRunner.ExecutarAsync(
+                logs: _logs);
+
+            _status = _resultado?.Status ?? "Finalizado";
+        }
+        catch (HttpRequestException ex)
+        {
+            _status = "Erro";
+
+            AdicionarLog(
+                $"Não foi possível acessar a API: {ex.Message}",
+                "bi bi-wifi-off");
+        }
+        catch (Exception ex)
+        {
+            _status = "Erro";
+
+            AdicionarLog(
+                $"Erro inesperado: {ex.Message}",
+                "bi bi-exclamation-triangle");
+        }
+        finally
+        {
+            _executando = false;
+
+            AtualizarTempo();
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void Limpar()
+    {
+        if (_executando)
+            return;
+
+        _status = "Pronto";
+        _tempo = "00:00:00";
+
+        _resultado = null;
+        _inicioExecucao = null;
+
+        _logs.Clear();
+    }
+
+    private void AdicionarLog(
+        string mensagem,
+        string icone)
+    {
+        _logs.Add(new LabDemoLogItem
+        {
+            Horario = DateTime.Now,
+            Mensagem = mensagem,
+            Icone = icone
+        });
+    }
+
+    private void AtualizarTempo()
+    {
+        if (_inicioExecucao is null)
+            return;
+
+        var tempo = DateTime.Now - _inicioExecucao.Value;
+
+        _tempo = tempo.ToString(@"hh\:mm\:ss");
+    }
+
+    #endregion
+}

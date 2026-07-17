@@ -1,0 +1,12 @@
+﻿@namespace DotNetLabs.Blazor.Components.LabComponentes.Table
+
+<div class="lab-table-wrapper">
+    <table class="lab-table">
+        @ChildContent
+    </table>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}
