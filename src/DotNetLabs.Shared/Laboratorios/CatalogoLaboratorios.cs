@@ -43,6 +43,37 @@ namespace DotNetLabs.Shared.Laboratorios
                     ]
                 },
                 new MetadadosLaboratorio()
+                { 
+                    Id = "options-pattern",
+                    Titulo = "Options Pattern",
+                    Descricao = "Configure sua aplicação com clareza, segurança e tipagem forte.",
+                    Categoria = CategoriaLaboratorio.PadroesDeProjeto,
+                    Dificuldade = DificuldadeLaboratorio.Iniciante,
+                    Status = StatusLaboratorio.Disponivel,
+                    TempoEstimado = "30 min",
+                    CardHome = new CardHome()
+                    {
+                        DescricaoHome = "Configure sua aplicação com clareza, segurança e tipagem forte.",
+                        Icone = "🏗️",
+                        Badge = "Patterns",
+                        DestaqueHome = true,
+                        OrdemHome = 2,
+                        CorCategoria = "#6D4AFF",
+                        DataPublicacao = new DateOnly(2026, 7, 16),
+                        Publicado = true,
+                        EmBreve = false,
+                    },
+                    Contribuidores =
+                    [
+                         new()
+                         {
+                             Nome = "Samuel Rodrigues",
+                             Cargo = "Sofware Developer",
+                             TipoContribuicao = TipoContribuicao.Autor
+                         }
+                    ]
+                },
+                new MetadadosLaboratorio()
                 {
                     Id="Builder",
                     Titulo="Builder",
@@ -88,7 +119,7 @@ namespace DotNetLabs.Shared.Laboratorios
                         Icone = "🧩",
                         Badge = "Delegates",
                         DestaqueHome = true,
-                        OrdemHome = 2,
+                        OrdemHome = 4,
                         CorCategoria = "#6D4AFF",
                         DataPublicacao = new DateOnly(2026, 7, 6),
                         Publicado = false,

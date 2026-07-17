@@ -1,0 +1,112 @@
+﻿.options-result {
+    padding: 1.25rem;
+    border: 1px solid var(--dl-border);
+    border-radius: 16px;
+    background: rgba(109, 74, 255, 0.025);
+}
+
+.options-result__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.options-result__label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--dl-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.options-result__header h4 {
+    margin: 0;
+    color: var(--dl-text);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.options-result__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.1);
+    color: #15803d;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.options-result__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.options-result__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem;
+    border: 1px solid var(--dl-border);
+    border-radius: 12px;
+    background: var(--dl-surface);
+}
+
+    .options-result__item span {
+        color: var(--dl-muted);
+        font-size: 0.8rem;
+    }
+
+    .options-result__item strong {
+        color: var(--dl-text);
+        font-size: 0.95rem;
+    }
+
+.options-result__message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--dl-border);
+    color: var(--dl-muted);
+    line-height: 1.5;
+}
+
+    .options-result__message i {
+        margin-top: 0.15rem;
+        color: var(--dl-primary);
+    }
+
+.spin {
+    display: inline-block;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 900px) {
+    .options-result__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .options-result__header {
+        flex-direction: column;
+    }
+
+    .options-result__grid {
+        grid-template-columns: 1fr;
+    }
+}
